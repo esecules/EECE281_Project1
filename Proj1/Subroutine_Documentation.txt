@@ -1,0 +1,16 @@
+---------------------------------------------------------------------------------------
+Document your subroutines here so everyone can know how to use them and what
+to expect from them.
+
+an example:
+
+"subroutine_name"  from filename.asm
+	Reads (some register(s) or flags...)
+	Modifies (some register(s) or flags...)
+	Requires (optional) 
+
+-Dont make changes to the specifications unless absoutly necessary as others will be
+ using your code. If a change is necessary notify the whole group via email.
+
+---------------------------------------------------------------------------------------
+
