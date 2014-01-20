@@ -213,3 +213,10 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#############
+# 8052 asm
+#############
+*.hex
+*.lst
+*.bat
