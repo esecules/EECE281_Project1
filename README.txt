@@ -2,9 +2,7 @@ EECE 281 GitHub Guidelines
 
 --COMMIT EARLY AND OFTEN
 
---Please only work on your own blocks to prevent merge conflicts. If you need something changed contact the 
-  block owner. since we will be working on the same file (most likely) it would be helpful if you signed 
-  your work.
+--Please only work on your own blocks to prevent merge conflicts. If you need something changed contact the block owner. since we will be working on the same file (most likely) it would be helpful if you signed your work.
 
 	example:
 
