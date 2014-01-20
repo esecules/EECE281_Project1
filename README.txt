@@ -39,3 +39,4 @@ EECE 281 GitHub Guidelines
 Name				email
 -----------------------------------------------------------------------------------------
 Eric Secules			esecules@gmail.com
+Erik Dandanell                  edandanell@gmail.com
