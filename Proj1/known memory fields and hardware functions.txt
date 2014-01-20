@@ -1,0 +1,21 @@
+//add your memory fields here for documentation!
+
+DSEG:-------------------------------------------------------
+x: math16
+y: math16
+bcd: math16
+
+tempi: ideal temperature
+tempa: actual temperature
+time: system time
+
+BSEG:-------------------------------------------------------
+mf: math16
+//more flags here
+
+CSEG:-------------------------------------------------------
+//lookup tables here
+
+HARDWARE:---------------------------------------------------
+//ports here
+TIMER2: serial clock (can also use TIMER1 if necessary)
