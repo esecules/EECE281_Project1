@@ -5,6 +5,7 @@ to expect from them.
 an example:
 
 "subroutine_name"  from filename.asm
+	Function: (what it does)
 	Reads (some register(s) or flags...)
 	Modifies (some register(s) or flags...)
 	Requires (optional) 
