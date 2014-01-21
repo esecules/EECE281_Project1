@@ -13,6 +13,10 @@ get_tempi:
 	push acc
 	push psw
 	mov a, time+1
+	clr c
+	subb a, #2
+	jnc Invalid_time
+	mov a, time+1
 	jz Use_low_half_lut
 	mov dptr, #Temp_LUT_High
 	jmp use_LUT
@@ -22,6 +26,10 @@ get_tempi:
 	mov a, time
 	movc a, @a+dptr
 	mov tempi, a
+	jmp get_tempi_done
+	Invalid_time:
+	mov tempi, #0
+	get_tempi_done:
 	pop psw
 	pop acc	
 	ret

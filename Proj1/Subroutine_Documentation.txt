@@ -95,7 +95,8 @@ an example:
 "Get Ideal Temp" Temp_lookup.asm 
 	Function: gets the current ideal temp based on time
 	Reads: time and LUTs starting at address 50H
-	Modifies: tempi
+	Modifies: tempi (ideal temperature based on time)
+		  or tempi = 0 if the time is out of the range of [0,511]
 	Requires: time must be 16 bits 
 
 

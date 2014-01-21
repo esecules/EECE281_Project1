@@ -7,7 +7,7 @@ bcd: math16
 
 tempi: ideal temperature
 tempa: actual temperature
-time: system time
+time: DS 2  ;system time in half seconds
 
 BSEG:-------------------------------------------------------
 mf: math16
@@ -72,7 +72,14 @@ db '4.8'
 db '4.9'
 db '5.0'
 db '5.0'
+;------------------------------------------------------------------------------
+; look up tables for temperature profile 
+;------------------------------------------------------------------------------
+Lookup tables are at address 50H
+Temp_LUT_Low:   ;stores the lowest 256 entries
+Temp_LUT_high:  ;stores the higher 256 entries
 //lookup tables here
+
 
 HARDWARE:---------------------------------------------------
 //ports here
