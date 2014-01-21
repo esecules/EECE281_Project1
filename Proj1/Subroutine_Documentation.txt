@@ -88,6 +88,16 @@ an example:
 	Function: sends a ascii code for a custom character via the CGRAM of the LCD.
 	Modifies: A
 
+------------------------------------------------------------------
+--			Temperature curve			--
+------------------------------------------------------------------
+
+"Get Ideal Temp" Temp_lookup.asm 
+	Function: gets the current ideal temp based on time
+	Reads: time and LUTs starting at address 50H
+	Modifies: tempi
+	Requires: time must be 16 bits 
+
 
 
 
