@@ -14,3 +14,34 @@ an example:
 
 ---------------------------------------------------------------------------------------
 
+"InitSerialPort" comms.asm
+	Function: configure serial port with TIMER2
+	Modifies: TR2, T2CON, SCON, RCAP2H, RCAP2L
+	Requires: to be run at start of program
+
+"putchar" comms.asm
+	Function: send a byte through serial
+	Reads:	  A
+	Requires: A contains the ASCII code to be sent
+
+"SendString" comms.asm
+	Function: send text string
+	Reads:    @A+dptr
+	Modifies: A
+	Requires: dptr is loaded with the message to send,
+		  message terminated with null
+"SendBCD3" comms.asm
+	Function: send bcd number
+	Reads:    bcd
+	Modifies: A
+	Requires: bcd contains the number to send
+
+"getchar" comms.asm
+	Function: get a byte through serial
+	Reads:    SERIAL PORT
+	Modifies: A, SERIAL PORT (echo)
+
+"ASCII" comms.asm
+	Function: sends all ASCII characters for testing
+	Modifies: A, R7 SERIAL PORT
+	
