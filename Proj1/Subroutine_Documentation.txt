@@ -44,4 +44,50 @@ an example:
 "ASCII" comms.asm
 	Function: sends all ASCII characters for testing
 	Modifies: A, R7 SERIAL PORT
+
+
+"LCD_Init" LCD_interface.asm
+	Function: configures the LCD_display
+
+"LCD_command" LCD_interface.asm
+	Function: sends a command to the LCD 
+	Reads:	  A
+	Modifies: nothing
+
+"LCD_put" LCD_interface.asm
+	Function: sends a char to the LCD
+	Reads:	  A
+	Modifies: nothing
+	Requires:  A contains the ASCII code to be sent
+
+"LCD_string" LCD_interface.asm
+	Function: sends a string to the LCD
+	Reads:	  dptr
+	Modifies: A, R1
+	Requires: dptr is loaded with the message to send,
+		  message terminated with 0
+
+"LCD_float_number" LCD_interface.asm
+	Function: sends a string to the LCD
+	Reads:	 dptr	
+	Modifies: A, R1
+	Requires: dptr is loaded with the float number to send,
+		  message terminated automaticly by presetting convert_binary_to_string and function itself acordinly. 
+
+"LCD_clear" LCD_interface.asm
+	Function: sends a string to the LCD
+	Modifies: A, R1
+
+"convert_binary_to_string" LCD_interface.asm
+	Function: converts binary numbers from a dtpr to a coresponding string
+	Reads:	 dptr
+	Modifies: A, B, R7
+
+"custom_character_init" LCD_interface.asm
+	Function: sends a ascii code for a custom character via the CGRAM of the LCD.
+	Modifies: A
+
+
+
+
 	
