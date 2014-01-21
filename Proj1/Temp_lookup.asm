@@ -9,6 +9,24 @@ $MODDE2
 dseg at 50h
 $include(Temperature_LUTs.asm)
 cseg
+
+Timer2_ISR:
+	clr TF2
+	mov a, time
+	add a, #1
+	mov time, a
+	mov a, time+1
+	addc a, #0
+	subb a, #2
+	jnc rollover
+	mov time+1, a
+	jmp ret_Timer2_isr
+	rollover:
+	mov time, #0
+	mov time+1,#0
+	ret_timer2_isr:
+	reti
+	
 get_tempi:
 	push acc
 	push psw
