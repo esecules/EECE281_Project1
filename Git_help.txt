@@ -1,0 +1,9 @@
+This file contains helpful hints about git add to it as you like
+
+
+--if you find that when you want to commit but you are not up to date with the 
+  online repository, open the shell and run the command 'git stash' to push your 
+  uncommitted changes to a stack then run 'git pull' to pull the changes from the
+  online repository. Then run the command 'git stash apply' to put your uncommitted
+  changes back in your personal repository. Now you can commit and sync your changes
+  with no issue.
