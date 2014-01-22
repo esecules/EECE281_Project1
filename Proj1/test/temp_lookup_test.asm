@@ -55,6 +55,7 @@ Timer2_ISR_Test2:
 
 start_test:
 	clr case2
+	mov fail_count, #0
 	mov time, #low(500) 
 	mov time+1, #high(500)
 	lcall get_tempi
