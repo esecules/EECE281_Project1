@@ -40,3 +40,4 @@ Name				email
 -----------------------------------------------------------------------------------------
 Eric Secules			esecules@gmail.com
 Erik Dandanell                  edandanell@gmail.com
+Adam Vastopa			adamvastopa@gmail.com
