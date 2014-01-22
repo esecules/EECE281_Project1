@@ -8,10 +8,19 @@ bcd: math16
 tempi: ideal temperature
 tempa: actual temperature
 time: DS 2  ;system time in half seconds
+timer2_interrupt_count: counts the number of times the interrupt is called up to 50
 
 BSEG:-------------------------------------------------------
 mf: math16
 //more flags here
+CONSTANTS:-------------------------------------------------
+FREQ   EQU 33333333
+BAUD   EQU 57600
+T1LOAD EQU 256-(FREQ/(192*BAUD))
+
+FREQ_2		   EQU 100
+TIMER2_RELOAD  EQU 65536-(FREQ/(12*FREQ_2))
+
 
 CSEG:-------------------------------------------------------
 ;------------------------------------------------------------------------------

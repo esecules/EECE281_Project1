@@ -9,10 +9,14 @@ bcd: ds 3
 time: ds 2
 tempa: ds 1
 tempi: ds 1
+timer2_interrupt_count: ds 1
 
 FREQ   EQU 33333333
 BAUD   EQU 57600
 T1LOAD EQU 256-(FREQ/(192*BAUD))
+
+FREQ_2		   EQU 100
+TIMER2_RELOAD  EQU 65536-(FREQ/(12*FREQ_2))
 
 BSEG
 

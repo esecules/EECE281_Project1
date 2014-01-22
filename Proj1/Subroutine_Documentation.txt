@@ -21,7 +21,7 @@ an example:
 
 "InitSerialPort" comms.asm
 	Function: configure serial port with TIMER2
-	Modifies: TR1, TMOD, TH1, TL1, PCON
+	Modifies: TR2, T2CON, SCON, RCAP2H, RCAP2L
 	Requires: to be run at start of program
 
 "putchar" comms.asm
@@ -108,6 +108,12 @@ an example:
 "Timer2_ISR" Temp_lookup.asm
 	Function: increments the system time from 0 to 511 in half second increments
 		  rolls over from 511 to 0
-	Reads: timer2 interrupt flag and current time
-	Modifies: time
+	Reads: TF2, time, timer2_interrup_count
+	Modifies: TF2, time, timer2_interrup_count
+
+"Init_timer2" Temp_lookup.asm
+	Function: initializes timer2 in auto reload mode to interrupt every 10 ms			
+	Reads: TIMER2_RELOAD
+ 	Modifies: T2CON, TR2, TF2, RCAP2H, RCAP2L, ET2, EA
+				
 
