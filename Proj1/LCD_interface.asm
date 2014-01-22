@@ -8,71 +8,8 @@ $MODDE2
 org 0000H 
  ljmp myprogram 
 
-
-
-BSEG
-mf:     dbit 1
-
-CSEG
-;------------------------------------------------------------------------------
-; look up tables for strings example, REMENBER on 16 char long in ASCII 
-;------------------------------------------------------------------------------
-message1:
-	db 'ECEE 281 PROJECT',0
-message2:
-	db 'Reflow-soldering',0
-message3:
-	db '!@#$%^&*()_+',0
-message4:
-	db 'LCD-DISPLAY TEST',0
-	
-;------------------------------------------------------------------------------
-; look up table of floating numbers 
-;------------------------------------------------------------------------------
-floating_numbers:
-db '1.0'
-db '1.1'
-db '1.2'
-db '1.3'
-db '1.4'
-db '1.5'
-db '1.6'
-db '1.7'
-db '1.8'
-db '1.9'
-db '2.0'
-db '2.1'
-db '2.2'
-db '2.3'
-db '2.4'
-db '2.5'
-db '2.6'
-db '2.7'
-db '2.8'
-db '2.9'
-db '3.0'
-db '3.1'
-db '3.2'
-db '3.3'
-db '3.4'
-db '3.5'
-db '3.6'
-db '3.7'
-db '3.8'
-db '3.9'
-db '4.0'
-db '4.1'
-db '4.2'
-db '4.3'
-db '4.4'
-db '4.5'
-db '4.6'
-db '4.7'
-db '4.8'
-db '4.9'
-db '5.0'
-db '5.0'
-
+;JASON: MOVED DEFINITIONS
+$include(var.asm)
 ;------------------------------------------------------------------------------
 ; a half seconds delay subroutine 
 ;------------------------------------------------------------------------------
@@ -298,7 +235,8 @@ myprogram:
  mov LEDRC, #0 
  mov LEDG, #0 
  lcall LCD_Init
- lcall custom_character_init_0
+ lcall custom_character_init
+ ;JASON: BUGFIX
 
 ;initialize char sending
 	mov a, #80H

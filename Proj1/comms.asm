@@ -2,26 +2,9 @@ $MODDE2
 org 0000H
    ljmp MyProgram
 
-DSEG at 30H
-
-x: ds 2
-y: ds 2
-bcd: ds 3
-FREQ   EQU 33333333
-BAUD   EQU 57600
-T1LOAD EQU 256-(FREQ/(192*BAUD))
-
-BSEG
-
-mf: dbit 1
-
-CSEG
+$include(var.asm)
 
 $include(math16.asm)
-
-SERmsg1: DB 'Target: ', 0
-SERmsg2: DB 0xB0, 'C , Actual: ', 0
-SERmsg3: DB 0xB0, 'C', 0AH, 0DH, 0
 
 InitSerialPort:
 	; Configure serial port and baud rate
