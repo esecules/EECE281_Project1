@@ -17,14 +17,16 @@ CSEG:-------------------------------------------------------
 ;------------------------------------------------------------------------------
 ; look up tables for strings example, REMENBER max 16 char long in ASCII 
 ;------------------------------------------------------------------------------
-message1:
+LCDmessage1:
 	db 'ECEE 281 PROJECT',0
-message2:
+LCDmessage2:
 	db 'Reflow-soldering',0
-message3:
+LCDmessage3:
 	db '!@#$%^&*()_+',0
-message4:
+LCDmessage4:
 	db 'LCD-DISPLAY TEST',0
+
+SERmsg1-SERmsg3: static messages for serial
 	
 ;------------------------------------------------------------------------------
 ; look up table of floating numbers 
@@ -83,6 +85,6 @@ Temp_LUT_high:  ;stores the higher 256 entries
 
 HARDWARE:---------------------------------------------------
 //ports here
-TIMER2: serial clock (can also use TIMER1 if necessary)
+TIMER1: serial clock
 TIMER2: system time
-LCD_Display: 
+LCD_Display: display

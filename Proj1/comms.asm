@@ -8,8 +8,8 @@ x: ds 2
 y: ds 2
 bcd: ds 3
 FREQ   EQU 33333333
-BAUD   EQU 115200
-T2LOAD EQU 65536-(FREQ/(32*BAUD))
+BAUD   EQU 57600
+T1LOAD EQU 256-(FREQ/(192*BAUD))
 
 BSEG
 
@@ -19,18 +19,24 @@ CSEG
 
 $include(math16.asm)
 
-MSG1: DB 'Target: ', 0
-MSG2: DB 0xB0, 'C , Actual: ', 0
-MSG3: DB 0xB0, 'C', 0AH, 0DH, 0
+SERmsg1: DB 'Target: ', 0
+SERmsg2: DB 0xB0, 'C , Actual: ', 0
+SERmsg3: DB 0xB0, 'C', 0AH, 0DH, 0
 
 InitSerialPort:
 	; Configure serial port and baud rate
-	clr TR2 ; Disable timer 2
-	mov T2CON, #30H ; RCLK=1, TCLK=1 
-	mov RCAP2H, #high(T2LOAD)  
-	mov RCAP2L, #low(T2LOAD)
-	setb TR2 ; Enable timer 2
+	clr TR1 ; Disable timer 1
+	mov A, TMOD
+	orl A, #0xF0
+	anl A, #0x2F
+	mov TMOD, A
+	mov TH1, #T1LOAD
+	mov TL1, #T1LOAD
+	setb TR1 ; Enable timer 2
 	mov SCON, #52H
+	mov A, PCON
+	setb ACC.7
+	mov PCON, A
 	ret
 
 putchar:
@@ -93,13 +99,13 @@ MyProgram:
     
 
 
-	mov dptr, #MSG1
+	mov dptr, #SERmsg1
 	lcall SendString
 	
 	lcall hex2bcd
 	lcall SendBCD3
 	
-	mov dptr, #MSG2
+	mov dptr, #SERmsg2
 	lcall SendString
 	
 	lcall xchg_xy
@@ -107,7 +113,7 @@ MyProgram:
 	lcall SendBCD3
 	lcall xchg_xy
 	
-	mov dptr, #MSG3
+	mov dptr, #SERmsg3
 	lcall SendString
 	
     
