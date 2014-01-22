@@ -74,27 +74,24 @@ MyProgram:
     LCALL InitSerialPort
     
     ;ljmp ASCII
-    
-    mov x+0, #250
-    mov x+1, #0
-    mov y+0, #222
-    mov y+1, #0
-    
-
 
 	mov dptr, #SERmsg1
 	lcall SendString
 	
+	mov A, tempi
+	mov x+0, A
+	mov x+1, #0
 	lcall hex2bcd
 	lcall SendBCD3
 	
 	mov dptr, #SERmsg2
 	lcall SendString
 	
-	lcall xchg_xy
+	mov A, tempa
+	mov x+0, A
+	mov x+1, #0
 	lcall hex2bcd
 	lcall SendBCD3
-	lcall xchg_xy
 	
 	mov dptr, #SERmsg3
 	lcall SendString
