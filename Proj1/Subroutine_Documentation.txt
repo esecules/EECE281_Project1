@@ -21,7 +21,7 @@ an example:
 
 "InitSerialPort" comms.asm
 	Function: configure serial port with TIMER2
-	Modifies: TR2, T2CON, SCON, RCAP2H, RCAP2L
+	Modifies: TR1, TMOD, TH1, TL1, PCON
 	Requires: to be run at start of program
 
 "putchar" comms.asm
