@@ -6,9 +6,7 @@ $MODDE2
 ; Modifies: tempi
 ; Requires: time must be 16 bits 
 ;---------------------------------------------------------
-dseg at 50h
-$include(Temperature_LUTs.asm)
-cseg
+
 
 Timer2_ISR:
 	clr TF2
