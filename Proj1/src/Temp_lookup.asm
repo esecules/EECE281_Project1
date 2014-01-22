@@ -1,5 +1,3 @@
-$MODDE2
-
 ;$include(var.asm) ;only uncomment when checking to see if this file compiles by itself
 
 ;--------------------------------------------
