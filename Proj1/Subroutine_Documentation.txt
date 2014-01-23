@@ -15,6 +15,16 @@ an example:
 
 ---------------------------------------------------------------------------------------
 
+--------------------------------------------------------------------
+--			Public Utilities			  --
+--------------------------------------------------------------------
+"BinFrac2BCD" utilities.asm
+	Function: converts the fraction byte of a multibyte binary number to 4-digit
+		  BCD and stores it in bcd+0 - bcd+1. for example 0x80 converts to 5000
+	Reads:	  A
+	Modifies: x, y, bcd
+	Requires: A contains the byte to convert
+
 ------------------------------------------------------------
 --			Comms				  --
 ------------------------------------------------------------
@@ -40,6 +50,9 @@ an example:
 	Reads:    bcd
 	Modifies: A
 	Requires: bcd contains the number to send
+
+"SendBCD4" comms.asm
+	Function: same as above but sends 4 digits
 
 "getchar" comms.asm
 	Function: get a byte through serial

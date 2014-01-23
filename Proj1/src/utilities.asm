@@ -1,6 +1,10 @@
 $NOLIST
 	
 BinFrac2BCD:
+	push AR7
+	push AR6
+	push ACC
+	push PSW
 	mov R7, A
 	mov x+0, #0
 	mov x+1, #0
@@ -30,5 +34,11 @@ BinFrac2BCD_noadd:
 	djnz R6, BinFrac2BCD_l
 	
 	lcall hex2bcd
+	
+	
+	pop PSW
+	pop ACC
+	pop AR6
+	pop AR7
 	ret
 $LIST
