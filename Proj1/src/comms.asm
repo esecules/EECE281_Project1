@@ -42,11 +42,33 @@ SendBCD3:
 	anl a, #0x0f
 	add a, #0x30
 	lcall putchar
-	mov a, bcd+2
+	mov a, bcd+0
 	anl a, #0x0f
 	add a, #0x30
 	lcall putchar
 SBCDone3:
+	ret
+	
+SendBCD4:
+	mov a, bcd+1
+	swap a
+	anl a, #0x0f
+	add a, #0x30
+	lcall putchar
+	mov a, bcd+1
+	anl a, #0x0f
+	add a, #0x30
+	lcall putchar
+	mov a, bcd+0
+	swap a
+	anl a, #0x0f
+	add a, #0x30
+	lcall putchar
+	mov a, bcd+0
+	anl a, #0x0f
+	add a, #0x30
+	lcall putchar
+SBCDone4:
 	ret
     
 nlcr:
@@ -58,6 +80,7 @@ getchar:
     mov a, SBUF
     lcall putchar
     ret
+	
     
 ASCII:
 	mov R7, #0xD0

@@ -7,6 +7,8 @@ $include(../src/var.asm)
 $include(../src/math16.asm)
 
 $include(../src/comms.asm)
+
+$include(../src/utilities.asm)
     
 MyProgram:
     MOV SP, #7FH
@@ -36,8 +38,30 @@ MyProgram:
 	lcall hex2bcd
 	lcall SendBCD3
 	
+	mov A, #'.'
+	lcall putchar
+	
+	mov A, #128
+	lcall BinFrac2BCD
+	
+	lcall SendBCD4
+	
 	mov dptr, #SERmsg3
 	lcall SendString
+	
+TestFrac:
+	mov A, #1
+	mov R5, #255
+TestFrac1:
+	push ACC
+	lcall BinFrac2BCD
+	lcall SendBCD4
+	mov dptr, #nlcr
+	lcall SendString
+	pop ACC
+	inc A
+	
+	djnz R5, TestFrac1
 	
     
 Forever:
