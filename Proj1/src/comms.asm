@@ -1,10 +1,4 @@
-$MODDE2
-org 0000H
-   ljmp MyProgram
-
-$include(var.asm)
-
-$include(math16.asm)
+$NOLIST
 
 InitSerialPort:
 	; Configure serial port and baud rate
@@ -65,41 +59,6 @@ getchar:
     lcall putchar
     ret
     
-MyProgram:
-    MOV SP, #7FH
-    mov LEDRA, #0
-    mov LEDRB, #0
-    mov LEDRC, #0
-    mov LEDG, #0
-    LCALL InitSerialPort
-    
-    ;ljmp ASCII
-
-	mov dptr, #SERmsg1
-	lcall SendString
-	
-	mov A, tempi
-	mov x+0, A
-	mov x+1, #0
-	lcall hex2bcd
-	lcall SendBCD3
-	
-	mov dptr, #SERmsg2
-	lcall SendString
-	
-	mov A, tempa
-	mov x+0, A
-	mov x+1, #0
-	lcall hex2bcd
-	lcall SendBCD3
-	
-	mov dptr, #SERmsg3
-	lcall SendString
-	
-    
-Forever:
-    SJMP Forever
-    
 ASCII:
 	mov R7, #0xD0
 	mov A, #0x31
@@ -107,5 +66,5 @@ ASCII1:
 	lcall putchar
 	inc A
 	djnz R7, ASCII1
-	sjmp Forever
-END
+	sjmp $
+$LIST
