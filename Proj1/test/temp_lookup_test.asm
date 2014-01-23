@@ -54,8 +54,15 @@ Timer2_ISR_Test2:
 	reti
 
 start_test:
+	mov SP, #7FH ; Set the stack pointer 
+ 	mov LEDRA, #0 ; Turn off all LEDs 
+ 	mov LEDRB, #0 
+ 	mov LEDRC, #0 
+ 	mov LEDG, #0 
+ 	 
 	clr case2
 	mov fail_count, #0
+	
 	mov time, #low(500) 
 	mov time+1, #high(500)
 	lcall get_tempi
@@ -70,7 +77,7 @@ Test1_pass:
 	lcall get_tempi
 	mov a, tempi
 	jz Test2_pass
-	inc fail_count
+;	inc fail_count
 Test2_pass:	
 	mov time, #low(100)
 	mov time+1, #high(100)
@@ -83,7 +90,7 @@ Test2_pass:
 Test3_pass: 
 	mov a, fail_count
 	jz all_pass
-	setb ledra.0
+	mov ledra, fail_count
 	jmp wait_for_case2
 all_pass:
 	setb ledg.0
@@ -95,13 +102,19 @@ wait_for_case2:
 	setb case2
 	setb ledra.0
 wait_for_key_case2:
-	jnb key.1, wait_for_key_case2 
+	jb key.2, wait_for_key_case2 
 
 ;Test3 tests the timer2 ISR The value of the current time is displayed in hex
 ;it should increment twice a second and roll back to 0 afer it hits 511 (decimal)
 	clr case2
 case3:
 	lcall display_time
+	jnb key.1, clear_all
 	sjmp case3
+clear_all:
+ 	mov LEDRA, #0 ; Turn off all LEDs 
+ 	mov LEDRB, #0 
+ 	mov LEDRC, #0 
+ 	mov LEDG, #0 
 	
 end

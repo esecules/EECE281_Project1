@@ -60,23 +60,16 @@ Timer2_ISR:
 get_tempi:
 	push acc
 	push psw
-	mov a, time+1
-	clr c
-	subb a, #2
-	jnc Invalid_time
-	mov a, time+1
-	jz Use_low_half_lut
-	mov dptr, #Temp_LUT1_High
-	jmp use_LUT
-	Use_low_half_lut:
-	mov dptr, #Temp_LUT1_Low
-	use_LUT:
-	mov a, time
+	mov dptr, #Temp_LUT1
+	mov a, DPH
+	add a, time+1
+	mov DPH, a
+	mov a, DPL
+	add a, time
+	mov DPL, a
+	clr a
 	movc a, @a+dptr
-	mov tempi, a
-	jmp get_tempi_done
-	Invalid_time:
-	mov tempi, #0
+	mov tempi, a	
 	get_tempi_done:
 	pop psw
 	pop acc	
