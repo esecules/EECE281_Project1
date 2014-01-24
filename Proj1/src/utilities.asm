@@ -8,8 +8,12 @@ BinFrac2BCD:
 	mov R7, A
 	mov x+0, #0
 	mov x+1, #0
+	mov x+2, #0
+	mov x+3, #0
 	mov y+0, #low(5000)
 	mov y+1, #high(5000)
+	mov y+2, #0
+	mov y+3, #0
 	mov R6, #8
 	
 BinFrac2BCD_l:

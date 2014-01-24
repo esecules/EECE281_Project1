@@ -4,7 +4,7 @@ org 0000H
 
 $include(../src/var.asm)
 
-$include(../src/math16.asm)
+$include(../src/math32.asm)
 
 $include(../src/comms.asm)
 

@@ -1,9 +1,9 @@
 //add your memory fields here for documentation!
 
 DSEG:-------------------------------------------------------
-x: math16
-y: math16
-bcd: math16
+x: math32
+y: math32
+bcd: math32
 
 tempi: ideal temperature
 tempa: actual temperature
@@ -11,7 +11,7 @@ time: DS 2  ;system time in half seconds
 timer2_interrupt_count: counts the number of times the interrupt is called up to 50
 
 BSEG:-------------------------------------------------------
-mf: math16
+mf: math32
 //more flags here
 CONSTANTS:-------------------------------------------------
 FREQ   EQU 33333333

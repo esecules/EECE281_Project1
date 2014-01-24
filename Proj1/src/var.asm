@@ -2,9 +2,12 @@ $NOLIST
 DSEG at 30H
 
 ;math16
-x: ds 2
-y: ds 2
-bcd: ds 3
+x: ds 4
+y: ds 4
+bcd: ds 5
+
+;adc
+adc: ds 2
 
 time: ds 2
 tempa: ds 1
@@ -17,6 +20,11 @@ T1LOAD EQU 256-(FREQ/(192*BAUD))
 
 FREQ_2		   EQU 100
 TIMER2_RELOAD  EQU 65536-(FREQ/(12*FREQ_2))
+
+MISO   EQU  P0.0 
+MOSI   EQU  P0.1 
+SCLK   EQU  P0.2
+CE_ADC EQU  P0.3
 
 BSEG
 
