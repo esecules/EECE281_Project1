@@ -25,6 +25,9 @@ an example:
 	Modifies: x, y, bcd
 	Requires: A contains the byte to convert
 
+"WAIT50MS" utilities.asm
+	Function: stalls execution for roughly 50ms. has no side effects.
+
 ------------------------------------------------------------
 --			Comms				  --
 ------------------------------------------------------------
@@ -128,5 +131,31 @@ an example:
 	Function: initializes timer2 in auto reload mode to interrupt every 10 ms			
 	Reads: TIMER2_RELOAD
  	Modifies: T2CON, TR2, TF2, RCAP2H, RCAP2L, ET2, EA
+
+------------------------------------------------------------------
+--				SPI ADC				--
+------------------------------------------------------------------
 				
 
+"INIT_SPI" spi_adc.asm
+	Function: initializes I/O pins for SPI
+	Modifies: P0MOD, SCLK & CE_ADC pins
+	Requires: be run at startup
+
+"DO_SPI_G"
+	Function: general SPI transfer. R0->out, in->R1
+	Reads:	  R0
+	Modifies: R0, R1, R2
+	Requires: R0 contains the byte to send.
+
+"Read_ADC_Channel"
+	Function: reads ADC channel specified in B and stores
+		  result in R6 (LSB) and R7 (MSB)
+	Reads:	  B
+	Modifies: A, R0, R6, R7, CE_ADC
+	Requires: 0 <= B <= 3
+
+"ReadADC0_64"
+	Function: reads ADC channel 0 64 times and stores result
+		  in adc+0 and adc+1
+	Modifies: adc

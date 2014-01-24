@@ -45,4 +45,22 @@ BinFrac2BCD_noadd:
 	pop AR6
 	pop AR7
 	ret
+	
+WAIT50MS:
+	PUSH AR0
+	PUSH AR1
+	PUSH AR2
+	
+	MOV R2, #9
+L3: MOV R1, #250
+L2: MOV R0, #250
+L1: DJNZ R0, L1
+	DJNZ R1, L2
+	DJNZ R2, L3
+	
+	POP AR2
+	POP AR1
+	POP AR0
+	RET
+	
 $LIST

@@ -1,9 +1,10 @@
 $NOLIST
 
 INIT_SPI:
-    orl P0MOD, #00111110b ; Set SCLK, MOSI as outputs
+    orl P0MOD, #00111110b ; Set SCLK, MOSI, CE as outputs
     anl P0MOD, #11111110b ; Set MISO as input
     clr SCLK              ; For mode (0,0) SCLK is zero
+    setb CE_ADC
 	ret
 	
 DO_SPI_G:
@@ -24,21 +25,6 @@ DO_SPI_G_LOOP:
     djnz R2, DO_SPI_G_LOOP
     pop acc
     ret
-
-Delay:
-	mov R3, #20
-Delay_loop:
-	djnz R3, Delay_loop
-	ret
-	
-WAIT50MS:
-	MOV R2, #9
-L3: MOV R1, #250
-L2: MOV R0, #250
-L1: DJNZ R0, L1
-	DJNZ R1, L2
-	DJNZ R2, L3
-	RET
 
 ; Channel to read passed in register b
 Read_ADC_Channel:
@@ -69,6 +55,8 @@ ReadADC0_64:
 	push B
 	push PSW
 	push AR4
+	push AR6
+	push AR7
 	mov x+0, #0
 	mov x+1, #0
 	mov x+2, #0
@@ -89,6 +77,8 @@ ReadADC0_64L:
 	mov A, x+1
 	mov adc+1, A
 	
+	pop AR7
+	pop AR6
 	pop AR4
 	pop PSW
 	pop B

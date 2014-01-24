@@ -5,6 +5,7 @@ org 0000H
 $include(../src/var.asm)
 $include(../src/math32.asm)
 $include(../src/spi_adc.asm)
+$include(../src/utilities.asm)
 
 MyProgram:
 	mov sp, #07FH
@@ -13,7 +14,6 @@ MyProgram:
 	mov LEDRA, a
 	mov LEDRB, a
 	mov LEDRC, a
-	orl P0MOD, #00111000b ; make all CEs outputs
 
 	setb CE_ADC
 
@@ -23,11 +23,10 @@ Forever:
 	lcall ReadADC0_64
 	
 	mov A, adc+0
-	mov LEDRB, A
-	mov A, adc+1
 	mov LEDRA, A
+	mov A, adc+1
+	mov LEDRB, A
 	
-	lcall Delay
 	lcall wait50ms
 	
 	sjmp Forever
