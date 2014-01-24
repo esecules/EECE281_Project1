@@ -1,7 +1,7 @@
 $NOLIST
 DSEG at 30H
 
-;math16
+;math32
 x: ds 4
 y: ds 4
 bcd: ds 5
@@ -13,6 +13,9 @@ time: ds 2
 tempa: ds 1
 tempi: ds 1
 timer2_interrupt_count: ds 1
+
+;comms private
+SERlasttime: ds 1
 
 FREQ   EQU 33333333
 BAUD   EQU 57600
@@ -28,7 +31,7 @@ CE_ADC EQU  P0.3
 
 BSEG
 
-;math16
+;math32
 mf: dbit 1
 
 CSEG

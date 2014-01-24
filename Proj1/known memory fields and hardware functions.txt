@@ -10,6 +10,7 @@ tempa: actual temperature
 time: DS 2  ;system time in half seconds
 timer2_interrupt_count: counts the number of times the interrupt is called up to 50
 
+SERlasttime: comms private, last time a serial message was sent.
 BSEG:-------------------------------------------------------
 mf: math32
 //more flags here

@@ -15,7 +15,49 @@ InitSerialPort:
 	setb ACC.7
 	mov PCON, A
 	ret
-
+	
+;PUT ME IN THE LOOP!
+COMMSMAIN:
+	clr C
+	mov A, SERlasttime
+	subb A, time
+	jz CommsMainEnd
+	mov SERlasttime, time
+	lcall CommsSend
+CommsMainEnd:
+	ret
+	
+CommsSend:
+	mov dptr, #SERmsg1
+	lcall SendString
+	
+	mov A, tempi
+	mov x+0, A
+	mov x+1, #0
+	lcall hex2bcd
+	lcall SendBCD3
+	
+	mov dptr, #SERmsg2
+	lcall SendString
+	
+	mov A, tempa
+	mov x+0, A
+	mov x+1, #0
+	lcall hex2bcd
+	lcall SendBCD3
+	
+	mov A, #'.'
+	lcall putchar
+	
+	mov A, #127
+	lcall BinFrac2BCD
+	
+	lcall SendBCD4
+	
+	mov dptr, #SERmsg3
+	lcall SendString
+	ret
+	
 putchar:
     JNB TI, putchar
     CLR TI
@@ -81,13 +123,4 @@ getchar:
     lcall putchar
     ret
 	
-    
-ASCII:
-	mov R7, #0xD0
-	mov A, #0x31
-ASCII1:
-	lcall putchar
-	inc A
-	djnz R7, ASCII1
-	sjmp $
 $LIST
