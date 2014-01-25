@@ -18,6 +18,11 @@ an example:
 --------------------------------------------------------------------
 --			Public Utilities			  --
 --------------------------------------------------------------------
+"InitDE2" utilities.asm
+	Function: sets up SP and turns LEDs off
+	Modifies: SP, all LED registers
+	Requires: MUST BE RUN FIRST THING AFTER STARTUP
+
 "BinFrac2BCD" utilities.asm
 	Function: converts the fraction byte of a multibyte binary number to 4-digit
 		  BCD and stores it in bcd+0 - bcd+1. for example 0x80 converts to 5000

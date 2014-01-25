@@ -16,11 +16,7 @@ $include(utilities.asm)
     
 	
 MyProgram:
-    MOV SP, #7FH
-    mov LEDRA, #0
-    mov LEDRB, #0
-    mov LEDRC, #0
-    mov LEDG, #0
+	LCALL InitDE2
     LCALL InitSerialPort
 	LCALL Init_timer2
 	

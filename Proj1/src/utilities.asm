@@ -63,4 +63,11 @@ L1: DJNZ R0, L1
 	POP AR0
 	RET
 	
+InitDE2:
+    MOV SP, #7FH
+    mov LEDRA, #0
+    mov LEDRB, #0
+    mov LEDRC, #0
+    mov LEDG, #0
+    ret
 $LIST
