@@ -32,6 +32,17 @@ an example:
 --			Comms				  --
 ------------------------------------------------------------
 
+"COMMSMAIN" comms.asm
+	Function: calls CommsSend every clock tick
+	Reads:	  SERsendNextTime, SERlasttime
+	Modifies: SERsendNextTime, SERlasttime
+	Requires: be run in the main loop
+
+"CommsSend" comms.asm
+	Function: sends the message. formatting in done in here
+	Reads:	  tempi, tempa
+	Modifies: dptr, A, x, bcd
+
 "InitSerialPort" comms.asm
 	Function: configure serial port with TIMER2
 	Modifies: TR2, T2CON, SCON, RCAP2H, RCAP2L
