@@ -18,14 +18,20 @@ InitSerialPort:
 	
 ;PUT ME IN THE LOOP!
 COMMSMAIN:
-	clr C
+	jb SERsendNextTime, CommsMainSend
 	mov A, SERlasttime
-	subb A, time
-	jz CommsMainEnd
+	cjne A, time, CommsMainQueue
+CommsMainNoSend:
+	ret
+CommsMainQueue: ;don't send immediately. wait till next round so tempi can update
+	setb SERsendNextTime
+	ret
+CommsMainSend:
 	mov SERlasttime, time
 	lcall CommsSend
-CommsMainEnd:
+	clr SERsendNextTime
 	ret
+	
 	
 CommsSend:
 	mov dptr, #SERmsg1

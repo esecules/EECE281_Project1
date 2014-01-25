@@ -9,6 +9,8 @@
 ;---------------------------------------------
 
 Init_timer2:
+	mov time+0, #0
+	mov time+1, #0
 	mov T2CON, #00H ; Autoreload is enabled, work as a timer
  	clr TR2
  	clr TF2
@@ -39,10 +41,8 @@ Timer2_ISR:
 	mov time, a
 	mov a, time+1
 	addc a, #0
-	subb a, #2
-	jnc rollover
 	mov time+1, a
-	jmp ret_Timer2_isr
+	cjne a, #2, ret_timer2_isr
 	rollover:
 	mov time, #0
 	mov time+1,#0
@@ -61,12 +61,12 @@ get_tempi:
 	push acc
 	push psw
 	mov dptr, #Temp_LUT1
-	mov a, DPH
-	add a, time+1
-	mov DPH, a
 	mov a, DPL
-	add a, time
+	add a, time+0
 	mov DPL, a
+	mov a, DPH
+	addc a, time+1
+	mov DPH, a
 	clr a
 	movc a, @a+dptr
 	mov tempi, a	

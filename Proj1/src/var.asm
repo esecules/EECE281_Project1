@@ -34,6 +34,9 @@ BSEG
 ;math32
 mf: dbit 1
 
+;comms private
+SERsendNextTime: dbit 1
+
 CSEG
 
 ;COMMS=========================================================================
