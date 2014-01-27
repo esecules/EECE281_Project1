@@ -31,10 +31,11 @@ Init_timer2:
 Timer2_ISR:
 	push acc
 	push psw
+	
 	clr TF2
 	inc timer2_interrupt_count
 	mov a, timer2_interrupt_count
-	cjne a, #50, ret_timer2_isr
+	cjne a, #100, ret_timer2_isr
 	mov timer2_interrupt_count, #0
 	mov a, time
 	add a, #1
@@ -42,36 +43,75 @@ Timer2_ISR:
 	mov a, time+1
 	addc a, #0
 	mov time+1, a
-	cjne a, #2, ret_timer2_isr
-	rollover:
-	mov time, #0
-	mov time+1,#0
+	lcall get_tempi
 	ret_timer2_isr:
 	pop psw
 	pop acc
 	reti
 ;---------------------------------------------------------
-;Get Ideal Temp 
-; Function: gets the current ideal temp based on time
-; Reads: time and LUT at address 50H
-; Modifies: tempi
+;Get Ideal Temp - private function 
+; Function: gets the current ideal temp once every second
+; Reads: time
+; Modifies: tempi heating_state x and y
 ; Requires: time must be 16 bits 
 ;---------------------------------------------------------	
 get_tempi:
 	push acc
 	push psw
-	mov dptr, #Temp_LUT1
-	mov a, DPL
-	add a, time+0
-	mov DPL, a
-	mov a, DPH
-	addc a, time+1
-	mov DPH, a
-	clr a
-	movc a, @a+dptr
-	mov tempi, a	
-	get_tempi_done:
+	
+	;find current state	
+	mov a, heating_state
+	subb a, PREHEAT
+	jz get_preheat_temp
+	mov a, heating_state
+	subb a, SOAK
+	jz get_soak_temp
+	mov a, heating_state
+	subb a, REFLOW
+	jz get_reflow_temp
+	mov a, heating_state
+	subb a, COOLDOWN
+	jz get_cooldown_temp	
+	;update next state and temp based on current state
+	get_preheat_temp:
+		mov a, tempi
+		add a, #PREHEART_R
+		mov tempi, a
+		
+		mov a, tempa
+		subb a, soak_temp
+		jnz return_get_tempi
+		mov heating_state, SOAK
+		jmp return_get_tempi
+		
+	get_soak_temp:
+		mov tempi, soak_temp	
+		djnz soak_time, return_get_tempi
+		mov heating_state, REFLOW
+		jmp return_get_tempi
+		
+	get_reflow_temp:
+		mov a, tempi
+		add a, #REFLOW_R
+		mov tempi, a
+		
+		mov a, tempa
+		subb a, max_temp
+		jnz return_get_tempi
+		mov heating_state, COOLDOWN
+		jmp return_get_tempi
+	get_cooldown_temp:
+		mov tempi, COOLDOWN_temp
+		
+		mov a, tempa
+		subb a, #COOLDOWN_temp
+		jnz return_get_tempi
+		mov heating_state, SAFE
+		jmp return_get_tempi
+	return_get_tempi:
 	pop psw
 	pop acc	
 	ret
+	
+
 	
