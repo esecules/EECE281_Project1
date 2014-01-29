@@ -4,5 +4,9 @@
     <string name="app_name">Reflow</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="Soak_time">Soak Time</string>
+    <string name="Soak_temp">Soak Temp</string>
+    <string name="Max_temp">Max Temp</string>
+	<string name="toggle_on">Emergency Stop</string>
+	<string name="toggle_off">Start Reflow Process</string>
 </resources>
