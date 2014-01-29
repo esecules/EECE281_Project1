@@ -45,7 +45,7 @@ an example:
 
 "CommsSend" comms.asm
 	Function: sends the message. formatting in done in here
-	Reads:	  tempi, tempa
+	Reads:	  tempi, tempa, tempo
 	Modifies: dptr, A, x, bcd
 
 "InitSerialPort" comms.asm
@@ -170,7 +170,23 @@ an example:
 	Modifies: A, R0, R6, R7, CE_ADC
 	Requires: 0 <= B <= 3
 
-"ReadADC0_64"
-	Function: reads ADC channel 0 64 times and stores result
+"ReadADC_64"
+	Function: reads ADC channel in B 64 times and stores result
 		  in adc+0 and adc+1
+	Reads:	  B
 	Modifies: adc
+
+"Read335"
+	Function: reads temperature from an LM335 and stores in tempo
+	Reads:	  adc
+	Modifies: B, x, y, tempo
+
+--------------------------------------------------------------------
+--			Decision				  --
+--------------------------------------------------------------------
+
+"Decision"
+	Function: checks if tempa and tempi are more than 1.5 degC
+		  apart and turns on/off oven accordingly. untested
+	Reads:	  tempi, tempa
+	Modifies: oven control pin

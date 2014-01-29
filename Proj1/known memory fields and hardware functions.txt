@@ -5,8 +5,10 @@ x: math32
 y: math32
 bcd: math32
 
+adc: 16bit adc reading (from adding 64 10bit readings)
 tempi: ideal temperature
 tempa: actual temperature
+tempo: outside/room temperature
 time: DS 2  ;system time in half seconds
 timer2_interrupt_count: counts the number of times the interrupt is called up to 50
 
@@ -22,6 +24,10 @@ T1LOAD EQU 256-(FREQ/(192*BAUD))
 FREQ_2		   EQU 100
 TIMER2_RELOAD  EQU 65536-(FREQ/(12*FREQ_2))
 
+MISO, MOSI, SCLK, CE_ADC: SPI stuff
+SSR: the SSR control pin
+LM335: adc pin number of the LM335
+
 
 CSEG:-------------------------------------------------------
 ;------------------------------------------------------------------------------
@@ -36,7 +42,7 @@ LCDmessage3:
 LCDmessage4:
 	db 'LCD-DISPLAY TEST',0
 
-SERmsg1-SERmsg3: static messages for serial
+SERmsg1-SERmsg4: static messages for serial
 	
 ;------------------------------------------------------------------------------
 ; look up table of floating numbers 
