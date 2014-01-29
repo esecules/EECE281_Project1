@@ -1,0 +1,12 @@
+HOW TO USE
+0. main.asm currently hosts a demo for ReadADC_64 and BinFrac2BCD. Connect LM335 circuit to the DE2 and the serial port to your PC and open it at 57600 baud. You should see the LM335 temperature as "Room".
+===================================
+1. put the channel to read in B
+
+2. lcall ReadADC_64. you will get a 16bit number representing the range of the ADC in adc+0 and adc+1
+
+3. make sure you make the result 256 times bigger when you do maths so the (logical) decimal point will be between lowest and 2nd lowest byte. save the results somewhere safe.
+
+4. for the bytes above the decimal point, move them to x and call hex2bcd and display it normally.
+
+5. for the byte below the decimal point, move it to A and call BinFrac2BCD. you will get a 4 digit BCD in bcd+0 (digits -3 and -4) and bcd+1 (digits -1 and -2). take the digits you need (2 digits is probably more practical than 4).
