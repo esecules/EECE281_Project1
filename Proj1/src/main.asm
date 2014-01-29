@@ -21,7 +21,7 @@ MyProgram:
 	LCALL Init_timer2
 	
 Forever:
-	lcall get_tempi
+;	lcall get_tempi the ideal temperature is updated each second by the interrupt and put into tempi
 	lcall CommsMain
     SJMP Forever
     

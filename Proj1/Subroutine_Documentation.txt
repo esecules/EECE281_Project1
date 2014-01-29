@@ -130,16 +130,15 @@ an example:
 --			Temperature curve			--
 ------------------------------------------------------------------
 
-"Get_tempi" Temp_lookup.asm 
-	Function: gets the current ideal temp based on time
-	Reads: time and LUTs starting at address 50H
+"Get_tempi" Temp_lookup.asm --Private--
+	Function: updated the ideal temp based on current state
+	Reads: heating_state
 	Modifies: tempi (ideal temperature based on time)
-		  or tempi = 0 if the time is out of the range of [0,511]
 	Requires: time must be 16 bits 
 
 "Timer2_ISR" Temp_lookup.asm
 	Function: increments the system time from 0 to 511 in half second increments
-		  rolls over from 511 to 0
+		  rolls over from 511 to 0. Calls get_tempi.
 	Reads: TF2, time, timer2_interrup_count
 	Modifies: TF2, time, timer2_interrup_count
 
