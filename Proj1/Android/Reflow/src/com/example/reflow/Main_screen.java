@@ -2,9 +2,13 @@ package com.example.reflow;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.view.Gravity;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.ToggleButton;
 
 public class Main_screen extends Activity {
@@ -13,6 +17,9 @@ public class Main_screen extends Activity {
 	ToggleButton toggle;
 	boolean running;
 	boolean caughtFormatException = false;
+	Builder outOfRangeAlert;
+	Builder emptyFieldAlert;
+	String errors="blah";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +29,8 @@ public class Main_screen extends Activity {
         txtsoakTemp = (EditText)findViewById(R.id.editSTemp);
         txtsoakTime = (EditText)findViewById(R.id.editSTime);
         txtmaxTemp = (EditText)findViewById(R.id.editMTemp);
-       
+        emptyFieldAlert = new AlertDialog.Builder(this).setTitle("Invalid Input").setMessage("All fields are required\nNOOB!").setNeutralButton("Close", null);
+        outOfRangeAlert = new AlertDialog.Builder(this).setTitle("Invalid Input").setMessage(errors).setNeutralButton("Close", null);
         toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -36,12 +44,17 @@ public class Main_screen extends Activity {
 					}
 					catch(NumberFormatException e){
 						 caughtFormatException = true;
+						 toggle.setChecked(false);
+						 running = false;
+						 emptyFieldAlert.show();
 					}
 					if(!caughtFormatException){
-						if(validateInput()){
+						if(validateInput())
 							running = true;
-						}
-					}
+						else
+							toggle.setChecked(false);
+					}else
+						caughtFormatException = false;
 				}
 				else if (running){
 					running = false;
@@ -52,27 +65,51 @@ public class Main_screen extends Activity {
         
     }
 private boolean validateInput(){
-	@SuppressWarnings("unused")
-	String errors, eSoakTemp="", eSoakTime ="", eMaxTemp=""; 
-	int errorCt = 0;
-	if (soakTemp > 215 || soakTemp < 100 || soakTemp > maxTemp){
-		eSoakTemp = "ERROR soak temp\n";
-		errorCt ++;
+	String eSoakTemp, eSoakTime, eMaxTemp; 
+	boolean wasError = false;
+	if (soakTemp > 215 ){
+		eSoakTemp = "-Soak temp too high (>215)\n";
+		wasError = true;
 	}
-	if(soakTime > 180 || soakTime < 0){
-		eSoakTime = "ERROR soak time\n";
-		errorCt ++;
+	else if(soakTemp <= 100 ){
+		eSoakTemp = "-Soak temp too low (<100)\n";
+		wasError = true;
 	}
-	if(maxTemp > 260 || maxTemp < soakTemp){
-		eMaxTemp = "ERROR max temp\n";
-		errorCt ++;
+	else if(soakTemp > maxTemp){
+		eSoakTemp = "-Soak temp greater than max temp\n";
+		wasError = true;
 	}
-	if(errorCt < 0){
+	else
+		eSoakTemp = "";
+	
+	if(soakTime > 180 ){
+		eSoakTime = "-Soak time too long (>180)\n";
+		wasError = true;
+		}
+	else if (soakTime < 60){
+		eSoakTime = "-Soak time too short (<60)\n";
+		wasError = true;
+	}
+	else
+		eSoakTime = "";
+	
+	if(maxTemp > 260 ){
+		eMaxTemp = "-Max temp too high (>260)\n";
+		wasError = true;
+	}
+	else if(maxTemp < 200){
+		eMaxTemp = "-Max temp too low (<200)\n";
+		wasError = true;
+	}
+	else
+		eMaxTemp = "";
+		
+	if(wasError){
 		errors = eSoakTemp + eSoakTime + eMaxTemp;
-		//TODO 
-		//display pop-up box with errors
+		new AlertDialog.Builder(this).setTitle("Invalid Input").setMessage(errors).setNeutralButton("Close", null).show();
 		return false;
 	}
+	else
 	return true;
 	
 }
