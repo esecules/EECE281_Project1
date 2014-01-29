@@ -6,6 +6,12 @@ INIT_SPI:
     clr SCLK              ; For mode (0,0) SCLK is zero
     setb CE_ADC
 	ret
+
+SPIDelay:
+	mov R3, #20
+SPIDelay_loop:
+	djnz R3, SPIDelay_loop
+	ret
 	
 DO_SPI_G:
 	push acc
@@ -22,6 +28,7 @@ DO_SPI_G_LOOP:
     rlc a
     mov R1, a
     clr SCLK
+    lcall SPIDelay_loop
     djnz R2, DO_SPI_G_LOOP
     pop acc
     ret
@@ -50,9 +57,8 @@ Read_ADC_Channel:
 	setb CE_ADC
 	ret
 	
-ReadADC0_64:
+ReadADC_64:
 	push ACC
-	push B
 	push PSW
 	push AR4
 	push AR6
@@ -64,7 +70,6 @@ ReadADC0_64:
 	mov y+2, #0
 	mov y+3, #0
 	mov R4, #64
-	mov B, #0
 ReadADC0_64L:
 	lcall Read_ADC_Channel
 	mov y+0, R6
@@ -81,7 +86,6 @@ ReadADC0_64L:
 	pop AR6
 	pop AR4
 	pop PSW
-	pop B
 	pop ACC
 	ret
 	
