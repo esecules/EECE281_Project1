@@ -33,6 +33,12 @@ an example:
 "WAIT50MS" utilities.asm
 	Function: stalls execution for roughly 50ms. has no side effects.
 
+"DispLED" utilities.asm
+	Function: takes a 0-255 value from A and displays it on the 
+		  LED bar
+	Reads:	  A
+	Modifies: A, B, R4, R5, PSW
+
 ------------------------------------------------------------
 --			Comms				  --
 ------------------------------------------------------------

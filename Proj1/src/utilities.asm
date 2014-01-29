@@ -1,4 +1,74 @@
 $NOLIST
+
+DispLED:
+	push AR6
+	mov B, #10
+	div AB
+	mov R6, A
+	mov R4, #0
+	mov R5, #2
+DispLED0:
+	mov A, R6
+	jz DispLED02
+	setb C
+DispLED01:
+	mov A, R4
+	rrc A
+	mov R4, A
+	dec R6
+	djnz R5, DispLED0
+DispLED02:
+	mov R5, #6
+	mov A, R4
+DispLED03:
+	rrc A
+	djnz R5, DispLED03
+	mov LEDRC, A
+	
+	mov R4, #0
+	mov R5, #8
+DispLED1:
+	mov A, R6
+	jz DispLED12
+	setb C
+DispLED11:
+	mov A, R4
+	rrc A
+	mov R4, A
+	dec R6
+	djnz R5, DispLED1
+DispLED12:
+	mov LEDRB, R4
+	mov R4, #0
+	mov R5, #8
+DispLED2:
+	mov A, R6
+	jz DispLED22
+	setb C
+DispLED21:
+	mov A, R4
+	rrc A
+	mov R4, A
+	dec R6
+	djnz R5, DispLED2
+DispLED22:
+	mov LEDRA, R4
+	mov R4, #0
+	mov R5, #8
+DispLED3:
+	mov A, R6
+	jz DispLED32
+	setb C
+DispLED31:
+	mov A, R4
+	rrc A
+	mov R4, A
+	dec R6
+	djnz R5, DispLED3
+DispLED32:
+	mov LEDG, R4
+	pop AR6
+	ret
 	
 BinFrac2BCD:
 	push AR7
