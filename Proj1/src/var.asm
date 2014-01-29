@@ -11,7 +11,8 @@ adc: ds 2
 
 ;Temperature and time
 time: ds 2
-tempa: ds 1
+tempa: ds 2
+tempo: ds 2
 tempi: ds 1
 timer2_interrupt_count: ds 1
 heating_state: ds 1
@@ -32,6 +33,10 @@ MISO   EQU  P0.0
 MOSI   EQU  P0.1 
 SCLK   EQU  P0.2
 CE_ADC EQU  P0.3
+
+SSR	   EQU  LEDRA.0 ;for testing
+
+LM335  EQU  0
 
 ;Temperature Constants
 ;state constants
@@ -59,7 +64,8 @@ CSEG
 ;COMMS=========================================================================
 SERmsg1: DB 'Target: ', 0
 SERmsg2: DB 0xB0, 'C , Actual: ', 0
-SERmsg3: DB 0xB0, 'C', 0AH, 0DH, 0
+SERmsg3: DB 0xB0, 'C , Room: ', 0
+SERmsg4: DB 0xB0, 'C', 0AH, 0DH, 0
 
 ;LCD===========================================================================
 ;------------------------------------------------------------------------------

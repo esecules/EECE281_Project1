@@ -1,8 +1,8 @@
 $MODDE2
 org 0000H
    ljmp MyProgram
-org 002BH
-	ljmp Timer2_ISR
+;org 002BH
+;	ljmp Timer2_ISR
 $include(../src/var.asm)
 
 $include(../src/math32.asm)
@@ -11,7 +11,7 @@ $include(../src/comms.asm)
 
 $include(../src/utilities.asm)
 
-$include(../src/Temp_lookup.asm)
+;$include(../src/Temp_lookup.asm)
     
 	
 MyProgram:
@@ -21,12 +21,13 @@ MyProgram:
     mov LEDRC, #0
     mov LEDG, #0
     LCALL InitSerialPort
-	LCALL Init_timer2
+;	LCALL Init_timer2
     ;ljmp ASCII
 	ljmp Forever
 	
 Forever:
-	lcall CommsMain
+	lcall CommsSend
+	lcall wait50ms
     SJMP Forever
     
     

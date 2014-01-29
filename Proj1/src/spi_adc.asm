@@ -70,12 +70,12 @@ ReadADC_64:
 	mov y+2, #0
 	mov y+3, #0
 	mov R4, #64
-ReadADC0_64L:
+ReadADC_64L:
 	lcall Read_ADC_Channel
 	mov y+0, R6
 	mov y+1, R7
 	lcall add32
-	djnz R4, ReadADC0_64L
+	djnz R4, ReadADC_64L
 	
 	mov A, x+0
 	mov adc+0, A
@@ -88,5 +88,25 @@ ReadADC0_64L:
 	pop PSW
 	pop ACC
 	ret
+
+Read335:
+	mov b, #LM335
+	lcall ReadADC_64
 	
+	mov x+3, #0
+	mov x+2, #0
+	mov x+1, adc+1
+	mov x+0, adc+0
+	Load_y(500)
+	lcall mul32
+	;/256
+	mov x+0, x+1
+	mov x+1, x+2
+	mov x+2, x+3
+	mov x+3, #0	
+	Load_y(69926) ;273.15*256
+	lcall sub32
+	mov tempo+0, x+0
+	mov tempo+1, x+1
+	ret
 $LIST

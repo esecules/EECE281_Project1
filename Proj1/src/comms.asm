@@ -37,30 +37,38 @@ CommsSend:
 	mov dptr, #SERmsg1
 	lcall SendString
 	
-	mov A, tempi
-	mov x+0, A
-	mov x+1, #0
+	Load_x(0)
+	mov x+0, tempi
 	lcall hex2bcd
 	lcall SendBCD3
 	
 	mov dptr, #SERmsg2
 	lcall SendString
 	
-	mov A, tempa
-	mov x+0, A
-	mov x+1, #0
+	Load_x(0)
+	mov x+0, tempa+1
 	lcall hex2bcd
 	lcall SendBCD3
-	
 	mov A, #'.'
 	lcall putchar
-	
-	mov A, #127
+	mov A, tempa+0
 	lcall BinFrac2BCD
-	
 	lcall SendBCD4
 	
 	mov dptr, #SERmsg3
+	lcall SendString
+	
+	Load_x(0)
+	mov x+0, tempo+1
+	lcall hex2bcd
+	lcall SendBCD3
+	mov A, #'.'
+	lcall putchar
+	mov A, tempo+0
+	lcall BinFrac2BCD
+	lcall SendBCD4
+	
+	mov dptr, #SERmsg4
 	lcall SendString
 	ret
 	
