@@ -186,7 +186,7 @@ an example:
 --------------------------------------------------------------------
 
 "Decision"
-	Function: checks if tempa and tempi are more than 1.5 degC
-		  apart and turns on/off oven accordingly. untested
+	Function: checks if tempa and tempi are more than TATOL
+		  apart and turns on/off oven accordingly.
 	Reads:	  tempi, tempa
 	Modifies: oven control pin

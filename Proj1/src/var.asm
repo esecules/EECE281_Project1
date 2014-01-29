@@ -34,6 +34,7 @@ MOSI   EQU  P0.1
 SCLK   EQU  P0.2
 CE_ADC EQU  P0.3
 
+TATOL  EQU  2*256 ;2degC
 SSR	   EQU  LEDRA.0 ;for testing
 
 LM335  EQU  0

@@ -25,6 +25,7 @@ FREQ_2		   EQU 100
 TIMER2_RELOAD  EQU 65536-(FREQ/(12*FREQ_2))
 
 MISO, MOSI, SCLK, CE_ADC: SPI stuff
+TATOL: tempa deviation tolerance
 SSR: the SSR control pin
 LM335: adc pin number of the LM335
 
@@ -101,6 +102,8 @@ Temp_LUT_high:  ;stores the higher 256 entries
 
 HARDWARE:---------------------------------------------------
 //ports here
+P0.0-0.3: SPI ADC
+P0.7: SSR control
 TIMER1: serial clock
 TIMER2: system time
 LCD_Display: display
