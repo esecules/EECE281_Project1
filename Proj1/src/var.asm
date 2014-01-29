@@ -40,6 +40,7 @@ SOAK 		EQU 1
 REFLOW		EQU 2
 COOLDOWN	EQU 3
 SAFE		EQU 4 
+INITIAL		EQU 5
 ;rate costants
 PREHEAT_R	EQU 1
 REFLOW_R	EQU 2
@@ -49,7 +50,7 @@ BSEG
 
 ;math32
 mf: dbit 1
-
+run: dbit 1
 ;comms private
 SERsendNextTime: dbit 1
 

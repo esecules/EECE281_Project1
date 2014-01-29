@@ -55,11 +55,17 @@ Timer2_ISR:
 ; Modifies: tempi heating_state x and y
 ; Requires: time must be 16 bits 
 ;---------------------------------------------------------	
+;State Flow diagram
+; -->(CURRENT STATE) ||(condition to move to next state)||
+; -->INITIAL ||run bit set|| -->PREHEAT ||soak temp reached|| --> SOAK ||soak time elapsed|| --> REFLOW ||
 get_tempi:
 	push acc
 	push psw
 	
-	;find current state	
+	;find current state
+	mov a, heating_state
+	subb a, INITIAL	
+	jz initial_state
 	mov a, heating_state
 	subb a, PREHEAT
 	jz get_preheat_temp
@@ -73,6 +79,12 @@ get_tempi:
 	subb a, COOLDOWN
 	jz get_cooldown_temp	
 	;update next state and temp based on current state
+	initial_state:
+		mov tempi, tempa
+		jnb run, return_get_tempi
+		mov heating_state, PREHEAT
+		jmp return_get_tempi
+		
 	get_preheat_temp:
 		mov a, tempi
 		add a, #PREHEART_R
