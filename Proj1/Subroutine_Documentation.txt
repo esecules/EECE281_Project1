@@ -33,6 +33,12 @@ an example:
 "WAIT50MS" utilities.asm
 	Function: stalls execution for roughly 50ms. has no side effects.
 
+"DispLED" utilities.asm
+        Function: takes a 0-255 value from A and displays it on the
+                 LED bar
+        Reads:         A
+        Modifies: A, B, R4, R5, PSW
+
 ------------------------------------------------------------
 --			Comms				  --
 ------------------------------------------------------------
@@ -170,7 +176,23 @@ an example:
 	Modifies: A, R0, R6, R7, CE_ADC
 	Requires: 0 <= B <= 3
 
-"ReadADC0_64"
-	Function: reads ADC channel 0 64 times and stores result
-		  in adc+0 and adc+1
-	Modifies: adc
+"ReadADC_64"
+        Function: reads ADC channel in B 64 times and stores result
+                 in adc+0 and adc+1
+        Reads:         B
+        Modifies: adc
+
+"Read335"
+        Function: reads temperature from an LM335 and stores in tempo
+        Reads:         adc
+        Modifies: B, x, y, tempo
+
+--------------------------------------------------------------------
+--                        Decision                                 --
+--------------------------------------------------------------------
+
+"Decision"
+        Function: checks if tempa and tempi are more than TATOL
+                 apart and turns on/off oven accordingly.
+        Reads:         tempi, tempa
+        Modifies: oven control pin
