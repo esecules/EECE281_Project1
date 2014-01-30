@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.ToggleButton;
 
 public class Main_screen extends Activity {
@@ -29,14 +30,13 @@ public class Main_screen extends Activity {
         txtsoakTemp = (EditText)findViewById(R.id.editSTemp);
         txtsoakTime = (EditText)findViewById(R.id.editSTime);
         txtmaxTemp = (EditText)findViewById(R.id.editMTemp);
-        emptyFieldAlert = new AlertDialog.Builder(this).setTitle("Invalid Input").setMessage("All fields are required\nNOOB!").setNeutralButton("Close", null);
+        emptyFieldAlert = new AlertDialog.Builder(this).setTitle("Invalid Input").setMessage("All fields are required\nTry again").setNeutralButton("Close", null);
         outOfRangeAlert = new AlertDialog.Builder(this).setTitle("Invalid Input").setMessage(errors).setNeutralButton("Close", null);
         toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+        ProgressBar mProgress = (ProgressBar) findViewById(R.id.progressBar1);	
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked){
-					
 					try{
 					soakTemp = Integer.valueOf( txtsoakTemp.getText().toString() );
 					soakTime = Integer.valueOf( txtsoakTime.getText().toString() );
@@ -49,8 +49,10 @@ public class Main_screen extends Activity {
 						 emptyFieldAlert.show();
 					}
 					if(!caughtFormatException){
-						if(validateInput())
+						if(validateInput()){
 							running = true;
+							mProgress.setProgress(10);
+						}
 						else
 							toggle.setChecked(false);
 					}else
@@ -58,6 +60,8 @@ public class Main_screen extends Activity {
 				}
 				else if (running){
 					running = false;
+					mProgress.setProgress(0);
+					mProgress.setDrawingCacheBackgroundColor(0xFF0000);
 				}
 				
 			}
