@@ -87,7 +87,7 @@ get_tempi:
 		
 	get_preheat_temp:
 		mov a, tempi
-		add a, #PREHEART_R
+		add a, PREHEAT_R
 		mov tempi, a
 		
 		mov a, tempa
@@ -104,7 +104,7 @@ get_tempi:
 		
 	get_reflow_temp:
 		mov a, tempi
-		add a, #REFLOW_R
+		add a, REFLOW_R
 		mov tempi, a
 		
 		mov a, tempa
@@ -116,7 +116,7 @@ get_tempi:
 		mov tempi, COOLDOWN_temp
 		
 		mov a, tempa
-		subb a, #COOLDOWN_temp
+		subb a, COOLDOWN_temp
 		jnz return_get_tempi
 		mov heating_state, SAFE
 		jmp return_get_tempi

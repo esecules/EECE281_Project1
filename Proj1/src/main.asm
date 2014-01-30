@@ -7,7 +7,7 @@ $include(var.asm)
 
 $include(math32.asm)
 
-;$include(Temp_lookup.asm)
+$include(Temp_lookup.asm)
 $include(comms.asm)
 $include(spi_adc.asm)
 $include(decision.asm)
@@ -19,7 +19,7 @@ $include(utilities.asm)
 MyProgram:
 	LCALL InitDE2
     LCALL InitSerialPort
-	;LCALL Init_timer2
+	LCALL Init_timer2
 	LCALL Init_SPI
 	
 Forever:
