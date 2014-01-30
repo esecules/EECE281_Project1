@@ -24,7 +24,7 @@ MyProgram:
 	
 Forever:
 ;	lcall get_tempi the ideal temperature is updated each second by the interrupt and put into tempi
-	lcall wait50ms ;delete when timer2 is fixed
+;	lcall wait50ms ;delete when timer2 is fixed
 	lcall Read335
 	lcall decision
 	lcall CommsSend ;change to CommsMain when timer2 is fixed
