@@ -1,16 +1,21 @@
 package com.example.reflow;
 
-import android.os.Bundle;
+
+import com.jjoe64.graphview.BarGraphView;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.GraphView.GraphViewData;
 import android.app.Activity;
+import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.view.Gravity;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.ToggleButton;
+
 
 public class Main_screen extends Activity {
 	EditText txtsoakTemp, txtsoakTime, txtmaxTemp;
@@ -32,6 +37,9 @@ public class Main_screen extends Activity {
         txtmaxTemp = (EditText)findViewById(R.id.editMTemp);
         emptyFieldAlert = new AlertDialog.Builder(this).setTitle("Invalid Input").setMessage("All fields are required\nTry again").setNeutralButton("Close", null);
         outOfRangeAlert = new AlertDialog.Builder(this).setTitle("Invalid Input").setMessage(errors).setNeutralButton("Close", null);
+        
+     
+        
         toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
         ProgressBar mProgress = (ProgressBar) findViewById(R.id.progressBar1);	
 			@Override
@@ -66,6 +74,23 @@ public class Main_screen extends Activity {
 				
 			}
 		});
+        
+//     // init example series data
+//        GraphViewSeries exampleSeries = new GraphViewSeries(new GraphViewData[] {
+//              new GraphViewData(1, 2.0d)
+//              , new GraphViewData(2, 1.5d)
+//              , new GraphViewData(3, 2.5d)
+//              , new GraphViewData(4, 1.0d)
+//        });
+//         
+//        GraphView graphView = new BarGraphView(
+//              this // context
+//              , "GraphViewDemo" // heading
+//        );
+//        graphView.addSeries(exampleSeries); // data
+//         
+//        LinearLayout layout = (LinearLayout) findViewById(R.id.graph1);
+//        layout.addView(graphView);
         
     }
 private boolean validateInput(){

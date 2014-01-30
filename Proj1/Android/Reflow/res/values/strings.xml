@@ -9,4 +9,5 @@
     <string name="Max_temp">Max Temp in Celsuis</string>
 	<string name="toggle_on">Emergency Stop</string>
 	<string name="toggle_off">Start Reflow Process</string>
+	<string name="viewGraph">View Graph</string>
 </resources>
