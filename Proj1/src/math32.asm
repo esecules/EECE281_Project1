@@ -529,6 +529,21 @@ div32_exit:
 	pop acc
 	
 	ret
+	
+xchg_xy:
+	push x+0
+	push x+1
+	push x+2
+	push x+3
+	mov x+0, y+0
+	mov x+1, y+1
+	mov x+2, y+2
+	mov x+3, y+3
+	pop y+3
+	pop y+2
+	pop y+1
+	pop y+0
+	ret
 
 Load_X MAC
 	mov x+0, #low (%0 % 0x10000) 

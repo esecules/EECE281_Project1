@@ -72,6 +72,85 @@ CommsSend:
 	lcall SendString
 	ret
 	
+CommsCmd:
+	lcall getchar
+	jnc CommsCmdE
+	mov B, A
+	
+	anl A, #0xF8
+	cjne A, #0x08, CommsCmdAppend
+	lcall CommsProcCmd
+	ret
+CommsCmdAppend:
+	mov A, B
+	clr C
+	subb A, #0x30 ;invalid char
+	jc CommsCmdE
+	mov A, B
+	clr C
+	subb A, #0x60 ;invaild char
+	jnc CommsCmdE
+	mov A, #SERCmd
+	add A, SERCmdI
+	mov R0, A
+	mov A, B
+	mov @R0, A
+	mov A, SERCmdI
+	inc A
+	mov SERCmdI, A
+CommsCmdE:
+	ret
+	
+CommsProcCmd:
+	dec SERCmdI
+	mov z+0, #0
+	mov z+1, #0
+	mov z+2, #0
+	mov z+3, #0
+	Load_y(1)
+CommsProcCmdL:
+	mov A, #SERCmd
+	add A, SERCmdI
+	mov R0, A
+	mov A, @R0
+	clr C
+	subb A, #0x30
+	mov x+0, A
+	mov x+1, #0
+	mov x+2, #0
+	mov x+3, #0
+	lcall mul32
+	push y+0
+	push y+1
+	push y+2
+	push y+3
+	mov y+0, z+0
+	mov y+1, z+1
+	mov y+2, z+2
+	mov y+3, z+3
+	lcall add32
+	mov z+0, x+0
+	mov z+1, x+1
+	mov z+2, x+2
+	mov z+3, x+3
+	pop y+3
+	pop y+2
+	pop y+1
+	pop y+0
+	Load_x(10)
+	lcall mul32
+	lcall xchg_xy
+	djnz SERCmdI, CommsProcCmdL
+	;testing, returns number directly
+	;replace with proper value-putters once the protocol is decided
+	mov x+0, z+0
+	mov x+1, z+1
+	mov x+2, z+2
+	mov x+3, z+3
+	lcall hex2bcd
+	lcall SendBCD4
+	ret
+	
 putchar:
     JNB TI, putchar
     CLR TI
@@ -131,10 +210,12 @@ nlcr:
 	DB 0AH, 0DH, 0
 
 getchar:
-    jnb RI, getchar
+	clr C
+    jnb RI, getcharE
+    setb C
     clr RI
     mov a, SBUF
-    lcall putchar
+getcharE:
     ret
 	
 $LIST

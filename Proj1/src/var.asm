@@ -6,6 +6,9 @@ x: ds 4
 y: ds 4
 bcd: ds 5
 
+;public temporary
+z: ds 4
+
 ;adc
 adc: ds 2
 
@@ -21,6 +24,8 @@ soak_time:		ds 1
 max_temp:		ds 1
 ;comms private
 SERlasttime: ds 1
+SERCmdI:	ds 1
+SERCmd:	ds 5
 
 FREQ   EQU 33333333
 BAUD   EQU 57600
