@@ -14,7 +14,7 @@ $include(comms.asm)
 $include(spi_adc.asm)
 $include(decision.asm)
 $include(utilities.asm)
-
+$include(beeper.asm)
 
     
 	
