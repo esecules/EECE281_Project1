@@ -43,6 +43,7 @@ MISO   EQU  P0.0
 MOSI   EQU  P0.1 
 SCLK   EQU  P0.2
 CE_ADC EQU  P0.3
+BEEP   EQU  P0.4
 
 TATOL  EQU  2*256 ;2degC
 SSR	   EQU  LEDG.0 ;for testing

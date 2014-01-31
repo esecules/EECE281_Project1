@@ -1,7 +1,7 @@
 $NOLIST
 
 ISR_timer0:
-	cpl P0.0
+	cpl BEEP
     mov TH0, #high(TIMER0_RELOAD)
     mov TL0, #low(TIMER0_RELOAD)
 	reti
@@ -17,6 +17,7 @@ initTimer0:
     mov TL0, #low(TIMER0_RELOAD)
     setb TR0 ; Enable timer 0
     setb ET0 ; Enable timer 0 interrupt	
+    orl P0MOD, #00010000b ; Set beeper pin as out
     ret
     
 ; KEY.3 is the temporary start button

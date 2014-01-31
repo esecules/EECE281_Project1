@@ -32,6 +32,7 @@ Forever:
 	lcall decision
 	lcall CommsMain
 	lcall CommsCmd
+	lcall beeper
     SJMP Forever
     
 END
