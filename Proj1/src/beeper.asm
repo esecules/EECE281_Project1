@@ -1,16 +1,4 @@
-$MODDE2
-
-$include(var.asm)
-
-CLK EQU 33333333
-FREQ_0 EQU 2000
-TIMER0_RELOAD EQU 65536-(CLK/(12*2*FREQ_0))
-
-org 0000H
-	ljmp myProgram
-	
-org 000BH
-	ljmp ISR_timer0
+$NOLIST
 
 ISR_timer0:
 	cpl P0.0
@@ -142,10 +130,4 @@ sixBeeps:
 	
 	ret
 	
-myProgram:
-	lcall startButton
-	
-forever:
-	sjmp forever
-	
-END
+$LIST

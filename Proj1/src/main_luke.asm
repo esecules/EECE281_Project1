@@ -15,6 +15,7 @@ $include(decision.asm)
 $include(spi_adc.asm)
 $include(comms.asm)
 $include(utilities.asm)
+$include(beeper.asm)
 
 SetTemp:
 	mov soak_temp, #120
