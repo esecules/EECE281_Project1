@@ -3,6 +3,8 @@ $NOLIST
 Decision:
 	Load_x(0)
 	Load_y(0)
+	mov a, tempa+2
+	jnz DecisionOffNoCheck
 	mov x+1, tempi
 	mov y+0, tempa+0
 	mov y+1, tempa+1
@@ -35,6 +37,9 @@ DecisionOff:
 	jb ACC.7, DecisionEnd
 	clr SSR
 	sjmp DecisionEnd
+DecisionOffnocheck:
+	clr SSR
+	sjmp DecisionEnd	
 DecisionEnd:
 	ret
 $LIST

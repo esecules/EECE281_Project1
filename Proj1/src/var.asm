@@ -12,15 +12,18 @@ z: ds 4
 ;adc
 adc: ds 2
 
+
 ;Temperature and time
 time: ds 2
-tempa: ds 2
+tempa: ds 3
 tempo: ds 2
 tempi: ds 1
+tempm: ds 3
 timer2_interrupt_count: ds 1
 heating_state: ds 1
 soak_temp:		ds 1
 soak_time:		ds 1
+reflow_temp:		ds 1
 max_temp:		ds 1
 ;comms private
 SERlasttime: ds 1
@@ -33,6 +36,8 @@ T1LOAD EQU 256-(FREQ/(192*BAUD))
 
 FREQ_2		   EQU 100
 TIMER2_RELOAD  EQU 65536-(FREQ/(12*FREQ_2))
+FREQ_0		   EQU 2000
+TIMER0_RELOAD  EQU 65536-(FREQ/12*2*FREQ_0)	
 
 MISO   EQU  P0.0 
 MOSI   EQU  P0.1 
@@ -42,7 +47,9 @@ CE_ADC EQU  P0.3
 TATOL  EQU  2*256 ;2degC
 SSR	   EQU  LEDG.0 ;for testing
 
-LM335  EQU  0
+LM335  EQU  1
+THERMO EQU  0
+
 
 ;Temperature Constants
 ;state constants
@@ -52,6 +59,7 @@ REFLOW		EQU #2
 COOLDOWN	EQU #3
 SAFE		EQU #4 
 INITIAL		EQU #5
+
 ;rate costants
 PREHEAT_R	EQU #1
 REFLOW_R	EQU #2

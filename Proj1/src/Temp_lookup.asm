@@ -80,9 +80,10 @@ get_tempi:
 	jz get_cooldown_temp	
 	;update next state and temp based on current state
 	initial_state:
-		mov tempi, tempa
+		mov tempi, tempa+1
 		jnb run, return_get_tempi
 		mov heating_state, PREHEAT
+		lcall buzzer
 		jmp return_get_tempi
 		
 	get_preheat_temp:
@@ -90,16 +91,19 @@ get_tempi:
 		add a, PREHEAT_R
 		mov tempi, a
 		
-		mov a, tempa
+		mov a, tempa+1
 		subb a, soak_temp
 		jnz return_get_tempi
+		jc return_get_tempi
 		mov heating_state, SOAK
+		lcall buzzer
 		jmp return_get_tempi
 		
 	get_soak_temp:
 		mov tempi, soak_temp	
 		djnz soak_time, return_get_tempi
 		mov heating_state, REFLOW
+		lcall buzzer
 		jmp return_get_tempi
 		
 	get_reflow_temp:
@@ -107,17 +111,24 @@ get_tempi:
 		add a, REFLOW_R
 		mov tempi, a
 		
-		mov a, tempa
+		mov a, tempa+1
 		subb a, max_temp
 		jnz return_get_tempi
 		mov heating_state, COOLDOWN
+		lcall buzzer
 		jmp return_get_tempi
 	get_cooldown_temp:
 		mov tempi, COOLDOWN_temp
+<<<<<<< HEAD
+		
+		mov a, tempa+1
+=======
 		mov a, tempa
+>>>>>>> 96d9495280f76f044ac5f1eef7d49577e7b56584
 		subb a, COOLDOWN_temp
 		jnz return_get_tempi
 		mov heating_state, SAFE
+		lcall buzzer
 		jmp return_get_tempi
 	return_get_tempi:
 	pop psw

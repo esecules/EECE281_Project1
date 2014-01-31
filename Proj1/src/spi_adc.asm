@@ -109,4 +109,35 @@ Read335:
 	mov tempo+0, x+0
 	mov tempo+1, x+1
 	ret
+	
+ReadThermo:
+	mov b, #THERMO
+	lcall ReadADC_64	
+	mov x+3, #0
+	mov x+2, #0
+	mov x+1, adc+1
+	mov x+0, adc+0
+	Load_y(304)
+	lcall mul32
+	;/256
+	mov x+0, x+1
+	mov x+1, x+2
+	mov x+2, x+3
+	mov x+3, #0	
+	mov tempm+0, x+0
+	mov tempm+1, x+1
+	mov tempm+2, x+2
+	ret	
+	
+OFFSET:
+	mov x+0, tempm+0
+	mov x+1, tempm+1
+	mov x+2, tempm+2
+	mov y+0, tempo+0
+	mov y+1, tempo+1
+	lcall add32
+	mov tempa+0, x+0
+	mov tempa+1, x+1
+	mov tempa+2, x+2
+	ret	
 $LIST
