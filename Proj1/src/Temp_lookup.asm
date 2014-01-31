@@ -114,7 +114,6 @@ get_tempi:
 		jmp return_get_tempi
 	get_cooldown_temp:
 		mov tempi, COOLDOWN_temp
-		
 		mov a, tempa
 		subb a, COOLDOWN_temp
 		jnz return_get_tempi
