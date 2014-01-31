@@ -133,6 +133,35 @@ L1: DJNZ R0, L1
 	POP AR0
 	RET
 	
+waitHalfSec:
+	mov R2, #90
+K3: mov R1, #250
+K2: mov R0, #250
+K1: djnz R0, L1
+	djnz R1, L2
+	djnz R2, L3
+	ret
+	
+waitOneSec:
+	mov R2, #180
+M3: mov R1, #250
+M2: mov R0, #250
+M1: djnz R0, M1
+	djnz R1, M2
+	djnz R2, M3
+	ret
+	
+waitThreeSec:
+	mov R3, #3
+N4:	mov R2, #180
+N3: mov R1, #250
+N2: mov R0, #250
+N1: djnz R0, N1
+	djnz R1, N2
+	djnz R2, N3
+	djnz R3, N4
+	ret
+	
 InitDE2:
     MOV SP, #7FH
     mov LEDRA, #0

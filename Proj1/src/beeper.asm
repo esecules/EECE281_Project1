@@ -6,36 +6,6 @@ ISR_timer0:
     mov TL0, #low(TIMER0_RELOAD)
 	reti
 	
-;For a 33.33MHz clock, one cycle takes 30ns
-waitHalfSec:
-	mov R2, #90
-L3: mov R1, #250
-L2: mov R0, #250
-L1: djnz R0, L1
-	djnz R1, L2
-	djnz R2, L3
-	ret
-	
-waitOneSec:
-	mov R2, #180
-M3: mov R1, #250
-M2: mov R0, #250
-M1: djnz R0, M1
-	djnz R1, M2
-	djnz R2, M3
-	ret
-	
-waitThreeSec:
-	mov R3, #3
-N4:	mov R2, #180
-N3: mov R1, #250
-N2: mov R0, #250
-N1: djnz R0, N1
-	djnz R1, N2
-	djnz R2, N3
-	djnz R3, N4
-	ret
-    
 initTimer0:
 	mov LEDRA, #0FFH
 	mov LEDRB, #0FFH
@@ -50,7 +20,7 @@ initTimer0:
     ret
     
 ; KEY.3 is the temporary start button
-startButton:
+beeper:
 	jnb KEY.3, shortBeep
 	
 checkState:
