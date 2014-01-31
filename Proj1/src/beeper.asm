@@ -7,7 +7,7 @@ FREQ_0 EQU 2000
 TIMER0_RELOAD EQU 65536-(CLK/(12*2*FREQ_0))
 
 org 0000H
-	ljmp myprogram
+	ljmp myProgram
 	
 org 000BH
 	ljmp ISR_timer0
