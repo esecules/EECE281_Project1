@@ -8,4 +8,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Main_screen" >
 
+    <LinearLayout
+        android:id="@+id/graph1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+    </LinearLayout>
+
 </RelativeLayout>

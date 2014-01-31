@@ -87,12 +87,14 @@
         android:layout_alignLeft="@+id/textView1"
         android:layout_alignParentRight="true" />
 
-    <LinearLayout
-        android:id="@+id/graph1"
-        android:layout_width="fill_parent"
-        android:layout_height="215dip"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical" >
-    </LinearLayout>
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/progressBar1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/progressBar1"
+        android:layout_marginBottom="81dp"
+        android:text="@string/viewGraph" />
 
 </RelativeLayout>
