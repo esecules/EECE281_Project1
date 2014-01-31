@@ -5,6 +5,9 @@ x: math32
 y: math32
 bcd: math32
 
+z: public scratch space
+
+
 adc: 16bit adc reading (from adding 64 10bit readings)
 tempi: ideal temperature
 tempa: actual temperature
@@ -13,9 +16,11 @@ time: DS 2  ;system time in half seconds
 timer2_interrupt_count: counts the number of times the interrupt is called up to 50
 
 SERlasttime: comms private, last time a serial message was sent.
+SERCmd:	comms private, command buffer
+SERCmdI: comms private, command buffer index
 BSEG:-------------------------------------------------------
 mf: math32
-//more flags here
+SERSendNextTime: comms private, set to send message next loop run
 CONSTANTS:-------------------------------------------------
 FREQ   EQU 33333333
 BAUD   EQU 57600

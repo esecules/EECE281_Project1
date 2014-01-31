@@ -54,6 +54,20 @@ an example:
 	Reads:	  tempi, tempa
 	Modifies: dptr, A, x, bcd
 
+"CommsCmd" comms.asm
+	Function: reads and stores command from serial in SERCmd
+		  calls CommsProcCmd when \n is encountered
+	Reads:	  SBUF
+	Modifies: A, B, R0, SERCmd, SERCmdI, PSW
+	Requires: be run in the main loop
+
+"CommsProcCmd" comms.asm
+	Function: processes buffered command in SERCmd
+		  right now it just sends the number back to serial
+	Reads:	  SERCmd, SERCmdI
+	Modifies: x, y, z, A, R0, PSW, SERCmdI
+	Requires: SERCmd contains a valid command
+
 "InitSerialPort" comms.asm
 	Function: configure serial port with TIMER2
 	Modifies: TR2, T2CON, SCON, RCAP2H, RCAP2L
