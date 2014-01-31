@@ -1,6 +1,8 @@
 $MODDE2
 org 0000H
    ljmp MyProgram
+org 000BH
+	ljmp ISR_Timer0
 org 002BH
 	ljmp Timer2_ISR
 	
@@ -22,6 +24,7 @@ MyProgram:
 	LCALL InitDE2
     LCALL InitSerialPort
 	LCALL Init_timer2
+	LCALL initTimer0
 	LCALL Init_SPI
 	
 Forever:

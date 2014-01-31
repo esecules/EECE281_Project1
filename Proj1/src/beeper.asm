@@ -7,10 +7,10 @@ ISR_timer0:
 	reti
 	
 initTimer0:
-	mov LEDRA, #0FFH
-	mov LEDRB, #0FFH
-	mov LEDRC, #03H
-    mov TMOD,  #00000001B ; GATE=0, C/T*=0, M1=0, M0=1: 16-bit timer
+	mov A, TMOD
+	orl A, #00000001B
+	anl A, #11110001B
+	mov TMOD, A
 	clr TR0 ; Disable timer 0
 	clr TF0
     mov TH0, #high(TIMER0_RELOAD)
