@@ -15,22 +15,29 @@ $include(decision.asm)
 $include(spi_adc.asm)
 $include(comms.asm)
 $include(utilities.asm)
+
+SetTemp:
+	mov soak_temp, #120
+	mov soak_time, #80
+	mov max_temp, #240 ; for now, might move to 250
+	ret
 	
 MyProgram:
-	LCALL InitDE2
-    LCALL InitSerialPort
-	LCALL Init_timer2
+	lcall InitDE2
+	lcall SetTemp
+    lcall InitSerialPort
+	lcall Init_timer2
 	
 Forever:
 	jnb key.2, StopButton
 	jnb key.3, StartButton
-	LCALL Read335
-	LCALL ReadThermo
-	LCALL OFFSET
+	lcall Read335
+	lcall ReadThermo
+	lcall OFFSET
 	lcall decision
 	lcall CommsMain
 	lcall CommsCmd
-    SJMP Forever
+    sjmp Forever
     
 StartButton:
 	jnb key.3, StartButton
@@ -57,4 +64,5 @@ StopButton:
 	mov max_temp, #0
 	clr run
 	sjmp forever    
+
 END
