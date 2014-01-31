@@ -67,6 +67,9 @@ an example:
 	Reads:	  SERCmd, SERCmdI
 	Modifies: x, y, z, A, R0, PSW, SERCmdI
 	Requires: SERCmd contains a valid command
+		  commands should be in this form: A1234
+		  A is an upper case letter
+		  1234 is a number up to 4 digits (no leading zeros is ok)
 
 "InitSerialPort" comms.asm
 	Function: configure serial port with TIMER2
