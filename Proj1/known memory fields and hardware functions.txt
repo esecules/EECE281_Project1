@@ -12,6 +12,7 @@ adc: 16bit adc reading (from adding 64 10bit readings)
 tempi: ideal temperature
 tempa: actual temperature
 tempo: outside/room temperature
+dutycycle: SSR dutycycle
 time: DS 2  ;system time in half seconds
 timer2_interrupt_count: counts the number of times the interrupt is called up to 50
 
@@ -96,12 +97,6 @@ db '4.8'
 db '4.9'
 db '5.0'
 db '5.0'
-;------------------------------------------------------------------------------
-; look up tables for temperature profile 
-;------------------------------------------------------------------------------
-Lookup tables are at address 50H
-Temp_LUT_Low:   ;stores the lowest 256 entries
-Temp_LUT_high:  ;stores the higher 256 entries
 //lookup tables here
 
 
@@ -110,6 +105,7 @@ HARDWARE:---------------------------------------------------
 P0.0-0.3: SPI ADC
 P0.4: BEEPER
 P0.7: SSR control
+TIMER0: buzzer
 TIMER1: serial clock
 TIMER2: system time
 LCD_Display: display
