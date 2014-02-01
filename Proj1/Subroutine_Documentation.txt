@@ -208,7 +208,26 @@ an example:
 --                        Decision                                 --
 --------------------------------------------------------------------
 
-"Decision"
+"DecisionNewISR"
+	Function: if run is not set,
+			turns off SSR
+		  if tempi>tempa,
+			turns on SSR and sets dutycycle based on
+			dutycycle = (tempi - tempa) %
+			if (ti-ta)>100 then dutycycle = 100%
+		  if tempi<tempa,
+			turns off SSR
+	Reads:	  tempi, tempa
+	Modifies: SSR, dutycycle
+	Requires: be run once per second in Timer2ISR
+
+"DecisionNewDCC"
+	Function: Duty Cycle Control. Turns off SSR when duty cycle is reached
+	Reads:	  dutycycle
+	Modifies: SSR, dutycycle
+	Requires: be run once per 1/100 second in Timer2ISR
+
+"Decision" DEPRECATED
         Function: checks if tempa and tempi are more than TATOL
                  apart and turns on/off oven accordingly.
         Reads:         tempi, tempa

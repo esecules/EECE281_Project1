@@ -6,7 +6,7 @@ InitSSR:
 	mov P0MOD, A
 	ret
 
-Decision:
+Decision: ;DEPRECATED!!! DEPRECATED!!! DEPRECATED!!! DEPRECATED!!!
 	jnb run, DecisionForceOff
 	Load_x(0)
 	mov a, tempa+2
