@@ -30,8 +30,8 @@ MyProgram:
 	setb run
 	mov heating_state, INITIAL
 	mov soak_temp, #50
-	mov soak_time, #10
-	mov max_temp, #100
+	mov soak_time, #30
+	mov max_temp, #150
 	setb P0.7
 	
 Forever:

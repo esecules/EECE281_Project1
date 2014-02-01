@@ -22,6 +22,7 @@ DecisionOn:
 	lcall sub32
 	mov A, x+2
 	jb ACC.7, DecisionEnd
+	mov LEDG, #0xff
 	setb SSR
 	sjmp DecisionEnd
 DecisionOff:
@@ -35,6 +36,7 @@ DecisionOff:
 	lcall sub32
 	mov A, x+2
 	jb ACC.7, DecisionEnd
+	mov LEDG, #0
 	clr SSR
 	sjmp DecisionEnd
 DecisionOffnocheck:

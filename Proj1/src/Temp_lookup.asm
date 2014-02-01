@@ -112,8 +112,13 @@ get_tempi:
 		
 	get_reflow_temp:
 		mov a, tempi
+		clr c
+		subb a, reflow_temp
+		jz holdTemp_reflow
+		mov a, tempi
 		add a, REFLOW_R
 		mov tempi, a
+		holdTemp_reflow:
 		
 		mov a, tempa+1
 		subb a, max_temp
