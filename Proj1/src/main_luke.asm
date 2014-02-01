@@ -58,7 +58,7 @@ StopButton:
 	mov tempm+2, #0
 	mov time, #0
 	mov time+1, #0
-	mov timer2_interrrupt_count, #0
+	mov timer2_interrupt_count, #0
 	mov heating_state, #0
 	mov soak_temp, #0
 	mov soak_time, #0

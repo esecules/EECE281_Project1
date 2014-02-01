@@ -15,7 +15,6 @@ initTimer0:
 	clr TF0
     mov TH0, #high(TIMER0_RELOAD)
     mov TL0, #low(TIMER0_RELOAD)
-    setb TR0 ; Enable timer 0
     setb ET0 ; Enable timer 0 interrupt	
     orl P0MOD, #00010000b ; Set beeper pin as out
     ret
@@ -49,51 +48,51 @@ checkState:
 	ret
 	
 shortBeep:
-	lcall inittimer0
+	setb TR0
 	lcall waitOneSec
 	clr TR0
 	clr TF0
 	ret
 
 longBeep:
-	lcall initTimer0
+	setb TR0
 	lcall waitOneSec
 	clr TR0
 	clr TF0
 	ret
 
 sixBeeps:
-	lcall initTimer0
+	setb TR0
 	lcall waitHalfSec
 	clr TR0
 	clr TF0
 	lcall waitHalfSec
 	
-	lcall initTimer0
+	setb TR0
 	lcall waitHalfSec
 	clr TR0
 	clr TF0
 	lcall waitHalfSec
 	
-	lcall initTimer0
+	setb TR0
 	lcall waitHalfSec
 	clr TR0
 	clr TF0
 	lcall waitHalfSec
 	
-	lcall initTimer0
+	setb TR0
 	lcall waitHalfSec
 	clr TR0
 	clr TF0
 	lcall waitHalfSec
 	
-	lcall initTimer0
+	setb TR0
 	lcall waitHalfSec
 	clr TR0
 	clr TF0
 	lcall waitHalfSec
 	
-	lcall initTimer0
+	setb TR0
 	lcall waitHalfSec
 	clr TR0
 	clr TF0

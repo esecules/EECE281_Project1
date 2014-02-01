@@ -46,7 +46,7 @@ CE_ADC EQU  P0.3
 BEEP   EQU  P0.4
 
 TATOL  EQU  2*256 ;2degC
-SSR	   EQU  LEDG.0 ;for testing
+SSR	   EQU  P0.7
 
 LM335  EQU  1
 THERMO EQU  0

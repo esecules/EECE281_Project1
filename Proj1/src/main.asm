@@ -26,13 +26,21 @@ MyProgram:
 	LCALL Init_timer2
 	LCALL initTimer0
 	LCALL Init_SPI
+	setb run
+	mov heating_state, #5
+	mov soak_temp, #50
+	mov soak_time, #10
+	mov max_temp, #100
+	setb P0.7
 	
 Forever:
 	lcall Read335
+	lcall ReadThermo
+	lcall OFFSET
 	lcall decision
 	lcall CommsMain
 	lcall CommsCmd
-	lcall beeper
+	mov LEDRA, heating_state
     SJMP Forever
     
 END
