@@ -34,7 +34,6 @@ public class Main_screen extends Activity {
 	ToggleButton toggle;
 	Button toGraph;
 	ProgressBar mProgress;
-	boolean running;
 	boolean caughtFormatException = false;
 	Builder outOfRangeAlert;
 	Builder emptyFieldAlert;
@@ -77,20 +76,20 @@ public class Main_screen extends Activity {
 					catch(NumberFormatException e){
 						 caughtFormatException = true;
 						 toggle.setChecked(false);
-						 running = false;
+						 ReflowOven.setRunning(false);
 						 emptyFieldAlert.show();
 					}
 					if(!caughtFormatException){
 						if(validateInput()){
-							running = true;
+							ReflowOven.setRunning(true);
 							mProgress.setProgress(10);
 						}else
 							toggle.setChecked(false);
 					}else
 						caughtFormatException = false;
 				}
-				else if (running){
-					running = false;
+				else if (ReflowOven.isRunning()){
+					ReflowOven.setRunning(false);
 					mProgress.setProgress(0);
 				}	
 			}

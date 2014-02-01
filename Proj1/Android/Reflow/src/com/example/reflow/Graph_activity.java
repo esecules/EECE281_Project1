@@ -31,10 +31,8 @@ public class Graph_activity extends Activity {
 	        style.setNumHorizontalLabels(10);
 	        // add data
 	        // set view port, start=2, size=40
-	        graphView.setViewPort(2, 40);
+	        graphView.setViewPort(0, 40);
 	        graphView.setScrollable(true);
-	        // optional - activate scaling / zooming
-	        graphView.setScalable(true);
 	        graphView.setGraphViewStyle(style);
 	        graphView.setBackgroundColor(Color.rgb(80, 30, 30));
 	        graphView.addSeries(graphSeries);
