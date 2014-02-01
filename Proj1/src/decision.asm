@@ -1,5 +1,11 @@
 $NOLIST
 
+InitSSR:
+	mov A, P0MOD
+	orl A, #0x80
+	mov P0MOD, A
+	ret
+
 Decision:
 	Load_x(0)
 	Load_y(0)

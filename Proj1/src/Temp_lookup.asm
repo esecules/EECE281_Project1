@@ -88,12 +88,16 @@ get_tempi:
 		
 	get_preheat_temp:
 		mov a, tempi
+		clr c
+		subb a, soak_temp
+		jz holdTemp_Preheat
+		mov a, tempi
 		add a, PREHEAT_R
 		mov tempi, a
-		
+		holdTemp_preheat:
 		mov a, tempa+1
+		clr c
 		subb a, soak_temp
-		jnz return_get_tempi
 		jc return_get_tempi
 		mov heating_state, SOAK
 		lcall beeper
@@ -123,7 +127,6 @@ get_tempi:
 		
 		mov a, tempa+1
 		subb a, COOLDOWN_temp
-		jnz return_get_tempi
 		jnc return_get_tempi
 		mov heating_state, SAFE
 		lcall beeper

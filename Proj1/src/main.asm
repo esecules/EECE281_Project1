@@ -26,8 +26,9 @@ MyProgram:
 	LCALL Init_timer2
 	LCALL initTimer0
 	LCALL Init_SPI
+	LCALL InitSSR
 	setb run
-	mov heating_state, #5
+	mov heating_state, INITIAL
 	mov soak_temp, #50
 	mov soak_time, #10
 	mov max_temp, #100

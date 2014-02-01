@@ -54,12 +54,13 @@ THERMO EQU  0
 
 ;Temperature Constants
 ;state constants
-PREHEAT 	EQU #0
-SOAK 		EQU #1
-REFLOW		EQU #2
-COOLDOWN	EQU #3
-SAFE		EQU #4 
-INITIAL		EQU #5
+INITIAL		EQU #1
+PREHEAT 	EQU #2
+SOAK 		EQU #3
+REFLOW		EQU #4
+COOLDOWN	EQU #5
+SAFE		EQU #6 
+
 
 ;rate costants
 PREHEAT_R	EQU #1
