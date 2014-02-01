@@ -125,6 +125,7 @@ get_tempi:
 		jnz return_get_tempi
 		jc return_get_tempi
 		mov heating_state, COOLDOWN
+		clr run
 		lcall beeper
 		jmp return_get_tempi
 	get_cooldown_temp:
