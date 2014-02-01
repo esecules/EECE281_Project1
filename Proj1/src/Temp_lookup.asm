@@ -35,6 +35,7 @@ Timer2_ISR:
 	clr TF2
 	inc timer2_interrupt_count
 	mov a, timer2_interrupt_count
+	lcall DecisionNewDCC
 	cjne a, #100, ret_timer2_isr
 	mov timer2_interrupt_count, #0
 	mov a, time
@@ -44,6 +45,7 @@ Timer2_ISR:
 	addc a, #0
 	mov time+1, a
 	lcall get_tempi
+	lcall DecisionNewISR
 	ret_timer2_isr:
 	pop psw
 	pop acc

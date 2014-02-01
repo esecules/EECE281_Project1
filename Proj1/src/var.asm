@@ -25,6 +25,7 @@ soak_temp:		ds 1
 soak_time:		ds 1
 reflow_temp:		ds 1
 max_temp:		ds 1
+dutycycle:		ds 1
 ;comms private
 SERlasttime: ds 1
 SERCmdI:	ds 1

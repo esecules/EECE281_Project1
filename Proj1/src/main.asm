@@ -18,7 +18,6 @@ $include(decision.asm)
 $include(utilities.asm)
 $include(beeper.asm)
 
-    
 	
 MyProgram:
 	LCALL InitDE2
@@ -38,7 +37,7 @@ Forever:
 	lcall Read335
 	lcall ReadThermo
 	lcall OFFSET
-	lcall decision
+;	lcall decision ;new decision is in ISR because duty cycle is hard to do in main loop
 	lcall CommsMain
 	lcall CommsCmd
 	mov LEDRA, heating_state
