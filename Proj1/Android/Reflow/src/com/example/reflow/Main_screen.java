@@ -19,6 +19,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.example.reflow.graphview.BarGraphView;
@@ -30,6 +31,7 @@ import com.example.reflow.graphview.LineGraphView;
 
 public class Main_screen extends Activity {
 	EditText txtsoakTemp, txtsoakTime, txtmaxTemp;
+	TextView currentState;
 	Integer soakTemp, soakTime, maxTemp;
 	ToggleButton toggle;
 	Button toGraph;
@@ -38,11 +40,12 @@ public class Main_screen extends Activity {
 	Builder outOfRangeAlert;
 	Builder emptyFieldAlert;
 	String errors;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        
+        currentState = (TextView) findViewById(R.id.currentState);
         mProgress = (ProgressBar) findViewById(R.id.progressBar1);	
         toggle = (ToggleButton)findViewById(R.id.toggleButton1);
         toGraph = (Button)findViewById(R.id.button1);
@@ -50,21 +53,20 @@ public class Main_screen extends Activity {
         txtsoakTime = (EditText)findViewById(R.id.editSTime);
         txtmaxTemp = (EditText)findViewById(R.id.editMTemp);
         emptyFieldAlert = new AlertDialog.Builder(this).setTitle("Invalid Input").setMessage("Input cannot be parsed into a 32 bit integer, try again").setNeutralButton("Close", null);
+       
+        currentState.setText(ReflowOven.getStateStr());
         
         toGraph.setOnClickListener(new OnClickListener(){
-
 			@Override
 			public void onClick(View v) {
 				Intent intentMain = new Intent(Main_screen.this , 
-                        Graph_activity.class);
+	                       Graph_activity.class);
 				Main_screen.this.startActivity(intentMain);
 				Log.i("Content "," Main layout ");
 			}
-        	
         });
         
         toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-        
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked){
@@ -93,7 +95,8 @@ public class Main_screen extends Activity {
 					mProgress.setProgress(0);
 				}	
 			}
-		});   
+		});  
+        
     }
 private boolean validateInput(){
 	String eSoakTemp, eSoakTime, eMaxTemp; 

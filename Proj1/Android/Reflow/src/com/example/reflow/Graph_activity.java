@@ -14,9 +14,11 @@ import android.widget.LinearLayout;
 
 public class Graph_activity extends Activity {
 	private GraphViewData[] data;
+	GraphViewData btGraphData;
 	private GraphViewSeries graphSeries;
 	private LinearLayout layout;
 	private GraphView graphView;
+	
 	 
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,5 +45,16 @@ public class Graph_activity extends Activity {
 		graphView.addSeries(graphSeries);
 		layout.addView(graphView);
 	}
-	 
+	protected void onResume(){
+		while(true){
+			appendGraphSeries(btGraphData);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }
