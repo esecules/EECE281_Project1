@@ -1,7 +1,6 @@
 $NOLIST
 
 ISR_timer0:
-	cpl LEDRA.5
 	clr TF0
 	cpl BEEP
     mov TH0, #high(TIMER0_RELOAD)
@@ -59,11 +58,9 @@ checkState:
 	ret
 	
 shortBeep:
-	MOV LEDRB, #0FFH
 	setb TR0
 	lcall waitOneSec
 	clr TR0
-	MOV LEDRB, #0H
 	ret
 
 longBeep:
@@ -73,7 +70,6 @@ longBeep:
 	ret
 
 sixBeeps:
-	mov ledrb, #0abH
 	setb TR0
 	lcall waitHalfSec
 	clr TR0
@@ -103,7 +99,6 @@ sixBeeps:
 	lcall waitHalfSec
 	clr TR0
 	lcall waitHalfSec
-	mov ledrb, #0h
 	ret
 	
 $LIST
