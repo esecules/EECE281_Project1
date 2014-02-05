@@ -30,6 +30,8 @@ MyProgram:
 	mov heating_state, INITIAL
 	mov soak_temp, #50
 	mov soak_time, #30
+	mov reflow_temp, #120
+	mov reflow_time, #30
 	mov max_temp, #150
 	setb P0.7
 	
@@ -37,7 +39,6 @@ Forever:
 	lcall Read335
 	lcall ReadThermo
 	lcall OFFSET
-;	lcall decision ;new decision is in ISR because duty cycle is hard to do in main loop
 	lcall CommsMain
 	lcall CommsCmd
 	mov LEDRA, heating_state

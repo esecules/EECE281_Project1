@@ -70,7 +70,13 @@ DecisionNewISR:
 	mov A, x+2
 	jb ACC.7, DNISRoff
 DNISRon:
-	mov dutycycle, x+1
+	mov A, x+1
+	add A, #5
+	jnb ACC.7, DNISRon2
+	mov A, #255
+DNISRon2:
+	rl A
+	mov dutycycle, A
 	mov LEDG, #0xff
 	setb SSR
 	sjmp DNE

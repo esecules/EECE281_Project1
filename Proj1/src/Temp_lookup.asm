@@ -79,7 +79,8 @@ get_tempi:
 	jz get_reflow_temp
 	mov a, heating_state
 	subb a, COOLDOWN
-	jz get_cooldown_temp	
+	jz get_cooldown_temp
+	ljmp return_get_tempi	
 	;update next state and temp based on current state
 	initial_state:
 		mov tempi, tempa+1
@@ -113,31 +114,34 @@ get_tempi:
 		jmp return_get_tempi
 		
 	get_reflow_temp:
+		mov a, tempa+1
+		clr c
+		subb a, reflow_temp
+		jnc holdTemp_reflow
 		mov a, tempi
 		clr c
 		subb a, reflow_temp
-		jz holdTemp_reflow
+		jnc return_get_tempi
 		mov a, tempi
 		add a, REFLOW_R
 		mov tempi, a
-		holdTemp_reflow:
-		
-		mov a, tempa+1
-		subb a, max_temp
-		jnz return_get_tempi
-		jc return_get_tempi
+		jmp return_get_tempi
+	holdTemp_reflow:
+		mov tempi, max_temp
+		djnz reflow_time, return_get_tempi
 		mov heating_state, COOLDOWN
 		clr run
 		lcall beeper
 		jmp return_get_tempi
+		
 	get_cooldown_temp:
 		mov tempi, COOLDOWN_temp
-		
+		clr run
 		mov a, tempa+1
 		subb a, COOLDOWN_temp
 		jnc return_get_tempi
 		mov heating_state, SAFE
-		lcall beeper
+		;lcall beeper
 		jmp return_get_tempi
 	return_get_tempi:
 	pop psw
