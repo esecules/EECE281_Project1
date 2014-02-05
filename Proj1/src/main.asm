@@ -23,7 +23,6 @@ MyProgram:
 	LCALL InitDE2
     LCALL InitSerialPort
 	LCALL Init_timer2
-	LCALL initTimer0
 	LCALL Init_SPI
 	LCALL InitSSR
 	setb run
@@ -41,6 +40,7 @@ Forever:
 	lcall OFFSET
 	lcall CommsMain
 	lcall CommsCmd
+	lcall beeper
 	mov LEDRA, heating_state
     SJMP Forever
     

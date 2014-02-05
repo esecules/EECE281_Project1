@@ -86,7 +86,7 @@ get_tempi:
 		mov tempi, tempa+1
 		jnb run, return_get_tempi
 		mov heating_state, PREHEAT
-		lcall beeper
+		setb stateChange
 		jmp return_get_tempi
 		
 	get_preheat_temp:
@@ -103,14 +103,14 @@ get_tempi:
 		subb a, soak_temp
 		jc return_get_tempi
 		mov heating_state, SOAK
-		lcall beeper
+		setb stateChange
 		jmp return_get_tempi
 		
 	get_soak_temp:
 		mov tempi, soak_temp	
 		djnz soak_time, return_get_tempi
 		mov heating_state, REFLOW
-		lcall beeper
+		setb stateChange
 		jmp return_get_tempi
 		
 	get_reflow_temp:
@@ -130,8 +130,8 @@ get_tempi:
 		mov tempi, max_temp
 		djnz reflow_time, return_get_tempi
 		mov heating_state, COOLDOWN
+		setb stateChange
 		clr run
-		lcall beeper
 		jmp return_get_tempi
 		
 	get_cooldown_temp:
@@ -141,7 +141,7 @@ get_tempi:
 		subb a, COOLDOWN_temp
 		jnc return_get_tempi
 		mov heating_state, SAFE
-		;lcall beeper
+		setb stateChange
 		jmp return_get_tempi
 	return_get_tempi:
 	pop psw

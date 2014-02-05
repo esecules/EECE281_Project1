@@ -39,7 +39,7 @@ T1LOAD EQU 256-(FREQ/(192*BAUD))
 FREQ_2		   EQU 100
 TIMER2_RELOAD  EQU 65536-(FREQ/(12*FREQ_2))
 FREQ_0		   EQU 2000
-TIMER0_RELOAD  EQU 65536-(FREQ/12*2*FREQ_0)	
+TIMER0_RELOAD  EQU 65536-(FREQ/(12*2*FREQ_0))	
 
 MISO   EQU  P0.0 
 MOSI   EQU  P0.1 
@@ -74,6 +74,7 @@ BSEG
 ;math32
 mf: dbit 1
 run: dbit 1
+stateChange: dbit 1
 ;comms private
 SERsendNextTime: dbit 1
 

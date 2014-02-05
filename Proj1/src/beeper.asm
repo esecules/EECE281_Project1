@@ -1,6 +1,8 @@
 $NOLIST
 
 ISR_timer0:
+	cpl LEDRA.5
+	clr TF0
 	cpl BEEP
     mov TH0, #high(TIMER0_RELOAD)
     mov TL0, #low(TIMER0_RELOAD)
@@ -16,88 +18,92 @@ initTimer0:
     mov TH0, #high(TIMER0_RELOAD)
     mov TL0, #low(TIMER0_RELOAD)
     setb ET0 ; Enable timer 0 interrupt	
+    setb EA
     orl P0MOD, #00010000b ; Set beeper pin as out
     ret
     
-; KEY.3 is the temporary start button
+
 beeper:
-	jnb KEY.3, shortBeep
+	jb statechange, checkstate
+	ret
 	
 checkState:
+	lcall initTimer0
+	clr stateChange
+	mov a, heating_state
+	clr c
+	subb a, PREHEAT
+	jz shortBeep
+	mov a, heating_state
+
 	mov a, heating_state
 	clr c
 	subb a, SOAK
 	jz shortBeep
-	add a, SOAK
+	mov a, heating_state
 	
 	clr c
 	subb a, REFLOW
 	jz shortBeep
-	add a, REFLOW
+	mov a, heating_state
 	
 	clr c
 	subb a, COOLDOWN
 	jz longBeep
-	add a, COOLDOWN
+	mov a, heating_state
 	
 	clr c
 	subb a, SAFE
-	jz sixBeeps
-	clr a
+	jz sixBeeps	
 	
 	ret
 	
 shortBeep:
+	MOV LEDRB, #0FFH
 	setb TR0
 	lcall waitOneSec
 	clr TR0
-	clr TF0
+	MOV LEDRB, #0H
 	ret
 
 longBeep:
 	setb TR0
 	lcall waitOneSec
 	clr TR0
-	clr TF0
 	ret
 
 sixBeeps:
+	mov ledrb, #0abH
 	setb TR0
 	lcall waitHalfSec
 	clr TR0
-	clr TF0
 	lcall waitHalfSec
 	
 	setb TR0
 	lcall waitHalfSec
 	clr TR0
-	clr TF0
 	lcall waitHalfSec
 	
 	setb TR0
 	lcall waitHalfSec
 	clr TR0
-	clr TF0
 	lcall waitHalfSec
 	
 	setb TR0
 	lcall waitHalfSec
 	clr TR0
-	clr TF0
 	lcall waitHalfSec
 	
 	setb TR0
 	lcall waitHalfSec
 	clr TR0
-	clr TF0
 	lcall waitHalfSec
 	
 	setb TR0
 	lcall waitHalfSec
 	clr TR0
-	clr TF0
 	lcall waitHalfSec
-	
+	mov ledrb, #0h
 	ret
 	
 $LIST

@@ -150,27 +150,27 @@ waitHalfSec:
 	mov R2, #90
 K3: mov R1, #250
 K2: mov R0, #250
-K1: djnz R0, L1
-	djnz R1, L2
-	djnz R2, L3
+K1: djnz R0, K1
+	djnz R1, K2
+	djnz R2, K3
 	POP AR2
 	POP AR1
 	POP AR0
 	ret
 	
 waitOneSec:
-	PUSH AR0
-	PUSH AR1
-	PUSH AR2
+;	PUSH AR0
+;	PUSH AR1
+;	PUSH AR2
 	mov R2, #180
 M3: mov R1, #250
 M2: mov R0, #250
 M1: djnz R0, M1
 	djnz R1, M2
 	djnz R2, M3
-	POP AR2
-	POP AR1
-	POP AR0
+;	POP AR2
+;	POP AR1
+;	POP AR0
 	ret
 	
 waitThreeSec:
