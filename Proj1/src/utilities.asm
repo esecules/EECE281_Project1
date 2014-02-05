@@ -1,6 +1,11 @@
 $NOLIST
 
 DispLED:
+	push ACC
+	push B
+	push PSW
+	push AR4
+	push AR5
 	push AR6
 	mov B, #10
 	div AB
@@ -68,6 +73,11 @@ DispLED31:
 DispLED32:
 	mov LEDG, R4
 	pop AR6
+	pop AR5
+	pop AR4
+	pop PSW
+	pop B
+	pop ACC
 	ret
 	
 BinFrac2BCD:
@@ -134,32 +144,41 @@ L1: DJNZ R0, L1
 	RET
 	
 waitHalfSec:
+	PUSH AR0
+	PUSH AR1
+	PUSH AR2
 	mov R2, #90
 K3: mov R1, #250
 K2: mov R0, #250
 K1: djnz R0, L1
 	djnz R1, L2
 	djnz R2, L3
+	POP AR2
+	POP AR1
+	POP AR0
 	ret
 	
 waitOneSec:
+	PUSH AR0
+	PUSH AR1
+	PUSH AR2
 	mov R2, #180
 M3: mov R1, #250
 M2: mov R0, #250
 M1: djnz R0, M1
 	djnz R1, M2
 	djnz R2, M3
+	POP AR2
+	POP AR1
+	POP AR0
 	ret
 	
 waitThreeSec:
+	PUSH AR3
 	mov R3, #3
-N4:	mov R2, #180
-N3: mov R1, #250
-N2: mov R0, #250
-N1: djnz R0, N1
-	djnz R1, N2
-	djnz R2, N3
+N4:	lcall waitOneSec
 	djnz R3, N4
+	POP AR3
 	ret
 	
 InitDE2:

@@ -30,14 +30,13 @@ an example:
 	Modifies: x, y, bcd
 	Requires: A contains the byte to convert
 
-"WAIT50MS" utilities.asm
-	Function: stalls execution for roughly 50ms. has no side effects.
+"WAIT50MS" "WaitHalfSec" "WaitOneSec" "WaitThreeSec" utilities.asm
+	Function: stalls execution for a defined time. has no side effects.
 
 "DispLED" utilities.asm
         Function: takes a 0-255 value from A and displays it on the
                  LED bar
         Reads:         A
-        Modifies: A, B, R4, R5, PSW
 
 ------------------------------------------------------------
 --			Comms				  --
