@@ -68,7 +68,7 @@ shortBeep:
 
 longBeep:
 	setb TR0
-	lcall waitOneSec
+	lcall waitThreeSec
 	clr TR0
 	ret
 
