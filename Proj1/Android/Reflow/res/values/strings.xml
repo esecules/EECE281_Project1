@@ -7,8 +7,13 @@
     <string name="Soak_time">Soak Time in Seconds</string>
     <string name="Soak_temp">Soak Temp in Celsius</string>
     <string name="Max_temp">Max Temp in Celsuis</string>
-	<string name="toggle_on">Emergency Stop</string>
-	<string name="toggle_off">Start Reflow Process</string>
-	<string name="viewGraph">View Graph</string>
-	<string name="currentState">Current State</string>
+    <string name="toggle_on">Emergency Stop</string>
+    <string name="toggle_off">Start Reflow Process</string>
+    <string name="viewGraph">View Graph</string>
+    <string name="currentState">Current State</string>
+    <string name="refresh">Refresh</string>
+    <string name="default_soak_temp">150</string>
+    <string name="default_soak_time">120</string>
+    <string name="default_reflow_temp">235</string>
+
 </resources>

@@ -1,11 +1,16 @@
 package com.example.reflow;
 
+import android.util.Log;
+
 import com.example.reflow.graphview.GraphView.GraphViewData;
 
 public class ReflowOven {
-	private static GraphViewData btGraphData;
+	private static final String TAG = ReflowOvenService.class.getSimpleName();
+	private static GraphViewData[] btGraphData = new GraphViewData[30000];
 	private static boolean running;
-	private static int tempi, tempa, time;
+	private static int tempi,nElements=0;
+	static double tempa;
+	static double time;
 	private static String stateStr = "Stopped";
 	public boolean stateWasSet = false;
 
@@ -35,33 +40,46 @@ public class ReflowOven {
 		ReflowOven.tempi = tempi;
 	}
 
-	public static int getTempa() {
+	public static double getTempa() {
 		return tempa;
 	}
 
-	public static void setTempa(int tempa) {
-		ReflowOven.tempa = tempa;
+	public static void setTempa(double d) {
+		ReflowOven.tempa = d;
 	}
 
-	public static int getTime() {
+	public static double getTime() {
 		return time;
 	}
 
-	public static void setTime(int time) {
-		ReflowOven.time = time;
+	public static void setTime(double d) {
+		ReflowOven.time = d;
 	}
 	
-	protected void getBTData(){
-		String currentState = "";
+	public static void getBTData(){
+		String currentState = "Boggis";
 		int currentTime = 0;
 		//TODO read the x, y, and state data
 		setStateStr(currentState);
 		setTime(currentTime);
-		btGraphData = new GraphViewData(ReflowOven.getTime(),ReflowOven.getTempa());
+		Log.d(TAG, "Appending data");
+		btGraphData[nElements] = new GraphViewData(ReflowOven.getTime(),ReflowOven.getTempa());
+		nElements++;
+		Log.d(TAG, "returning from BT Data");
 	}
 	
-	public static GraphViewData getbtGraphData(){
+	public static int getnElements() {
+		return nElements;
+	}
+
+	public static void setnElements(int nElements) {
+		ReflowOven.nElements = nElements;
+	}
+
+	public static GraphViewData[] getbtGraphData(){
 		return btGraphData;
 	}
+
+	
 
 }

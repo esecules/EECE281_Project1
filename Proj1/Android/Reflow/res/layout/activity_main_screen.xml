@@ -20,7 +20,8 @@
         android:layout_alignParentStart="false"
         android:layout_marginLeft="16dp"
         android:ems="10"
-        android:inputType="number" />
+        android:inputType="number"
+        android:text="@string/default_reflow_temp" />
 
     <TextView
         android:id="@+id/textView1"
@@ -57,7 +58,8 @@
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignParentRight="true"
         android:ems="10"
-        android:inputType="number" />
+        android:inputType="number"
+        android:text="@string/default_soak_time" />
 
     <EditText
         android:id="@+id/editSTemp"
@@ -67,7 +69,8 @@
         android:layout_alignLeft="@+id/textView2"
         android:layout_alignParentRight="true"
         android:ems="10"
-        android:inputType="number" />
+        android:inputType="number"
+        android:text="@string/default_soak_temp" />
 
     <ToggleButton
         android:id="@+id/toggleButton1"

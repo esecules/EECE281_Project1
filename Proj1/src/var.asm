@@ -1,4 +1,4 @@
-$NOLIST
+;$NOLIST
 DSEG at 30H
 
 ;math32
@@ -110,4 +110,4 @@ message3:
 message4:
 	db 'LCD-DISPLAY TEST',0
 
-$LIST
+;$LIST
