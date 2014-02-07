@@ -133,6 +133,11 @@ an example:
 	Requires: dptr is loaded with the message to send,
 		  message terminated with 0
 
+"LCD_BCD3"
+	Function: prints the 3 least significant digit on bcd on lcd
+	Reads:	  bcd
+	Modifies; A
+
 "LCD_clear" LCD_interface.asm
 	Function: sends a string to the LCD
 	Modifies: A, R1

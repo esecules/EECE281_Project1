@@ -72,6 +72,21 @@ loop_1:
 done_1:
 	ret
 
+LCD_BCD3:
+ mov a, bcd+1
+ anl a, #0x0f
+ orl a, #0x30
+ lcall LCD_put
+ mov a, bcd+0
+ swap a
+ anl a, #0x0f
+ orl a, #0x30
+ lcall LCD_put
+ mov a, bcd+0
+ anl a, #0x0f
+ orl a, #0x30
+ lcall LCD_put
+ ret
 
 ;------------------------------------------------------------------------------
 ; clears the LCD.
@@ -212,20 +227,7 @@ LCD_main:
  Load_x(0)
  mov x+0, tempi
  lcall hex2bcd
- 
- mov a, bcd+1
- anl a, #0x0f
- orl a, #0x30
- lcall LCD_put
- mov a, bcd+0
- swap a
- anl a, #0x0f
- orl a, #0x30
- lcall LCD_put
- mov a, bcd+0
- anl a, #0x0f
- orl a, #0x30
- lcall LCD_put
+ lcall LCD_BCD3
  
  mov a, #0xc0
  lcall lcd_command
@@ -234,20 +236,7 @@ LCD_main:
  mov x+1, time+1
  mov x+0, time+0
  lcall hex2bcd
- 
- mov a, bcd+1
- anl a, #0x0f
- orl a, #0x30
- lcall LCD_put
- mov a, bcd+0
- swap a
- anl a, #0x0f
- orl a, #0x30
- lcall LCD_put
- mov a, bcd+0
- anl a, #0x0f
- orl a, #0x30
- lcall LCD_put
+ lcall LCD_BCD3
  mov a, #'s'
  lcall LCD_put
  
@@ -259,20 +248,7 @@ LCD_main:
  Load_x(0)
  mov x+0, tempa+1
  lcall hex2bcd
- 
- mov a, bcd+1
- anl a, #0x0f
- orl a, #0x30
- lcall LCD_put
- mov a, bcd+0
- swap a
- anl a, #0x0f
- orl a, #0x30
- lcall LCD_put
- mov a, bcd+0
- anl a, #0x0f
- orl a, #0x30
- lcall LCD_put
+ lcall LCD_BCD3
  
  ret
 
