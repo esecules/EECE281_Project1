@@ -17,6 +17,7 @@ $include(spi_adc.asm)
 $include(decision.asm)
 $include(utilities.asm)
 $include(beeper.asm)
+$include(LCD_interface.asm)
 
 clearAll:
 	mov tempa+0, #0
@@ -44,6 +45,7 @@ MyProgram:
 	LCALL Init_timer2
 	LCALL Init_SPI
 	LCALL InitSSR
+	LCALL LCD_Init
 	clr run
 	mov heating_state, INITIAL
 	mov soak_temp, #50
@@ -64,10 +66,27 @@ Forever:
 	lcall Read335
 	lcall ReadThermo
 	lcall OFFSET
-	lcall CommsMain
+	lcall RunOnTick
 	lcall CommsCmd
 	lcall beeper
 	mov LEDRA, heating_state
     SJMP Forever
     
+    
+RunOnTick:
+	jb RotNextTime, RotNow
+	mov A, RotLastTime
+	cjne A, time, RotNext
+	ret
+RotNext: ;don't run immediately. wait till next round so stuff can
+	setb RotNextTime
+	ret
+RotNow:
+	mov RotLastTime, time
+	;put your rotten functions here!
+	lcall CommsSend
+	lcall LCD_main
+	;end of rotten functions
+	clr RotNextTime
+	ret
 END

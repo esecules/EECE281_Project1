@@ -1,4 +1,4 @@
-;$NOLIST
+$NOLIST
 DSEG at 30H
 
 ;math32
@@ -27,8 +27,8 @@ reflow_temp:	ds 1
 reflow_time:	ds 1
 max_temp:		ds 1
 dutycycle:		ds 1
+RotLastTime: ds 1
 ;comms private
-SERlasttime: ds 1
 SERCmdI:	ds 1
 SERCmd:	ds 5
 
@@ -75,8 +75,7 @@ BSEG
 mf: dbit 1
 run: dbit 1
 stateChange: dbit 1
-;comms private
-SERsendNextTime: dbit 1
+RotNextTime: dbit 1
 
 CSEG
 
@@ -88,26 +87,15 @@ SERmsg4: DB 0xB0, 'C', 0AH, 0DH, 0
 
 ;LCD===========================================================================
 ;------------------------------------------------------------------------------
-; look up table of floating numbers 
-;------------------------------------------------------------------------------
-
-floating_numbers:
-db '1.0', '1.1', '1.2', '1.3', '1.4', '1.5', '1.6', '1.7', '1.8', '1.9'
-db '2.0', '2.1', '2.2', '2.3', '2.4', '2.5', '2.6', '2.7', '2.8', '2.9'
-db '3.0', '3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9'
-db '4.0', '4.1', '4.2', '4.3', '4.4', '4.5', '4.6', '4.7', '4.8', '4.9'
-db '5.0', '5.0'
-
-;------------------------------------------------------------------------------
 ; look up tables for strings example, REMENBER on 16 char long in ASCII 
 ;------------------------------------------------------------------------------
-message1:
-	db 'ECEE 281 PROJECT',0
-message2:
-	db 'Reflow-soldering',0
-message3:
-	db '!@#$%^&*()_+',0
-message4:
-	db 'LCD-DISPLAY TEST',0
+LCDmsgSTOP:		db 'STOP    ',0
+LCDmsgPREHEAT:	db 'PREHEAT ',0
+LCDmsgSOAK:		db 'SOAK    ',0
+LCDmsgREFLOW:	db 'REFLOW  ',0
+LCDmsgCOOLING:	db 'COOLING ',0
+LCDmsgSAFE:		db 'SAFE    ',0
+LCDmsgTi:		db 'Ti: ',0
+LCDmsgTa:		db 'Ta: ',0
 
-;$LIST
+$LIST

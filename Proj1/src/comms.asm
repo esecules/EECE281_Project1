@@ -16,22 +16,6 @@ InitSerialPort:
 	mov PCON, A
 	ret
 	
-;PUT ME IN THE LOOP!
-COMMSMAIN:
-	jb SERsendNextTime, CommsMainSend
-	mov A, SERlasttime
-	cjne A, time, CommsMainQueue
-CommsMainNoSend:
-	ret
-CommsMainQueue: ;don't send immediately. wait till next round so tempi can update
-	setb SERsendNextTime
-	ret
-CommsMainSend:
-	mov SERlasttime, time
-	lcall CommsSend
-	clr SERsendNextTime
-	ret
-	
 	
 CommsSend:
 	mov dptr, #SERmsg1
