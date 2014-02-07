@@ -247,3 +247,40 @@ an example:
 	Reads:	  KEY, SWA, SWB, swup
 	Modifies: config_state, a, r7, x, z, bcd, swup
 	Requires: be run inside config. x contains the number to set
+
+--------------------------------------------------------------------
+--                          Flash                                 --
+--------------------------------------------------------------------
+"FlashW"
+	Function: writes raw byte in A to address in dptr
+	Reads:	  a, dptr
+	Requires: a contains the value to write
+		  dptr contains the address to write to
+		  FLASHSECTOR is defined
+"FlashR"
+	Function: reads a byte at address in dptr and stores it in a
+	Reads:	  dptr
+	Modifies: a
+	Requires: dptr contains the address to read from
+		  FLASHSECTOR is defined
+
+"FlashEraseSector"
+	Function: erase the entire sector
+	Requires: FLASHSECTOR is defined
+
+"FlashByte"
+	Function: writes data byte in A to address in dptr
+	Reads:	  a, dptr
+	Modifies: r0, psw
+	Requires: a contains the value to write
+		  dptr contains the address to write to
+		  FLASHSECTOR is defined
+
+"FlashSaveAll"
+	Function: saves all config values in flash
+	Reads:	  soak_temp, soak_time, reflow_temp, reflow_time, max_temp
+	Modifies: dptr, a, r0, psw
+
+"FlashRestoreAll"
+	Function: restores all config values in flash
+	Modifies: dptr, a, r0, psw, soak_temp, soak_time, reflow_temp, reflow_time, max_temp
