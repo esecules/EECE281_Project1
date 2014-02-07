@@ -15,13 +15,14 @@ tempo: outside/room temperature
 dutycycle: SSR dutycycle
 time: DS 2  ;system time in half seconds
 timer2_interrupt_count: counts the number of times the interrupt is called up to 50
+RotLastTime: state variable for RunOnTick
 
-SERlasttime: comms private, last time a serial message was sent.
 SERCmd:	comms private, command buffer
 SERCmdI: comms private, command buffer index
 BSEG:-------------------------------------------------------
 mf: math32
-SERSendNextTime: comms private, set to send message next loop run
+run: set when the reflow process is running
+RotNextTime: state variable for RunOnTick
 CONSTANTS:-------------------------------------------------
 FREQ   EQU 33333333
 BAUD   EQU 57600
@@ -40,63 +41,11 @@ CSEG:-------------------------------------------------------
 ;------------------------------------------------------------------------------
 ; look up tables for strings example, REMENBER max 16 char long in ASCII 
 ;------------------------------------------------------------------------------
-LCDmessage1:
-	db 'ECEE 281 PROJECT',0
-LCDmessage2:
-	db 'Reflow-soldering',0
-LCDmessage3:
-	db '!@#$%^&*()_+',0
-LCDmessage4:
-	db 'LCD-DISPLAY TEST',0
+LCDmessage*: static messages for LCD
 
-SERmsg1-SERmsg4: static messages for serial
+SERmsg*: static messages for serial
 	
-;------------------------------------------------------------------------------
-; look up table of floating numbers 
-;------------------------------------------------------------------------------
-floating_numbers:
-db '1.0'
-db '1.1'
-db '1.2'
-db '1.3'
-db '1.4'
-db '1.5'
-db '1.6'
-db '1.7'
-db '1.8'
-db '1.9'
-db '2.0'
-db '2.1'
-db '2.2'
-db '2.3'
-db '2.4'
-db '2.5'
-db '2.6'
-db '2.7'
-db '2.8'
-db '2.9'
-db '3.0'
-db '3.1'
-db '3.2'
-db '3.3'
-db '3.4'
-db '3.5'
-db '3.6'
-db '3.7'
-db '3.8'
-db '3.9'
-db '4.0'
-db '4.1'
-db '4.2'
-db '4.3'
-db '4.4'
-db '4.5'
-db '4.6'
-db '4.7'
-db '4.8'
-db '4.9'
-db '5.0'
-db '5.0'
+
 //lookup tables here
 
 

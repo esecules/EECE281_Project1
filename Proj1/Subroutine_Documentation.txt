@@ -42,12 +42,6 @@ an example:
 --			Comms				  --
 ------------------------------------------------------------
 
-"COMMSMAIN" comms.asm
-	Function: calls CommsSend every clock tick
-	Reads:	  SERsendNextTime, SERlasttime
-	Modifies: SERsendNextTime, SERlasttime
-	Requires: be run in the main loop
-
 "CommsSend" comms.asm
 	Function: sends the message. formatting in done in here
 	Reads:	  tempi, tempa
@@ -110,6 +104,17 @@ an example:
 "LCD_Init" LCD_interface.asm
 	Function: configures the LCD_display
 
+"LCD_main"
+	Function: displays state, time, temperatures
+	Reads:	  heating_state, time, tempi, tempa
+	Modifies: A, x, bcd, dptr
+	Requires: be run once per second outside of ISR
+
+"LCD_printState"
+	Function: prints the string corresponding to current state
+	Reads:	  heating_state
+	Modifies: A, dptr
+
 "LCD_command" LCD_interface.asm
 	Function: sends a command to the LCD 
 	Reads:	  A
@@ -128,21 +133,9 @@ an example:
 	Requires: dptr is loaded with the message to send,
 		  message terminated with 0
 
-"LCD_float_number" LCD_interface.asm
-	Function: sends a string to the LCD
-	Reads:	 dptr	
-	Modifies: A, R1
-	Requires: dptr is loaded with the float number to send,
-		  message terminated automaticly by presetting convert_binary_to_string and function itself acordinly. 
-
 "LCD_clear" LCD_interface.asm
 	Function: sends a string to the LCD
 	Modifies: A, R1
-
-"convert_binary_to_string" LCD_interface.asm
-	Function: converts binary numbers from a dtpr to a coresponding string
-	Reads:	 dptr
-	Modifies: A, B, R7
 
 "custom_character_init" LCD_interface.asm
 	Function: sends a ascii code for a custom character via the CGRAM of the LCD.
