@@ -19,6 +19,7 @@ $include(utilities.asm)
 $include(beeper.asm)
 $include(LCD_interface.asm)
 $include(config.asm)
+$include(flash.asm)
 
 clearAll:
 	mov tempa+0, #0
@@ -56,6 +57,7 @@ MyProgram:
 	mov reflow_time, #30
 	mov max_temp, #150
 	setb P0.7   
+	lcall FlashRestoreAll
 
 Setup:
 	lcall CommsCmd

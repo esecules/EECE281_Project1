@@ -104,6 +104,8 @@ ConfigDone:
 	setb TR2
 	lcall LCD_clear
 	lcall LCD_main
+	lcall FlashEraseSector
+	lcall FlashSaveAll
 	pop acc
 	pop acc
 	ljmp Forever ;jump directly to Forever
