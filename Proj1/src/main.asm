@@ -48,7 +48,8 @@ MyProgram:
 	LCALL InitSSR
 	LCALL LCD_Init
 	clr run
-	mov heating_state, SOAK
+	mov config_state, #0
+	mov heating_state, INITIAL
 	mov soak_temp, #50
 	mov soak_time, #30
 	mov reflow_temp, #120

@@ -31,6 +31,8 @@ RotLastTime: ds 1
 ;comms private
 SERCmdI:	ds 1
 SERCmd:	ds 5
+;config private
+config_state: ds 1
 
 FREQ   EQU 33333333
 BAUD   EQU 57600

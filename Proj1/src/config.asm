@@ -1,9 +1,11 @@
 $NOLIST
 Config:
 ConfigSoakTemp:
-	mov a, heating_state
-	cjne a, INITIAL, ConfigSoakTime
-	;what to do with the buttons or switches
+	mov a, config_state
+	cjne a, #0, ConfigSoakTime
+	
+	lcall ConfigInputs
+	
 	mov a, #0x80
 	lcall LCD_command
 	mov dptr, #LCDcfgSoakTemp
@@ -16,9 +18,11 @@ ConfigSoakTemp:
 	lcall LCD_BCD3
 	ret
 ConfigSoakTime:
-	mov a, heating_state
-	cjne a, SOAK, ConfigReflowTemp
-	;what to do with the buttons or switches
+	mov a, config_state
+	cjne a, #1, ConfigReflowTemp
+	
+	lcall ConfigInputs
+	
 	mov a, #0x80
 	lcall LCD_command
 	mov dptr, #LCDcfgSoakTime
@@ -31,7 +35,11 @@ ConfigSoakTime:
 	lcall LCD_BCD3
 	ret
 ConfigReflowTemp:
-	;what to do with the buttons or switches
+	mov a, config_state
+	cjne a, #2, ConfigDone
+	
+	lcall ConfigInputs
+	
 	mov a, #0x80
 	lcall LCD_command
 	mov dptr, #LCDcfgReflowTemp
@@ -43,4 +51,29 @@ ConfigReflowTemp:
 	lcall hex2bcd
 	lcall LCD_BCD3
 	ret
+ConfigDone:
+	setb TR2
+	lcall LCD_clear
+	pop acc
+	pop acc
+	ljmp Forever ;jump directly to Forever
+	
+ConfigInputs:
+	jb KEY.3, ConfigInputs1 ;back
+	jnb KEY.3, $
+	mov a, config_state
+	dec a
+	mov config_state, a
+	cjne a, #255, ConfigInputsE
+	mov config_state, #0
+	ret
+ConfigInputs1:
+	jb KEY.2, ConfigInputs2 ;next
+	jnb KEY.2, $
+	inc config_state ;no overflow check because when state overflows config terminates
+	ret
+ConfigInputs2:
+ConfigInputsE:
+	ret
+	
 $LIST
