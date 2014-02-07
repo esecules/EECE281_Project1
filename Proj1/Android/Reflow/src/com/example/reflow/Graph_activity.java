@@ -1,5 +1,7 @@
 package com.example.reflow;
 
+import java.util.ArrayList;
+
 import com.example.reflow.graphview.GraphView;
 import com.example.reflow.graphview.GraphViewSeries;
 import com.example.reflow.graphview.GraphViewStyle;
@@ -22,11 +24,12 @@ import android.content.Intent;
 
 public class Graph_activity extends Activity {
 	private static final String TAG = ReflowOvenService.class.getSimpleName();
-	static final int WINDOW_SIZE = 10;
+	static final int WINDOW_SIZE = 60;
 	private GraphViewData[] data;
 	private GraphViewSeries graphSeries;
 	private LinearLayout layout;
 	private GraphView graphView;
+	private Button refresh;
 //	private int x = 0, y = 0;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class Graph_activity extends Activity {
 		setContentView(R.layout.activity_graph_view);
 		graphView = new LineGraphView(this, "Temperature Chart");
 		layout = (LinearLayout) findViewById(R.id.graph1);
+		refresh = (Button) findViewById(R.id.refresh);
 		GraphViewStyle style = new GraphViewStyle();
 		data = new GraphViewData[] { new GraphViewData(0, 0) };
 		graphSeries = new GraphViewSeries(data);
@@ -44,9 +48,9 @@ public class Graph_activity extends Activity {
 		graphView.setClickable(true);
 		graphView.setGraphViewStyle(style);
 		graphView.setBackgroundColor(Color.rgb(80, 30, 30));
-		graphView.addSeries(graphSeries);
 		layout.addView(graphView);
-		graphView.setOnClickListener(new OnClickListener() {
+		appendGraphSeries(ReflowOven.getbtGraphData());
+		refresh.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -57,16 +61,16 @@ public class Graph_activity extends Activity {
 	}
 /**
  * Appends the graph series with new data from dataArray and updates the display
- * @param dataArray
+ * @param arrayList
  */
-	public void appendGraphSeries(GraphViewData[] dataArray) {
-		Log.d(TAG, "appendindata this long: " + dataArray.length);
-		for (int i = 0; i < ReflowOven.getnElements(); i++) {
-			this.graphSeries.appendData(dataArray[i],
-					(dataArray[i].valueX >= WINDOW_SIZE), 150);
-			dataArray[i] = null;
+	public void appendGraphSeries(ArrayList<GraphViewData> arrayList) {
+		Log.d(TAG, "appendindata this long: " + arrayList.size());
+		for (GraphViewData data : ReflowOven.getbtGraphData()) {
+			Log.d(TAG, "Appending Data (" + data.valueX + ","+ data.valueY+")");
+			this.graphSeries.appendData(data,
+					(data.valueX >= WINDOW_SIZE), 150);
 		}
 		this.graphView.addSeries(graphSeries);
-		this.layout.refreshDrawableState();
+		this.layout.addView(graphView);
 	}
 }

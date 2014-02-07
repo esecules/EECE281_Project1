@@ -48,7 +48,7 @@ public class Main_screen extends Activity {
 		currentState = (TextView) findViewById(R.id.currentState);
 		mProgress = (ProgressBar) findViewById(R.id.progressBar1);
 		toggle = (ToggleButton) findViewById(R.id.toggleButton1);
-		toGraph = (Button) findViewById(R.id.button1);
+		toGraph = (Button) findViewById(R.id.refresh);
 		txtsoakTemp = (EditText) findViewById(R.id.editSTemp);
 		txtsoakTime = (EditText) findViewById(R.id.editSTime);
 		txtmaxTemp = (EditText) findViewById(R.id.editMTemp);
@@ -101,10 +101,10 @@ public class Main_screen extends Activity {
 							ReflowOven.setRunning(true);
 
 							DataSender sendStart = new DataSender();
-							sendStart.execute(Constants.START_TAG,
-									Constants.SOAK_TIME_TAG, soakTemp,
-									Constants.SOAK_TEMP_TAG, soakTime,
-									Constants.MAX_TEMP_TAG, maxTemp);
+							sendStart.execute(Constants.SOAK_TEMP_TAG,
+									soakTemp, Constants.SOAK_TIME_TAG,
+									soakTime, Constants.MAX_TEMP_TAG, maxTemp,
+									Constants.START_TAG);
 
 							Intent getDataIntent = new Intent(
 									Constants.GET_DATA);
@@ -200,9 +200,9 @@ public class Main_screen extends Activity {
 				}
 			}
 			if (params.length == Constants.STOP_PARAMS) {
-					Log.d(TAG, "stop code " + params[0].toString());
-					// TODO Put BT sending code here
-				
+				Log.d(TAG, "stop code " + params[0].toString());
+				// TODO Put BT sending code here
+
 			}
 			return null;
 		}

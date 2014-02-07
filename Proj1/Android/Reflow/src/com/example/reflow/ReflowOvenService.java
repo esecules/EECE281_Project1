@@ -33,6 +33,7 @@ public class ReflowOvenService extends IntentService {
 			while (isRunning) {
 				Log.d(TAG, "cycleing");
 				ReflowOven.getBTData();
+				
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {

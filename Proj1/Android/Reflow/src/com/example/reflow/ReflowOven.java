@@ -1,20 +1,21 @@
 package com.example.reflow;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import android.util.Log;
 
 import com.example.reflow.graphview.GraphView.GraphViewData;
 
 public class ReflowOven {
 	private static final String TAG = ReflowOvenService.class.getSimpleName();
-	private static GraphViewData[] btGraphData = new GraphViewData[30000];
+	private static ArrayList<GraphViewData> btGraphData = new ArrayList<GraphViewData>();
 	private static boolean running;
-	private static int tempi,nElements=0;
-	static double tempa;
-	static double time;
+	private static int tempi, nElements = 0;
+	static double tempa = 20;
+	static double time = 0;
 	private static String stateStr = "Stopped";
 	public boolean stateWasSet = false;
-
-	
 
 	public static boolean isRunning() {
 		return running;
@@ -55,31 +56,27 @@ public class ReflowOven {
 	public static void setTime(double d) {
 		ReflowOven.time = d;
 	}
-	
-	public static void getBTData(){
+
+	public static void getBTData() {
+		Random rn = new Random();
 		String currentState = "Boggis";
-		int currentTime = 0;
-		//TODO read the x, y, and state data
-		setStateStr(currentState);
-		setTime(currentTime);
-		Log.d(TAG, "Appending data");
-		btGraphData[nElements] = new GraphViewData(ReflowOven.getTime(),ReflowOven.getTempa());
-		nElements++;
-		//Log.d(TAG, "returning from BT Data");
-	}
-	
-	public static int getnElements() {
-		return nElements;
-	}
-
-	public static void setnElements(int nElements) {
-		ReflowOven.nElements = nElements;
+		int currentTime;
+		// TODO read the x, y, and state data
+		synchronized (btGraphData) {
+			setStateStr(currentState);
+			setTime(getTime() + 1);
+			Log.d(TAG, "Appending data");
+			GraphViewData data = new GraphViewData(ReflowOven.getTime(),
+					rn.nextInt() % 10);
+			btGraphData.add(data);
+			// Log.d(TAG, "returning from BT Data");
+		}
 	}
 
-	public static GraphViewData[] getbtGraphData(){
-		return btGraphData;
+	public static ArrayList<GraphViewData> getbtGraphData() {
+		synchronized (btGraphData) {
+			return btGraphData;
+		}
 	}
-
-	
 
 }
