@@ -27,7 +27,7 @@ public class Graph_activity extends Activity {
 	private GraphViewSeries graphSeries;
 	private LinearLayout layout;
 	private GraphView graphView;
-	private int x = 0, y = 0;
+//	private int x = 0, y = 0;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,7 +55,10 @@ public class Graph_activity extends Activity {
 			}
 		});
 	}
-
+/**
+ * Appends the graph series with new data from dataArray and updates the display
+ * @param dataArray
+ */
 	public void appendGraphSeries(GraphViewData[] dataArray) {
 		Log.d(TAG, "appendindata this long: " + dataArray.length);
 		for (int i = 0; i < ReflowOven.getnElements(); i++) {

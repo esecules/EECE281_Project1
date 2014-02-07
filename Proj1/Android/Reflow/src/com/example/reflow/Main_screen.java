@@ -1,4 +1,7 @@
 /**
+ * Manages the main screen of the app
+ * @author Eric Secules
+ *
  * Thanks to jjoe64 for Graph View
  * http://android-graphview.org/
  */
@@ -9,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +26,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class Main_screen extends Activity {
+	// Declare class variables
 	EditText txtsoakTemp, txtsoakTime, txtmaxTemp;
 	TextView currentState;
 	Integer soakTemp, soakTime, maxTemp;
@@ -36,6 +41,7 @@ public class Main_screen extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		// set up fields and buttons as variables
 		final String TAG = ReflowOvenService.class.getSimpleName();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_screen);
@@ -53,7 +59,9 @@ public class Main_screen extends Activity {
 				.setNeutralButton("Close", null);
 
 		currentState.setText(ReflowOven.getStateStr());
-
+		/*
+		 * Change to the graph view on button press
+		 */
 		toGraph.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -63,7 +71,11 @@ public class Main_screen extends Activity {
 				Log.i("Content ", " Main layout ");
 			}
 		});
-
+		/*
+		 * On button click either start or stop the machine based on current
+		 * state On start send the data in the fields to the machine if valid
+		 * and the start signal On stop send the stop signal
+		 */
 		toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
@@ -85,20 +97,31 @@ public class Main_screen extends Activity {
 					if (!caughtFormatException) {
 						if (validateInput()) {
 							// Were good to start!
-							Log.d(TAG,"Starting");
+							Log.d(TAG, "Starting");
 							ReflowOven.setRunning(true);
-							Intent getDataIntent = new Intent("com.example.reflow.GET_BACKGROUND_DATA");
-							getDataIntent.setClass(getBaseContext(), ReflowOvenService.class);
-							Log.d(TAG,"Starting "+ getDataIntent.getAction());
+
+							DataSender sendStart = new DataSender();
+							sendStart.execute(Constants.START_TAG,
+									Constants.SOAK_TIME_TAG, soakTemp,
+									Constants.SOAK_TEMP_TAG, soakTime,
+									Constants.MAX_TEMP_TAG, maxTemp);
+
+							Intent getDataIntent = new Intent(
+									Constants.GET_DATA);
+							getDataIntent.setClass(getBaseContext(),
+									ReflowOvenService.class);
+							Log.d(TAG, "Starting " + getDataIntent.getAction());
 							startService(getDataIntent);
 						} else
 							toggle.setChecked(false);
 					} else
 						caughtFormatException = false;
 				} else if (ReflowOven.isRunning()) {
-					//Stop Button Pressed
+					// Stop Button Pressed
 					Log.d(TAG, "Trying to stop service");
-					ReflowOvenService.isRunning = false;
+					DataSender sendStop = new DataSender();
+					sendStop.execute(Constants.STOP_TAG);
+					ReflowOvenService.stopMe();
 					mProgress.setProgress(0);
 				}
 			}
@@ -106,6 +129,10 @@ public class Main_screen extends Activity {
 
 	}
 
+	/*
+	 * Validate the input and show appropriate error messages if input is out of
+	 * bounds
+	 */
 	private boolean validateInput() {
 		String eSoakTemp, eSoakTime, eMaxTemp;
 		boolean wasError = false;
@@ -149,4 +176,36 @@ public class Main_screen extends Activity {
 
 	}
 
+	private class DataSender extends AsyncTask<Integer, Integer, String> {
+		final String TAG = ReflowOvenService.class.getSimpleName();
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+		}
+
+		@Override
+		protected String doInBackground(Integer... params) {
+			if (params.length == Constants.SEND_PARAMS) {
+				for (Integer i : params) {
+					Log.d(TAG, "sending " + i.toString());
+					// TODO Put BT sending code here
+				}
+			}
+			if (params.length == Constants.STOP_PARAMS) {
+					Log.d(TAG, "stop code " + params[0].toString());
+					// TODO Put BT sending code here
+				
+			}
+			return null;
+		}
+
+	}
 }

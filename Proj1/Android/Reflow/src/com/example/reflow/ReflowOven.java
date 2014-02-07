@@ -65,7 +65,7 @@ public class ReflowOven {
 		Log.d(TAG, "Appending data");
 		btGraphData[nElements] = new GraphViewData(ReflowOven.getTime(),ReflowOven.getTempa());
 		nElements++;
-		Log.d(TAG, "returning from BT Data");
+		//Log.d(TAG, "returning from BT Data");
 	}
 	
 	public static int getnElements() {
