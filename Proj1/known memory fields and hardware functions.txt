@@ -23,6 +23,7 @@ BSEG:-------------------------------------------------------
 mf: math32
 run: set when the reflow process is running
 RotNextTime: state variable for RunOnTick
+swup: a switch is up. debounce state variable for config
 CONSTANTS:-------------------------------------------------
 FREQ   EQU 33333333
 BAUD   EQU 57600

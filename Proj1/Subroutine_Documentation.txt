@@ -229,3 +229,21 @@ an example:
                  apart and turns on/off oven accordingly.
         Reads:         tempi, tempa
         Modifies: oven control pin
+
+--------------------------------------------------------------------
+--                          Config                                --
+--------------------------------------------------------------------
+"Config"
+	Function: physical ui for setting params
+	Reads:	  soak_temp, soak_time, reflow_temp, reflow_time
+		  max_temp, config_state
+	Modifies: soak_temp, soak_time, reflow_temp, reflow_time
+		  max_temp, config_state, a,  dptr, x, bcd, TR2
+	Requires: be called in a loop at the start. main loop must be
+		  called "Forever"
+
+"ConfigInputs"
+	Function: private, processes keys and switches for config
+	Reads:	  KEY, SWA, SWB, swup
+	Modifies: config_state, a, r7, x, z, bcd, swup
+	Requires: be run inside config. x contains the number to set

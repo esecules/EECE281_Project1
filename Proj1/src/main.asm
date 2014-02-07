@@ -57,7 +57,6 @@ MyProgram:
 	mov max_temp, #150
 	setb P0.7   
 
-	clr TR2 ;if not cleared it will mess with the soak time
 Setup:
 	lcall Config
 	sjmp Setup

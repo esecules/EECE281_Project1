@@ -71,13 +71,13 @@ PREHEAT_R	EQU #1
 REFLOW_R	EQU #2
 ;temp constants
 COOLDOWN_temp	EQU #60
-BSEG
 
-;math32
-mf: dbit 1
+BSEG
+mf: dbit 1 ;math32
 run: dbit 1
 stateChange: dbit 1
 RotNextTime: dbit 1
+swup: dbit 1
 
 CSEG
 
