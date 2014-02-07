@@ -97,5 +97,8 @@ LCDmsgCOOLING:	db 'COOLING ',0
 LCDmsgSAFE:		db 'SAFE    ',0
 LCDmsgTi:		db 'Ti: ',0
 LCDmsgTa:		db 'Ta: ',0
+LCDcfgSoakTemp:	db 'Set Soak Temp:  ',0
+LCDcfgSoakTime:	db 'Set Soak Time:  ',0
+LCDcfgReflowTemp:	db 'Set Reflow Temp:',0
 
 $LIST

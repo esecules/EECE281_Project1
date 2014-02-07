@@ -18,6 +18,7 @@ $include(decision.asm)
 $include(utilities.asm)
 $include(beeper.asm)
 $include(LCD_interface.asm)
+$include(config.asm)
 
 clearAll:
 	mov tempa+0, #0
@@ -47,13 +48,18 @@ MyProgram:
 	LCALL InitSSR
 	LCALL LCD_Init
 	clr run
-	mov heating_state, INITIAL
+	mov heating_state, SOAK
 	mov soak_temp, #50
 	mov soak_time, #30
 	mov reflow_temp, #120
 	mov reflow_time, #30
 	mov max_temp, #150
 	setb P0.7   
+
+	clr TR2 ;if not cleared it will mess with the soak time
+Setup:
+	lcall Config
+	sjmp Setup
 
 Forever:
 	jb key.1, keep_going
