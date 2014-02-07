@@ -87,7 +87,7 @@ get_tempi:
 		jnb run, return_get_tempi
 		mov heating_state, PREHEAT
 		setb stateChange
-		jmp return_get_tempi
+		sjmp return_get_tempi
 		
 	get_preheat_temp:
 		mov a, tempi
@@ -104,14 +104,14 @@ get_tempi:
 		jc return_get_tempi
 		mov heating_state, SOAK
 		setb stateChange
-		jmp return_get_tempi
+		sjmp return_get_tempi
 		
 	get_soak_temp:
 		mov tempi, soak_temp	
 		djnz soak_time, return_get_tempi
 		mov heating_state, REFLOW
 		setb stateChange
-		jmp return_get_tempi
+		sjmp return_get_tempi
 		
 	get_reflow_temp:
 		mov a, tempa+1
@@ -125,14 +125,14 @@ get_tempi:
 		mov a, tempi
 		add a, REFLOW_R
 		mov tempi, a
-		jmp return_get_tempi
+		sjmp return_get_tempi
 	holdTemp_reflow:
 		mov tempi, max_temp
 		djnz reflow_time, return_get_tempi
 		mov heating_state, COOLDOWN
 		setb stateChange
 		clr run
-		jmp return_get_tempi
+		sjmp return_get_tempi
 		
 	get_cooldown_temp:
 		mov tempi, COOLDOWN_temp
@@ -142,7 +142,7 @@ get_tempi:
 		jnc return_get_tempi
 		mov heating_state, SAFE
 		setb stateChange
-		jmp return_get_tempi
+		sjmp return_get_tempi
 	return_get_tempi:
 	pop psw
 	pop acc	
