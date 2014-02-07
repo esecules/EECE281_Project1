@@ -31,6 +31,7 @@ CommsSend:
 	
 	Load_x(0)
 	mov x+0, tempa+1
+	mov x+1, tempa+2
 	lcall hex2bcd
 	lcall SendBCD3
 	mov A, #'.'
@@ -44,6 +45,7 @@ CommsSend:
 	
 	Load_x(0)
 	mov x+0, tempo+1
+	mov x+1, tempo+2
 	lcall hex2bcd
 	lcall SendBCD3
 	mov A, #'.'

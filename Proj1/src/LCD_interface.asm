@@ -247,6 +247,7 @@ LCD_main:
  
  Load_x(0)
  mov x+0, tempa+1
+ mov x+1, tempa+2
  lcall hex2bcd
  lcall LCD_BCD3
  

@@ -39,7 +39,7 @@ ConfigSoakTime:
 	ret
 ConfigReflowTemp:
 	mov a, config_state
-	cjne a, #2, ConfigDone
+	cjne a, #2, ConfigReflowTime
 	
 
 	
@@ -58,9 +58,52 @@ ConfigReflowTemp:
 	lcall hex2bcd
 	lcall LCD_BCD3
 	ret
+ConfigReflowTime:
+	mov a, config_state
+	cjne a, #3, ConfigMaxTemp
+	
+
+	
+	mov a, #0x80
+	lcall LCD_command
+	mov dptr, #LCDcfgReflowTime
+	lcall LCD_string
+	mov a, #0xc0
+	lcall LCD_command
+	Load_x(0)
+	mov x+0, reflow_time
+	
+	lcall ConfigInputs
+	
+	mov reflow_time, x+0
+	lcall hex2bcd
+	lcall LCD_BCD3
+	ret
+ConfigMaxTemp:
+	mov a, config_state
+	cjne a, #4, ConfigDone
+	
+
+	
+	mov a, #0x80
+	lcall LCD_command
+	mov dptr, #LCDcfgMaxTemp
+	lcall LCD_string
+	mov a, #0xc0
+	lcall LCD_command
+	Load_x(0)
+	mov x+0, max_temp
+	
+	lcall ConfigInputs
+	
+	mov max_temp, x+0
+	lcall hex2bcd
+	lcall LCD_BCD3
+	ret
 ConfigDone:
 	setb TR2
 	lcall LCD_clear
+	lcall LCD_main
 	pop acc
 	pop acc
 	ljmp Forever ;jump directly to Forever

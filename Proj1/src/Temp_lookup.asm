@@ -46,6 +46,8 @@ Timer2_ISR:
 	mov time+1, a
 	lcall get_tempi
 	lcall DecisionNewISR
+	mov a, dutycycle
+	lcall DispLED
 	ret_timer2_isr:
 	pop psw
 	pop acc

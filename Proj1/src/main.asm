@@ -58,24 +58,31 @@ MyProgram:
 	setb P0.7   
 
 Setup:
+	lcall CommsCmd
 	lcall Config
 	sjmp Setup
 
 Forever:
 	jb key.1, keep_going
 	jnb key.1, $
+	mov a, heating_state
+	cjne a, SAFE, notsafe
+	ljmp clearAll
+	notsafe:
 	cpl run
-	jb run, keep_going
+	jb run, start
 	ljmp clearAll
 	
+	start:
+	mov time+0, #0
+	mov time+1, #0
 	keep_going:
 	lcall Read335
 	lcall ReadThermo
 	lcall OFFSET
-	lcall RunOnTick
+	lcall RunOnTick ;put your lcalls below to run them once per tick
 	lcall CommsCmd
 	lcall beeper
-	mov LEDRA, heating_state
     SJMP Forever
     
     

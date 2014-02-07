@@ -102,5 +102,12 @@ LCDmsgTa:		db 'Ta: ',0
 LCDcfgSoakTemp:	db 'Set Soak Temp:  ',0
 LCDcfgSoakTime:	db 'Set Soak Time:  ',0
 LCDcfgReflowTemp:	db 'Set Reflow Temp:',0
+LCDcfgReflowTime:	db 'Set Reflow Time:',0
+LCDcfgMaxTemp:		db 'Set Max Temp:   ',0
+
+;7SEGMENT======================================================================
+Digits:
+    DB 0C0H, 0F9H, 0A4H, 0B0H, 099H
+    DB 092H, 082H, 0F8H, 080H, 090H
 
 $LIST
