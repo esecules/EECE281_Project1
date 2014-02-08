@@ -115,7 +115,7 @@ public class Graph_activity extends Activity {
 				// Log.d(TAG, "got Intent " + dataString);
 				while (isRunning) {
 					Log.d(TAG, "updating graph");
-										
+					//TODO notify graph view to run appendGraphSeries once.				
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
