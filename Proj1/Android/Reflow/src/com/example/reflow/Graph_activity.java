@@ -10,6 +10,7 @@ import com.example.reflow.graphview.GraphView.GraphViewData;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.IntentService;
 import android.app.Service;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,7 +31,9 @@ public class Graph_activity extends Activity {
 	private LinearLayout layout;
 	private GraphView graphView;
 	private Button refresh;
-//	private int x = 0, y = 0;
+	private int lastRead;
+
+	// private int x = 0, y = 0;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,28 +52,78 @@ public class Graph_activity extends Activity {
 		graphView.setGraphViewStyle(style);
 		graphView.setBackgroundColor(Color.rgb(80, 30, 30));
 		layout.addView(graphView);
-		appendGraphSeries(ReflowOven.getbtGraphData());
-		refresh.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Log.d(TAG, "Graph Clicked");
-				appendGraphSeries(ReflowOven.getbtGraphData());
-			}
-		});
+		lastRead = 0; // Read from start.
+		Intent getDataIntent = new Intent(
+				Constants.UPDATE_GRAPH);
+		getDataIntent.setClass(getBaseContext(),
+				GraphService.class);
+		Log.d(TAG, "Starting " + getDataIntent.getAction());
+		startService(getDataIntent);
+//		appendGraphSeries(ReflowOven.getbtGraphData());
+//		refresh.setOnClickListener(new OnClickListener() {
+//		
+//			@Override
+//			public void onClick(View v) {
+//				Log.d(TAG, "Refresh Clicked");
+//				appendGraphSeries(ReflowOven.getbtGraphData());
+//			}
+//		});
 	}
-/**
- * Appends the graph series with new data from dataArray and updates the display
- * @param arrayList
- */
+
+	/**
+	 * Appends the graph series with new data from dataArray and updates the
+	 * display
+	 * 
+	 * @param arrayList
+	 */
 	public void appendGraphSeries(ArrayList<GraphViewData> arrayList) {
-		Log.d(TAG, "appendindata this long: " + arrayList.size());
-		for (GraphViewData data : ReflowOven.getbtGraphData()) {
-			Log.d(TAG, "Appending Data (" + data.valueX + ","+ data.valueY+")");
-			this.graphSeries.appendData(data,
-					(data.valueX >= WINDOW_SIZE), 150);
+
+		GraphViewData data;
+		int i;
+		if (ReflowOven.getbtGraphData().size() > lastRead) {
+			Log.d(TAG, "appendindata this long: " + arrayList.size());
+			for (i = lastRead + 1; i < ReflowOven.getbtGraphData().size(); i++) {
+				data = ReflowOven.getbtGraphData().get(i);
+				Log.d(TAG, "Appending Data (" + data.valueX + "," + data.valueY + ")");
+				graphSeries.appendData(data, (data.valueX >= WINDOW_SIZE), 150);
+			}
+			lastRead = i;
+			Log.d(TAG, "Last index read is" + lastRead);
+
+			this.graphView.removeAllSeries();
+			this.graphView.addSeries(graphSeries);
+			this.layout.refreshDrawableState();
+		}else
+			Log.d(TAG, "No new data yet");
+	}
+	private static class GraphService extends IntentService{
+		private static boolean isRunning = true;
+		private static final String TAG = ReflowOvenService.class.getSimpleName();
+		public GraphService(String name) {
+			super(name);
+			// TODO Auto-generated constructor stub
 		}
-		this.graphView.addSeries(graphSeries);
-		this.layout.addView(graphView);
+
+		@Override
+		protected void onHandleIntent(Intent workIntent) {
+			isRunning = true;
+			// Gets data from the incoming Intent
+			String dataString = workIntent.getAction();
+			// Do work here, based on the contents of dataString
+			Log.d(TAG, "got Intent " + dataString);
+			if (dataString.equals(Constants.UPDATE_GRAPH)) {
+				// Log.d(TAG, "got Intent " + dataString);
+				while (isRunning) {
+					Log.d(TAG, "updating graph");
+										
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						Log.d(TAG, e.getMessage());
+					}
+				}
+			}
+		}
+		
 	}
 }

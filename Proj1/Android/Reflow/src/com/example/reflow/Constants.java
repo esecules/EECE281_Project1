@@ -10,4 +10,5 @@ public class Constants {
 	public final static Integer STOP_TAG = 0xDCBA;
 	public static final String GET_DATA = "com.example.reflow.GET_BACKGROUND_DATA";
 	public static final String SEND_DATA = "com.example.reflow.SEND_BACKGROUND_DATA";
+	public static final String UPDATE_GRAPH = "com.example.reflow.UPDATE_GRAPH";
 }

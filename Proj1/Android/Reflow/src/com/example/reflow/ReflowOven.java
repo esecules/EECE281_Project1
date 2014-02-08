@@ -61,7 +61,7 @@ public class ReflowOven {
 		Random rn = new Random();
 		String currentState = "Boggis";
 		int currentTime;
-		// TODO read the x, y, and state data
+		// TODO get BT data read the x, y, and state data
 		synchronized (btGraphData) {
 			setStateStr(currentState);
 			setTime(getTime() + 1);
