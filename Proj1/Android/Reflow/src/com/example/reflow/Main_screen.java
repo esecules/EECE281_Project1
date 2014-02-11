@@ -11,9 +11,16 @@ package com.example.reflow;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.IntentService;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +30,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class Main_screen extends Activity {
@@ -71,12 +79,21 @@ public class Main_screen extends Activity {
 				Log.i("Content ", " Main layout ");
 			}
 		});
+		
 		/*
 		 * On button click either start or stop the machine based on current
 		 * state On start send the data in the fields to the machine if valid
 		 * and the start signal On stop send the stop signal
 		 */
 		toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			Handler handler = new Handler() {
+			    @Override
+			    public void handleMessage(Message msg) {
+			            Bundle reply = msg.getData();
+			            	mProgress.setProgress((int) reply.getDouble("progress"));
+			            	currentState.setText(reply.getString("state"));
+			            }
+			};
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
@@ -106,10 +123,9 @@ public class Main_screen extends Activity {
 									soakTime, Constants.MAX_TEMP_TAG, maxTemp,
 									Constants.START_TAG);
 
-							Intent getDataIntent = new Intent(
-									Constants.GET_DATA);
-							getDataIntent.setClass(getBaseContext(),
-									ReflowOvenService.class);
+							Intent getDataIntent = new Intent(Constants.GET_DATA);
+							getDataIntent.setClass(getBaseContext(),ReflowOvenService.class);
+							getDataIntent.putExtra("messenger", new Messenger(handler));
 							Log.d(TAG, "Starting " + getDataIntent.getAction());
 							startService(getDataIntent);
 						} else
@@ -122,13 +138,15 @@ public class Main_screen extends Activity {
 					DataSender sendStop = new DataSender();
 					sendStop.execute(Constants.STOP_TAG);
 					ReflowOvenService.stopMe();
+					currentState.setText("Stopped");
 					mProgress.setProgress(0);
+					ReflowOven.reset();
 				}
 			}
 		});
 
 	}
-
+	
 	/*
 	 * Validate the input and show appropriate error messages if input is out of
 	 * bounds

@@ -15,5 +15,6 @@
     <string name="default_soak_temp">150</string>
     <string name="default_soak_time">120</string>
     <string name="default_reflow_temp">235</string>
-
+    <string name="local_service_connected">Connected to service</string> 
+	<string name="local_service_disconnected">Disconnected from service</string> 
 </resources>

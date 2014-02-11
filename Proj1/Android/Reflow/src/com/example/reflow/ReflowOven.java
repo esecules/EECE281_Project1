@@ -11,11 +11,11 @@ public class ReflowOven {
 	private static final String TAG = ReflowOvenService.class.getSimpleName();
 	private static ArrayList<GraphViewData> btGraphData = new ArrayList<GraphViewData>();
 	private static boolean running;
-	private static int tempi, nElements = 0;
-	static double tempa = 20;
+	private static int tempi = 0;
+	static double tempa = 0;
 	static double time = 0;
 	private static String stateStr = "Stopped";
-	public boolean stateWasSet = false;
+	public static boolean stateWasSet = false;
 
 	public static boolean isRunning() {
 		return running;
@@ -59,7 +59,7 @@ public class ReflowOven {
 
 	public static void getBTData() {
 		Random rn = new Random();
-		String currentState = "Boggis";
+		String currentState = "Started";
 		int currentTime;
 		// TODO get BT data read the x, y, and state data
 		synchronized (btGraphData) {
@@ -71,12 +71,22 @@ public class ReflowOven {
 			btGraphData.add(data);
 			// Log.d(TAG, "returning from BT Data");
 		}
+		
 	}
 
 	public static ArrayList<GraphViewData> getbtGraphData() {
 		synchronized (btGraphData) {
 			return btGraphData;
 		}
+	}
+	public static void reset(){
+		time = 0;
+		tempa = 0;
+		tempi = 0;
+		btGraphData.clear();
+		stateStr = "Stopped";
+		stateWasSet = false;
+		running = false;
 	}
 
 }

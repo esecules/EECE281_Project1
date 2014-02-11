@@ -3,13 +3,17 @@ package com.example.reflow;
 import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 
 public class ReflowOvenService extends IntentService {
 	private static boolean isRunning = true;
 	private static final String TAG = ReflowOvenService.class.getSimpleName();
-
+	
 	public ReflowOvenService() {
 		super("ReflowOvenService");
 		// TODO Auto-generated constructor stub
@@ -33,7 +37,20 @@ public class ReflowOvenService extends IntentService {
 			while (isRunning) {
 				Log.d(TAG, "cycleing");
 				ReflowOven.getBTData();
-				
+				Bundle bundle = workIntent.getExtras();
+			    if (bundle != null) {
+			        Messenger messenger = (Messenger) bundle.get("messenger");
+			        Message msg = Message.obtain();
+			        Bundle data = new Bundle();
+					data.putString("state", ReflowOven.getStateStr());
+					data.putDouble("progress", ReflowOven.getTime());
+					msg.setData(data); //put the data here
+			        try {
+			            messenger.send(msg);
+			        } catch (RemoteException e) {
+			            Log.i(TAG, "error");
+			        }
+			    }
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -42,6 +59,7 @@ public class ReflowOvenService extends IntentService {
 			}
 		}
 	}
+	
 
 	public static void stopMe() {
 		isRunning = false;

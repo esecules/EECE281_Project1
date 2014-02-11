@@ -26,6 +26,7 @@
         </activity>
 
         <service android:name="ReflowOvenService" />
+        <service android:name="GraphService" />
     </application>
 
 </manifest>
