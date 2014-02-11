@@ -46,7 +46,7 @@ DecisionForceOff:
 DecisionEnd:
 	ret
 	
-DecisionNewISR:
+DecisionNewISR: ;dc = ((tempi-tempa) + (tempi-tempo)/20)*2  (percent)
 	push x+0
 	push x+1
 	push x+2
@@ -57,6 +57,7 @@ DecisionNewISR:
 	push y+3
 	push acc
 	push psw
+	push ar1
 	jnb run, DNISRoff
 	Load_x(0)
 	mov a, tempa+2
@@ -69,13 +70,34 @@ DecisionNewISR:
 	lcall sub32
 	mov A, x+2
 	jb ACC.7, DNISRoff
+	mov R1, x+1
+	mov x+0, #0 ;dynamic offset
+	mov x+1, tempi
+	mov x+2, #0
+	mov x+3, #0
+	mov y+0, tempo+0
+	mov y+1, tempo+1
+	lcall sub32
+	mov A, x+2
+	jb ACC.7, DNISRon0 ;can't have neg offset or ovfl protection will fail
+	mov y+0, #20
+	mov y+1, #0
+	lcall div32
 DNISRon:
 	mov A, x+1
-	add A, #5
-	jnb ACC.7, DNISRon2
-	mov A, #255
-DNISRon2:
+	add A, R1
+	sjmp DNISRon1
+DNISRon0:
+	mov A, R1
+DNISRon1:
+;	add A, #5 ;replaced with dynamic offset
+	jb ACC.7, DNISRon2
+	jc DNISRon2
 	rl A
+	sjmp DNISRon3
+DNISRon2:
+	mov A, #255
+DNISRon3:
 	mov dutycycle, A
 	mov LEDG, #0xff
 	setb SSR
@@ -85,6 +107,7 @@ DNISRoff:
 	mov LEDG, #0
 	clr SSR
 DNE:
+	pop ar1
 	pop psw
 	pop acc
 	pop y+3
