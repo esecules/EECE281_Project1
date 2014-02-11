@@ -31,6 +31,7 @@ public class Graph_activity extends Activity {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "On Create");
 		setContentView(R.layout.activity_graph_view);
 		Handler handler = new Handler() {
 			@Override
@@ -64,6 +65,16 @@ public class Graph_activity extends Activity {
 		startService(updateGraphIntent);
 	}
 
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		Log.d(TAG, "On Stop");
+		GraphService.stopMe();
+	}
+
+
+
 	/**
 	 * Appends the graph series with new data from dataArray and updates the
 	 * display
@@ -75,14 +86,15 @@ public class Graph_activity extends Activity {
 		GraphViewData data;
 		int i;
 		if (ReflowOven.getbtGraphData().size() > lastRead) {
-			Log.d(TAG, "appendindata this many elements: " + (arrayList.size()-lastRead-1));
-			for (i = lastRead + 1; i < ReflowOven.getbtGraphData().size(); i++) {
+			Log.d(TAG, "appendindata this many elements: " + (arrayList.size()-lastRead));
+			for (i = lastRead; i < ReflowOven.getbtGraphData().size(); i++) {
+				Log.d(TAG, "Reading from: " + i);
 				data = ReflowOven.getbtGraphData().get(i);
 				Log.d(TAG, "Appending Data (" + data.valueX + "," + data.valueY + ")");
 				graphSeries.appendData(data, (data.valueX >= WINDOW_SIZE), 150);
 			}
 			lastRead = i;
-			Log.d(TAG, "Last index read is" + lastRead);
+			Log.d(TAG, "Next index is " + lastRead);
 
 			this.graphView.removeAllSeries();
 			this.graphView.addSeries(graphSeries);

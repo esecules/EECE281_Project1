@@ -35,7 +35,7 @@ public class ReflowOvenService extends IntentService {
 		if (dataString.equals(Constants.GET_DATA)) {
 			// Log.d(TAG, "got Intent " + dataString);
 			while (isRunning) {
-				Log.d(TAG, "cycleing");
+				//Log.d(TAG, "cycleing");
 				ReflowOven.getBTData();
 				Bundle bundle = workIntent.getExtras();
 			    if (bundle != null) {

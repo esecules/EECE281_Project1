@@ -52,12 +52,15 @@ public class GraphService extends IntentService {
 					}
 				}
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					Log.d(TAG, e.getMessage());
 				}
 			}
 		}
+	}
+	public static void stopMe() {
+		isRunning = false;
 	}
 
 }

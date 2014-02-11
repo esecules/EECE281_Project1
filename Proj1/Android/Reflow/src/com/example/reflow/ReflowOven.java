@@ -65,7 +65,7 @@ public class ReflowOven {
 		synchronized (btGraphData) {
 			setStateStr(currentState);
 			setTime(getTime() + 1);
-			Log.d(TAG, "Appending data");
+			//Log.d(TAG, "Appending data");
 			GraphViewData data = new GraphViewData(ReflowOven.getTime(),
 					rn.nextInt() % 10);
 			btGraphData.add(data);
