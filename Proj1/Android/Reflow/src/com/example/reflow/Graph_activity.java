@@ -67,7 +67,6 @@ public class Graph_activity extends Activity {
 
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		Log.d(TAG, "On Stop");
 		GraphService.stopMe();
