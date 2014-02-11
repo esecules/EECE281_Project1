@@ -19,8 +19,8 @@ import com.example.reflow.graphview.GraphViewStyle;
 import com.example.reflow.graphview.LineGraphView;
 
 public class Graph_activity extends Activity {
-	private static final String TAG = ReflowOvenService.class.getSimpleName();
-	static final int WINDOW_SIZE = 60;
+	private final String TAG = this.getClass().getSimpleName();
+	static final int WINDOW_SIZE = 30;
 	private GraphViewData[] data;
 	private GraphViewSeries graphSeries;
 	private LinearLayout layout;
@@ -72,8 +72,6 @@ public class Graph_activity extends Activity {
 		GraphService.stopMe();
 	}
 
-
-
 	/**
 	 * Appends the graph series with new data from dataArray and updates the
 	 * display
@@ -85,7 +83,7 @@ public class Graph_activity extends Activity {
 		GraphViewData data;
 		int i;
 		if (ReflowOven.getbtGraphData().size() > lastRead) {
-			Log.d(TAG, "appendindata this many elements: " + (arrayList.size()-lastRead));
+			Log.d(TAG, "appendindata this many elements: " + (arrayList.size() - lastRead));
 			for (i = lastRead; i < ReflowOven.getbtGraphData().size(); i++) {
 				Log.d(TAG, "Reading from: " + i);
 				data = ReflowOven.getbtGraphData().get(i);
@@ -98,9 +96,8 @@ public class Graph_activity extends Activity {
 			this.graphView.removeAllSeries();
 			this.graphView.addSeries(graphSeries);
 			this.layout.refreshDrawableState();
-		}else
+		} else
 			Log.d(TAG, "No new data yet");
 	}
-
 
 }

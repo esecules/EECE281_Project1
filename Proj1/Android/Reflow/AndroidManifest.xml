@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name="Graph_activity" >
+            android:screenOrientation="landscape"
+			android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
 
         <service android:name="ReflowOvenService" />

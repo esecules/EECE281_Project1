@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class ReflowOvenService extends IntentService {
 	private static boolean isRunning = true;
-	private static final String TAG = ReflowOvenService.class.getSimpleName();
+	private final String TAG = this.getClass().getSimpleName();
 	
 	public ReflowOvenService() {
 		super("ReflowOvenService");

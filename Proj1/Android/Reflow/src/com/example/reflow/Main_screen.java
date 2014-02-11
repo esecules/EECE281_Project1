@@ -50,7 +50,7 @@ public class Main_screen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// set up fields and buttons as variables
-		final String TAG = ReflowOvenService.class.getSimpleName();
+		final String TAG = this.getLocalClassName();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_screen);
 		currentState = (TextView) findViewById(R.id.currentState);
@@ -195,8 +195,7 @@ public class Main_screen extends Activity {
 	}
 
 	private class DataSender extends AsyncTask<Integer, Integer, String> {
-		final String TAG = ReflowOvenService.class.getSimpleName();
-
+		final String TAG = this.getClass().getSimpleName();
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);

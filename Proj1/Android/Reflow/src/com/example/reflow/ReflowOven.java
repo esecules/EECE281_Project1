@@ -8,7 +8,7 @@ import android.util.Log;
 import com.example.reflow.graphview.GraphView.GraphViewData;
 
 public class ReflowOven {
-	private static final String TAG = ReflowOvenService.class.getSimpleName();
+	private final String TAG = this.getClass().getSimpleName();
 	private static ArrayList<GraphViewData> btGraphData = new ArrayList<GraphViewData>();
 	private static boolean running;
 	private static int tempi = 0;
