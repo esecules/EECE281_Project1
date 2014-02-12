@@ -46,7 +46,7 @@ DecisionForceOff:
 DecisionEnd:
 	ret
 	
-DecisionNewISR: ;dc = ((tempi-tempa) + (tempi-tempo)/20)*2  (percent)
+DecisionNewISR: ;dc = ((tempi-tempa) + (tempi-tempo)/16)*2  (percent)
 	push x+0
 	push x+1
 	push x+2
@@ -80,7 +80,7 @@ DecisionNewISR: ;dc = ((tempi-tempa) + (tempi-tempo)/20)*2  (percent)
 	lcall sub32
 	mov A, x+2
 	jb ACC.7, DNISRon0 ;can't have neg offset or ovfl protection will fail
-	mov y+0, #20
+	mov y+0, #16
 	mov y+1, #0
 	lcall div32
 DNISRon:
@@ -89,6 +89,7 @@ DNISRon:
 	sjmp DNISRon1
 DNISRon0:
 	mov A, R1
+	clr C
 DNISRon1:
 ;	add A, #5 ;replaced with dynamic offset
 	jb ACC.7, DNISRon2
