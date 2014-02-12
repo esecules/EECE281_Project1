@@ -31,6 +31,7 @@ public class Graph_activity extends Activity {
 	private GraphView graphView;
 	private int lastRead;
 	static int datax; 
+	
 private ArduinoReceiver arduinoReceiver = new ArduinoReceiver();
 
 private static final String DEVICE_ADDRESS =  "00:06:66:66:33:1B";
