@@ -41,6 +41,7 @@ clearAll:
 	mov dutycycle, #0
 	clr stateChange
 	clr run	
+	clr SSR
 MyProgram:
 	LCALL InitDE2
     LCALL InitSerialPort
