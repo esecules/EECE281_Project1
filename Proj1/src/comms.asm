@@ -42,10 +42,9 @@ CommsSend:
 	
 	mov dptr, #SERmsg3
 	lcall SendString
-	
+
 	Load_x(0)
 	mov x+0, tempo+1
-	mov x+1, tempo+2
 	lcall hex2bcd
 	lcall SendBCD3
 	mov A, #'.'
