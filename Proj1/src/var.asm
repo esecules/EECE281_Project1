@@ -12,6 +12,9 @@ z: ds 4
 ;adc
 adc: ds 2
 
+;note
+note: ds 2
+
 
 ;Temperature and time
 time: ds 2

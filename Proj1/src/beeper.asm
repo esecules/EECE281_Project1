@@ -3,8 +3,8 @@ $NOLIST
 ISR_timer0:
 	clr TF0
 	cpl BEEP
-    mov TH0, #high(TIMER0_RELOAD)
-    mov TL0, #low(TIMER0_RELOAD)
+    mov TH0, #high(note+1)
+    mov TL0, #low(note+0)
 	reti
 	
 initTimer0:
@@ -14,8 +14,8 @@ initTimer0:
 	mov TMOD, A
 	clr TR0 ; Disable timer 0
 	clr TF0
-    mov TH0, #high(TIMER0_RELOAD)
-    mov TL0, #low(TIMER0_RELOAD)
+    mov note+1, #high(TIMER0_RELOAD)
+    mov note+0, #low(TIMER0_RELOAD)
     setb ET0 ; Enable timer 0 interrupt	
     setb EA
     orl P0MOD, #00010000b ; Set beeper pin as out
@@ -70,33 +70,33 @@ longBeep:
 	ret
 
 firstBeep:
-	mov TH0, #high(61992)
-    mov TL0, #low(61992)
+	mov note+1, #high(61992)
+    mov note+0, #low(61992)
     setb TR0
     ret
 secondBeep:
-	mov TH0, #high(60227)
-    mov TL0, #low(60227)
+	mov note+1, #high(60227)
+    mov note+0, #low(60227)
     setb TR0
     ret
 thirdBeep:
-	mov TH0, #high(60806)
-    mov TL0, #low(60806)
+	mov note+1, #high(60806)
+    mov note+0, #low(60806)
     setb TR0
     ret
 fourthBeep:
-	mov TH0, #high(62379)
-    mov TL0, #low(62379)
+	mov note+1, #high(62379)
+    mov note+0, #low(62379)
     setb TR0
     ret
 fifthBeep:
-	mov TH0, #high(60227)
-    mov TL0, #low(60227)
+	mov note+1, #high(60227)
+    mov note+0, #low(60227)
     setb TR0
     ret
 sixthBeep:
-	mov TH0, #high(61992)
-    mov TL0, #low(61992)
+	mov note+1, #high(61992)
+    mov note+0, #low(61992)
     setb TR0
     ret
 
