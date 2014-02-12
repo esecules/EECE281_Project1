@@ -69,33 +69,64 @@ longBeep:
 	clr TR0
 	ret
 
+firstBeep:
+	mov TH0, #high(61992)
+    mov TL0, #low(61992)
+    setb TR0
+    ret
+secondBeep:
+	mov TH0, #high(60227)
+    mov TL0, #low(60227)
+    setb TR0
+    ret
+thirdBeep:
+	mov TH0, #high(60806)
+    mov TL0, #low(60806)
+    setb TR0
+    ret
+fourthBeep:
+	mov TH0, #high(62379)
+    mov TL0, #low(62379)
+    setb TR0
+    ret
+fifthBeep:
+	mov TH0, #high(60227)
+    mov TL0, #low(60227)
+    setb TR0
+    ret
+sixthBeep:
+	mov TH0, #high(61992)
+    mov TL0, #low(61992)
+    setb TR0
+    ret
+
 sixBeeps:
-	setb TR0
+	lcall firstBeep
 	lcall waitHalfSec
 	clr TR0
 	lcall waitHalfSec
 	
-	setb TR0
+	lcall secondBeep
 	lcall waitHalfSec
 	clr TR0
 	lcall waitHalfSec
 	
-	setb TR0
+	lcall thirdBeep
 	lcall waitHalfSec
 	clr TR0
 	lcall waitHalfSec
 	
-	setb TR0
+	lcall fourthBeep
 	lcall waitHalfSec
 	clr TR0
 	lcall waitHalfSec
 	
-	setb TR0
+	lcall fifthBeep
 	lcall waitHalfSec
 	clr TR0
 	lcall waitHalfSec
 	
-	setb TR0
+	lcall sixthBeep
 	lcall waitHalfSec
 	clr TR0
 	lcall waitHalfSec
