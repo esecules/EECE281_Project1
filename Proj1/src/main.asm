@@ -61,6 +61,7 @@ MyProgram:
 
 Setup:
 	lcall CommsCmd
+	lcall ConfigPreset
 	lcall Config
 	sjmp Setup
 

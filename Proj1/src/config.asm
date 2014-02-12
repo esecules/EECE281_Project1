@@ -176,5 +176,156 @@ ConfigInputs22:
 	mov x+1, #0
 ConfigInputsE:
 	ret
+
+;-------------------------------------------------------------------;
+ConfigPresetint2:
+	jnb Key.1, ConfigPresetint2
+	jnb Key.2, ConfigPresetint2
+	jnb Key.3, ConfigPresetint2
+	ljmp ConfigPreset2
+	
+ConfigPresetint3:
+	jnb Key.1, ConfigPresetint3
+	jnb Key.2, ConfigPresetint3
+	jnb Key.3, ConfigPresetint3
+	ljmp ConfigPreset3
+	
+ConfigPresetint1:
+	jnb Key.1, ConfigPresetint1
+	jnb Key.2, ConfigPresetint1
+	jnb Key.3, ConfigPresetint1
+	ljmp ConfigPreset1
+		
+
+
+ConfigPreset:
+	clr TR2
+	
+ConfigPreset1:
+	mov a, SWC
+	jnb acc.1, PresetDone
+	jnb key.2, ConfigPresetint2
+	jnb key.3, ConfigPresetint3
+	mov soak_time, PRESET1SOAKTIME
+	mov soak_temp, PRESET1SOAKTEMP
+	mov reflow_time, PRESET1REFLOWTIME
+	mov reflow_temp, PRESET1REFLOWTEMP
+	mov max_temp, PRESET1REFLOWTEMP
+	mov a, #0x80
+	lcall LCD_command
+	mov dptr, #LCDPreset1
+	lcall LCD_string
+	jb key.1, PresetExit
+	sjmp ConfigPreset1
+	
+ConfigPreset2:
+	mov a, SWC
+	jnb acc.1, PresetDone
+	jnb key.2, ConfigPresetint3
+	jnb key.3, ConfigPresetint1
+	mov soak_time, PRESET2SOAKTIME
+	mov soak_temp, PRESET2SOAKTEMP
+	mov reflow_time, PRESET2REFLOWTIME
+	mov reflow_temp, PRESET2REFLOWTEMP
+	mov max_temp, PRESET2REFLOWTEMP
+	mov a, #0x80
+	lcall LCD_command
+	mov dptr, #LCDPreset2
+	lcall LCD_string
+	jb key.1, PresetExit
+	sjmp ConfigPreset2
+	
+ConfigPreset3:
+	mov a, SWC
+	jnb acc.1, PresetDone
+	jnb key.2, ConfigPresetint1
+	jnb key.3, ConfigPresetint2
+	mov soak_time, PRESET3SOAKTIME
+	mov soak_temp, PRESET3SOAKTEMP
+	mov reflow_time, PRESET3REFLOWTIME
+	mov reflow_temp, PRESET3REFLOWTEMP
+	mov max_temp, PRESET3REFLOWTEMP
+	mov a, #0x80
+	lcall LCD_command
+	mov dptr, #LCDPreset3
+	lcall LCD_string
+	jb key.1, PresetExit
+	sjmp ConfigPreset3	
+		
+PresetDone:
+	ret		
+	
+PresetExit:
+	mov a, #0x80
+	lcall LCD_command
+	mov dptr, #LCDpreSoakTemp
+	lcall LCD_string
+	mov a, #0xc0
+	lcall LCD_command
+	Load_x(0)
+	mov x+0, soak_temp
+	lcall hex2bcd
+	lcall LCD_BCD3
+	
+	lcall waithalfsec
+	
+	mov a, #0x80
+	lcall LCD_command
+	mov dptr, #LCDpreSoakTime
+	lcall LCD_string
+	mov a, #0xc0
+	lcall LCD_command
+	Load_x(0)
+	mov x+0, soak_time
+	lcall hex2bcd
+	lcall LCD_BCD3
+	
+	lcall waithalfsec
+	
+	mov a, #0x80
+	lcall LCD_command
+	mov dptr, #LCDpreReflowTemp
+	lcall LCD_string
+	mov a, #0xc0
+	lcall LCD_command
+	Load_x(0)
+	mov x+0, reflow_temp	
+	mov reflow_temp, x+0
+	lcall hex2bcd
+	lcall LCD_BCD3
+	
+	lcall waithalfsec
+	
+	mov a, #0x80
+	lcall LCD_command
+	mov dptr, #LCDpreReflowTime
+	lcall LCD_string
+	mov a, #0xc0
+	lcall LCD_command
+	Load_x(0)
+	mov x+0, reflow_time
+	lcall hex2bcd
+	lcall LCD_BCD3
+	
+	lcall waithalfsec
+	
+	mov a, #0x80
+	lcall LCD_command
+	mov dptr, #LCDpreMaxTemp
+	lcall LCD_string
+	mov a, #0xc0
+	lcall LCD_command
+	Load_x(0)
+	mov x+0, max_temp
+	lcall hex2bcd
+	lcall LCD_BCD3
+	
+	lcall waithalfsec
+	
+	setb TR2
+	pop acc
+	pop acc
+	ljmp forever		
+		
 	
 $LIST
