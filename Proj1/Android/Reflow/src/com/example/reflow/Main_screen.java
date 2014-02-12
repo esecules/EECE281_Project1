@@ -8,17 +8,17 @@
 
 package com.example.reflow;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.IntentService;
-import android.content.ComponentName;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
@@ -30,8 +30,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
+import at.abraxas.amarino.Amarino;
+import at.abraxas.amarino.AmarinoIntent;
 
 public class Main_screen extends Activity {
 	// Declare class variables
@@ -47,6 +48,10 @@ public class Main_screen extends Activity {
 	String errors;
 	ReflowOvenService oven;
 
+	
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// set up fields and buttons as variables
@@ -117,12 +122,14 @@ public class Main_screen extends Activity {
 							Log.d(TAG, "Starting");
 							ReflowOven.setRunning(true);
 
+							
 							DataSender sendStart = new DataSender();
 							sendStart.execute(Constants.SOAK_TEMP_TAG,
 									soakTemp, Constants.SOAK_TIME_TAG,
 									soakTime, Constants.MAX_TEMP_TAG, maxTemp,
 									Constants.START_TAG);
-
+							 
+							
 							Intent getDataIntent = new Intent(Constants.GET_DATA);
 							getDataIntent.setClass(getBaseContext(),ReflowOvenService.class);
 							getDataIntent.putExtra("messenger", new Messenger(handler));
@@ -135,8 +142,12 @@ public class Main_screen extends Activity {
 				} else if (ReflowOven.isRunning()) {
 					// Stop Button Pressed
 					Log.d(TAG, "Trying to stop service");
+					
+					
 					DataSender sendStop = new DataSender();
 					sendStop.execute(Constants.STOP_TAG);
+					
+					
 					ReflowOvenService.stopMe();
 					currentState.setText("Stopped");
 					mProgress.setProgress(0);
@@ -146,6 +157,9 @@ public class Main_screen extends Activity {
 		});
 
 	}
+	
+
+
 	
 	/*
 	 * Validate the input and show appropriate error messages if input is out of
@@ -194,6 +208,9 @@ public class Main_screen extends Activity {
 
 	}
 
+	
+
+	
 	private class DataSender extends AsyncTask<Integer, Integer, String> {
 		final String TAG = this.getClass().getSimpleName();
 		@Override

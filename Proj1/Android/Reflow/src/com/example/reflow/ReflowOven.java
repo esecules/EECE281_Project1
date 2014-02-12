@@ -1,10 +1,10 @@
 package com.example.reflow;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import android.util.Log;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import at.abraxas.amarino.AmarinoIntent;
 import com.example.reflow.graphview.GraphView.GraphViewData;
 
 public class ReflowOven {
@@ -56,18 +56,19 @@ public class ReflowOven {
 	public static void setTime(double d) {
 		ReflowOven.time = d;
 	}
+	
 
 	public static void getBTData() {
-		Random rn = new Random();
 		String currentState = "Started";
 		int currentTime;
+		
 		// TODO get BT data read the x, y, and state data
 		synchronized (btGraphData) {
 			setStateStr(currentState);
 			setTime(getTime() + 1);
 			//Log.d(TAG, "Appending data");
 			GraphViewData data = new GraphViewData(ReflowOven.getTime(),
-					rn.nextInt() % 10);
+					Graph_activity.datax);
 			btGraphData.add(data);
 			// Log.d(TAG, "returning from BT Data");
 		}
@@ -79,6 +80,7 @@ public class ReflowOven {
 			return btGraphData;
 		}
 	}
+	
 	public static void reset(){
 		time = 0;
 		tempa = 0;
@@ -88,5 +90,7 @@ public class ReflowOven {
 		stateWasSet = false;
 		running = false;
 	}
+	
+	
 
 }
