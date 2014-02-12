@@ -85,19 +85,19 @@ PRESET1SOAKTIME EQU 30
 PRESET1SOAKTEMP EQU 150
 PRESET1REFLOWTIME EQU 30
 PRESET1REFLOWTEMP EQU 215
-PRESET1MAXTEMP: EQU 240
+PRESET1MAXTEMP EQU 240
 
 PRESET2SOAKTIME EQU 30
 PRESET2SOAKTEMP EQU 150
 PRESET2REFLOWTIME EQU 30
 PRESET2REFLOWTEMP EQU 215
-PRESET2MAXTEMP: EQU 240
+PRESET2MAXTEMP EQU 240
 
 PRESET3SOAKTIME EQU 30
 PRESET3SOAKTEMP EQU 150
 PRESET3REFLOWTIME EQU 30
 PRESET3REFLOWTEMP EQU 215
-PRESET3MAXTEMP: EQU 240
+PRESET3MAXTEMP EQU 240
 
 BSEG
 mf: dbit 1 ;math32
@@ -126,19 +126,20 @@ LCDmsgCOOLING:	db 'COOLING ',0
 LCDmsgSAFE:		db 'SAFE    ',0
 LCDmsgTi:		db 'Ti: ',0
 LCDmsgTa:		db 'Ta: ',0
-LCDcfgSoakTemp:	db 'Set Soak Temp:  ',0
-LCDcfgSoakTime:	db 'Set Soak Time:  ',0
+LCDcfgSoakTemp:		db 'Set Soak Temp:  ',0
+LCDcfgSoakTime:		db 'Set Soak Time:  ',0
 LCDcfgReflowTemp:	db 'Set Reflow Temp:',0
 LCDcfgReflowTime:	db 'Set Reflow Time:',0
 LCDcfgMaxTemp:		db 'Set Max Temp:   ',0
-LCDPreset1:	db 'Preset Profile One',0
-LCDPreset2: db 'Preset Profile Two',0
-LCDPreset3: db 'Preset Profile Three',0
-LCDpreSoakTemp: db 'Preset Soak Time:	',0
-LCDpreSoakTime: db 'Preset Soak Temp:	',0
-LCDpreReflowTemp: db 'Preset Reflow Temp:	',0
-LCDpreReflowTime: db 'Preset Reflow Time:	',0
-LCDpreMaxTemp: db	'Preset Max Temp:	',0
+LCDPreset1:			db 'Preset Profile 1',0
+LCDPreset2:			db 'Preset Profile 2',0
+LCDPreset3: 		db 'Preset Profile 3',0
+LCDpreSoakTemp: 	db 'Soak Time:      ',0
+LCDpreSoakTime: 	db 'Soak Temp:      ',0
+LCDpreReflowTemp: 	db 'Reflow Temp:    ',0
+LCDpreReflowTime: 	db 'Reflow Time:    ',0
+LCDpreMaxTemp: 		db 'Max Temp:       ',0
+LCDspc:				db '                ',0
 
 ;7SEGMENT======================================================================
 Digits:

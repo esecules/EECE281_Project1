@@ -190,11 +190,7 @@ ConfigPresetint3:
 	jnb Key.3, ConfigPresetint3
 	ljmp ConfigPreset3
 	
-ConfigPresetint1:
-	jnb Key.1, ConfigPresetint1
-	jnb Key.2, ConfigPresetint1
-	jnb Key.3, ConfigPresetint1
-	ljmp ConfigPreset1
+
 		
 
 
@@ -206,54 +202,76 @@ ConfigPreset1:
 	jnb acc.1, PresetDone
 	jnb key.2, ConfigPresetint2
 	jnb key.3, ConfigPresetint3
-	mov soak_time, PRESET1SOAKTIME
-	mov soak_temp, PRESET1SOAKTEMP
-	mov reflow_time, PRESET1REFLOWTIME
-	mov reflow_temp, PRESET1REFLOWTEMP
-	mov max_temp, PRESET1REFLOWTEMP
+	mov soak_time, #PRESET1SOAKTIME
+	mov soak_temp, #PRESET1SOAKTEMP
+	mov reflow_time, #PRESET1REFLOWTIME
+	mov reflow_temp, #PRESET1REFLOWTEMP
+	mov max_temp, #PRESET1REFLOWTEMP
 	mov a, #0x80
 	lcall LCD_command
 	mov dptr, #LCDPreset1
 	lcall LCD_string
-	jb key.1, PresetExit
+	mov a, #0xc0
+	lcall LCD_command
+	mov dptr, #LCDspc
+	lcall LCD_string
+	jnb key.1, PresetExit
 	sjmp ConfigPreset1
 	
+ConfigPresetint1:
+	jnb Key.1, ConfigPresetint1
+	jnb Key.2, ConfigPresetint1
+	jnb Key.3, ConfigPresetint1
+	ljmp ConfigPreset1
+
 ConfigPreset2:
 	mov a, SWC
 	jnb acc.1, PresetDone
 	jnb key.2, ConfigPresetint3
 	jnb key.3, ConfigPresetint1
-	mov soak_time, PRESET2SOAKTIME
-	mov soak_temp, PRESET2SOAKTEMP
-	mov reflow_time, PRESET2REFLOWTIME
-	mov reflow_temp, PRESET2REFLOWTEMP
-	mov max_temp, PRESET2REFLOWTEMP
+	mov soak_time, #PRESET2SOAKTIME
+	mov soak_temp, #PRESET2SOAKTEMP
+	mov reflow_time, #PRESET2REFLOWTIME
+	mov reflow_temp, #PRESET2REFLOWTEMP
+	mov max_temp, #PRESET2REFLOWTEMP
 	mov a, #0x80
 	lcall LCD_command
 	mov dptr, #LCDPreset2
 	lcall LCD_string
-	jb key.1, PresetExit
+	mov a, #0xc0
+	lcall LCD_command
+	mov dptr, #LCDspc
+	lcall LCD_string
+	jnb key.1, PresetExit
 	sjmp ConfigPreset2
+
+PresetDone:
+	ret	
 	
 ConfigPreset3:
 	mov a, SWC
 	jnb acc.1, PresetDone
 	jnb key.2, ConfigPresetint1
-	jnb key.3, ConfigPresetint2
-	mov soak_time, PRESET3SOAKTIME
-	mov soak_temp, PRESET3SOAKTEMP
-	mov reflow_time, PRESET3REFLOWTIME
-	mov reflow_temp, PRESET3REFLOWTEMP
-	mov max_temp, PRESET3REFLOWTEMP
+	jnb key.3, ConfigPresetint2jmp
+	mov soak_time, #PRESET3SOAKTIME
+	mov soak_temp, #PRESET3SOAKTEMP
+	mov reflow_time, #PRESET3REFLOWTIME
+	mov reflow_temp, #PRESET3REFLOWTEMP
+	mov max_temp, #PRESET3REFLOWTEMP
 	mov a, #0x80
 	lcall LCD_command
 	mov dptr, #LCDPreset3
 	lcall LCD_string
-	jb key.1, PresetExit
+	mov a, #0xc0
+	lcall LCD_command
+	mov dptr, #LCDspc
+	lcall LCD_string
+	jnb key.1, PresetExit
 	sjmp ConfigPreset3	
-		
-PresetDone:
-	ret		
+
+ConfigPresetint2jmp:
+	ljmp ConfigPresetint2		
+	
 	
 PresetExit:
 	mov a, #0x80

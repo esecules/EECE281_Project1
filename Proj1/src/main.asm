@@ -1,6 +1,6 @@
 $MODDE2
 org 0000H
-   ljmp MyProgram
+   ljmp ClearAll
 org 000BH
 	ljmp ISR_Timer0
 org 002BH
@@ -56,11 +56,11 @@ MyProgram:
 	mov soak_time, #30
 	mov reflow_temp, #120
 	mov reflow_time, #30
-	mov max_temp, #150
-	setb P0.7   
+	mov max_temp, #150  
 	lcall FlashRestoreAll
 
 Setup:
+	
 	lcall CommsCmd
 	lcall ConfigPreset
 	lcall Config
@@ -81,6 +81,7 @@ Forever:
 	mov time+0, #0
 	mov time+1, #0
 	keep_going:
+	lcall CheckBackToSetup
 	lcall Read335
 	lcall ReadThermo
 	lcall OFFSET
@@ -105,5 +106,18 @@ RotNow:
 	lcall LCD_main
 	;end of rotten functions
 	clr RotNextTime
+	ret
+	
+CheckBackToSetup:
+	mov A, heating_state
+	cjne A, INITIAL, CBTSE
+	jb KEY.3, CBTSE
+	jnb KEY.3, $
+	mov config_state, #4
+	lcall LCD_clear
+	pop acc
+	pop acc
+	ljmp Setup
+CBTSE:
 	ret
 END
