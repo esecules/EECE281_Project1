@@ -36,9 +36,9 @@ import at.abraxas.amarino.AmarinoIntent;
 
 public class Main_screen extends Activity {
 	// Declare class variables
-	EditText txtsoakTemp, txtsoakTime, txtmaxTemp;
+	EditText txtsoakTemp, txtsoakTime, txtmaxTemp, txtreflowTime, txtreflowTemp;
 	TextView currentState;
-	Integer soakTemp, soakTime, maxTemp;
+	Integer soakTemp, soakTime, maxTemp,reflowTemp, reflowTime;
 	ToggleButton toggle;
 	Button toGraph;
 	public ProgressBar mProgress;
@@ -47,11 +47,12 @@ public class Main_screen extends Activity {
 	Builder emptyFieldAlert;
 	String errors;
 	ReflowOvenService oven;
+	static int datax;
 
-	
-	
-	
-	
+	private ArduinoReceiver arduinoReceiver = new ArduinoReceiver();
+
+	private static final String DEVICE_ADDRESS = "00:06:66:66:33:1B";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// set up fields and buttons as variables
@@ -65,6 +66,8 @@ public class Main_screen extends Activity {
 		txtsoakTemp = (EditText) findViewById(R.id.editSTemp);
 		txtsoakTime = (EditText) findViewById(R.id.editSTime);
 		txtmaxTemp = (EditText) findViewById(R.id.editMTemp);
+		txtreflowTime = (EditText) findViewById(R.id.reflowTime);
+		txtreflowTemp = (EditText) findViewById(R.id.reflowTemp);
 		emptyFieldAlert = new AlertDialog.Builder(this)
 				.setTitle("Invalid Input")
 				.setMessage(
@@ -84,7 +87,7 @@ public class Main_screen extends Activity {
 				Log.i("Content ", " Main layout ");
 			}
 		});
-		
+
 		/*
 		 * On button click either start or stop the machine based on current
 		 * state On start send the data in the fields to the machine if valid
@@ -92,13 +95,14 @@ public class Main_screen extends Activity {
 		 */
 		toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			Handler handler = new Handler() {
-			    @Override
-			    public void handleMessage(Message msg) {
-			            Bundle reply = msg.getData();
-			            	mProgress.setProgress((int) reply.getDouble("progress"));
-			            	currentState.setText(reply.getString("state"));
-			            }
+				@Override
+				public void handleMessage(Message msg) {
+					Bundle reply = msg.getData();
+					mProgress.setProgress((int) reply.getDouble("progress"));
+					currentState.setText(reply.getString("state"));
+				}
 			};
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
@@ -110,6 +114,8 @@ public class Main_screen extends Activity {
 								.toString());
 						maxTemp = Integer.valueOf(txtmaxTemp.getText()
 								.toString());
+						reflowTime = Integer.valueOf(txtreflowTime.getText().toString());
+						reflowTemp = Integer.valueOf(txtreflowTemp.getText().toString());
 					} catch (NumberFormatException e) {
 						caughtFormatException = true;
 						toggle.setChecked(false);
@@ -121,20 +127,20 @@ public class Main_screen extends Activity {
 							// Were good to start!
 							Log.d(TAG, "Starting");
 							ReflowOven.setRunning(true);
-
-							
+							Bluetooth startBT = new Bluetooth();
+							startBT.execute(true);
 							DataSender sendStart = new DataSender();
-							sendStart.execute(Constants.SOAK_TEMP_TAG,
-									soakTemp, Constants.SOAK_TIME_TAG,
-									soakTime, Constants.MAX_TEMP_TAG, maxTemp,
-									Constants.START_TAG);
-							 
-							
-							Intent getDataIntent = new Intent(Constants.GET_DATA);
-							getDataIntent.setClass(getBaseContext(),ReflowOvenService.class);
-							getDataIntent.putExtra("messenger", new Messenger(handler));
+							sendStart.execute(soakTemp, soakTime,reflowTemp,reflowTemp, maxTemp,Constants.START_TAG);
+
+							Intent getDataIntent = new Intent(
+									Constants.GET_DATA);
+							getDataIntent.setClass(getBaseContext(),
+									ReflowOvenService.class);
+							getDataIntent.putExtra("messenger", new Messenger(
+									handler));
 							Log.d(TAG, "Starting " + getDataIntent.getAction());
 							startService(getDataIntent);
+							
 						} else
 							toggle.setChecked(false);
 					} else
@@ -142,31 +148,28 @@ public class Main_screen extends Activity {
 				} else if (ReflowOven.isRunning()) {
 					// Stop Button Pressed
 					Log.d(TAG, "Trying to stop service");
-					
-					
+
 					DataSender sendStop = new DataSender();
 					sendStop.execute(Constants.STOP_TAG);
-					
-					
+
 					ReflowOvenService.stopMe();
 					currentState.setText("Stopped");
 					mProgress.setProgress(0);
 					ReflowOven.reset();
+					Bluetooth startBT = new Bluetooth();
+					startBT.execute(false);
 				}
 			}
 		});
 
 	}
-	
 
-
-	
 	/*
 	 * Validate the input and show appropriate error messages if input is out of
 	 * bounds
 	 */
 	private boolean validateInput() {
-		String eSoakTemp, eSoakTime, eMaxTemp;
+		String eSoakTemp, eSoakTime, eMaxTemp, eReflowTemp, eReflowTime;
 		boolean wasError = false;
 		if (soakTemp > 215) {
 			eSoakTemp = "-Soak temp too high (>215)\n";
@@ -188,18 +191,37 @@ public class Main_screen extends Activity {
 			wasError = true;
 		} else
 			eSoakTime = "";
-
-		if (maxTemp > 260) {
-			eMaxTemp = "-Max temp too high (>260)\n";
+		
+		if (reflowTemp > 225) {
+			eReflowTemp = "-Reflow temp too high (>225)\n";
 			wasError = true;
-		} else if (maxTemp < 200) {
-			eMaxTemp = "-Max temp too low (<200)\n";
+		} else if (reflowTemp < 200) {
+			eReflowTemp = "-Reflow temp too low (<200)\n";
+			wasError = true;
+		} else
+			eReflowTemp = "";
+		
+		if (reflowTime > 90) {
+			eReflowTime = "-Reflow time too high (>90)\n";
+			wasError = true;
+		} else if (reflowTemp < 40) {
+			eReflowTime = "-Reflow time too low (<40)\n";
+			wasError = true;
+		} else
+			eReflowTime = "";
+
+		if (maxTemp > 255) {
+			eMaxTemp = "-Max temp too high (>255)\n";
+			wasError = true;
+		} else if (maxTemp < 217) {
+			eMaxTemp = "-Max temp too low (<217)\n";
 			wasError = true;
 		} else
 			eMaxTemp = "";
+		
 
 		if (wasError) {
-			errors = eSoakTemp + eSoakTime + eMaxTemp;
+			errors = eSoakTemp + eSoakTime + eReflowTemp+ eReflowTime + eMaxTemp;
 			new AlertDialog.Builder(this).setTitle("Invalid Input")
 					.setMessage(errors).setNeutralButton("Close", null).show();
 			return false;
@@ -208,11 +230,42 @@ public class Main_screen extends Activity {
 
 	}
 
-	
+	private class Bluetooth extends AsyncTask<Boolean, Integer, Boolean> {
 
-	
+		@Override
+		protected Boolean doInBackground(Boolean... params) {
+
+			if (params.length == 1) {
+				for (Boolean b : params) {
+					if (b) {
+						// in order to receive broadcasted intents we need to
+						// register our receiver
+						registerReceiver(arduinoReceiver, new IntentFilter(
+								AmarinoIntent.ACTION_RECEIVED));
+						// this is how you tell Amarino to connect to a specific
+						// BT device from within your own code
+						Amarino.connect(getBaseContext(), DEVICE_ADDRESS);
+						return true;
+					} else {
+						// if you connect in onStart() you must not forget to
+						// disconnect when your app is closed
+						Amarino.disconnect(getBaseContext(), DEVICE_ADDRESS);
+
+						// do never forget to unregister a registered receiver
+						unregisterReceiver(arduinoReceiver);
+						return true;
+					}
+				}
+			} else {
+				return false;
+			}
+			return false;
+		}
+	}
+
 	private class DataSender extends AsyncTask<Integer, Integer, String> {
 		final String TAG = this.getClass().getSimpleName();
+
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
@@ -226,18 +279,50 @@ public class Main_screen extends Activity {
 		@Override
 		protected String doInBackground(Integer... params) {
 			if (params.length == Constants.SEND_PARAMS) {
-				for (Integer i : params) {
-					Log.d(TAG, "sending " + i.toString());
-					// TODO Put BT sending code here
-				}
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'a', params[0]); //soak temp
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'b', params[1]); //soak time
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'c', params[2]); //reflow temp
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'd', params[3]); //reflow time
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'e', params[4]); //max temp
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'f', params[5]); //start
 			}
 			if (params.length == Constants.STOP_PARAMS) {
 				Log.d(TAG, "stop code " + params[0].toString());
 				// TODO Put BT sending code here
-
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'z', params[0]); //stop
 			}
 			return null;
 		}
 
+	}
+
+	public class ArduinoReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String data = null;
+
+			// the type of data which is added to the intent
+			final int dataType = intent.getIntExtra(
+					AmarinoIntent.EXTRA_DATA_TYPE, -1);
+
+			// we only expect String data though, but it is better to check if
+			// really string was sent.
+			// you have to parse the data to the type you have sent from
+			// Arduino.
+			if (dataType == AmarinoIntent.STRING_EXTRA) {
+				data = intent.getStringExtra(AmarinoIntent.EXTRA_DATA);
+
+				try {
+					// since we know that our string value is an int number we
+					// can parse it to an integer
+					datax = Integer.parseInt(data);
+				} catch (NumberFormatException e) { /*
+													 * oh data was not an
+													 * integer
+													 */
+				}
+			}
+		}
 	}
 }

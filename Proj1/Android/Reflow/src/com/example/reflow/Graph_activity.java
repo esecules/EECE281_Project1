@@ -30,11 +30,8 @@ public class Graph_activity extends Activity {
 	private LinearLayout layout;
 	private GraphView graphView;
 	private int lastRead;
-	static int datax; 
 	
-private ArduinoReceiver arduinoReceiver = new ArduinoReceiver();
 
-private static final String DEVICE_ADDRESS =  "00:06:66:66:33:1B";
 	
 
 
@@ -79,11 +76,7 @@ private static final String DEVICE_ADDRESS =  "00:06:66:66:33:1B";
 	@Override
 	protected void onStart() {
 		super.onStart();
-		// in order to receive broadcasted intents we need to register our receiver
-		registerReceiver(arduinoReceiver, new IntentFilter(AmarinoIntent.ACTION_RECEIVED));
 		
-		// this is how you tell Amarino to connect to a specific BT device from within your own code
-		Amarino.connect(this, DEVICE_ADDRESS);
 	}
 
 
@@ -94,36 +87,10 @@ private static final String DEVICE_ADDRESS =  "00:06:66:66:33:1B";
 		Log.d(TAG, "On Stop");
 		GraphService.stopMe();
 		
-		// if you connect in onStart() you must not forget to disconnect when your app is closed
-		Amarino.disconnect(this, DEVICE_ADDRESS);
-		
-		// do never forget to unregister a registered receiver
-		unregisterReceiver(arduinoReceiver);
 	}
 	
 	
-	public class ArduinoReceiver extends BroadcastReceiver {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			String data = null;
-			
-			// the type of data which is added to the intent
-			final int dataType = intent.getIntExtra(AmarinoIntent.EXTRA_DATA_TYPE, -1);
-			
-			// we only expect String data though, but it is better to check if really string was sent.
-			// you have to parse the data to the type you have sent from Arduino.
-			if (dataType == AmarinoIntent.STRING_EXTRA){
-				data = intent.getStringExtra(AmarinoIntent.EXTRA_DATA);
-				
-					try {
-						// since we know that our string value is an int number we can parse it to an integer
-						datax = Integer.parseInt(data);
-					} 
-					catch (NumberFormatException e) { /* oh data was not an integer */ }
-				}
-			}
-		}
+	
 	
 	/**
 	 * Appends the graph series with new data from dataArray and updates the

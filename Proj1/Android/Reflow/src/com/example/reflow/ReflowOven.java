@@ -68,7 +68,7 @@ public class ReflowOven {
 			setTime(getTime() + 1);
 			//Log.d(TAG, "Appending data");
 			GraphViewData data = new GraphViewData(ReflowOven.getTime(),
-					Graph_activity.datax);
+					Main_screen.datax);
 			btGraphData.add(data);
 			// Log.d(TAG, "returning from BT Data");
 		}
