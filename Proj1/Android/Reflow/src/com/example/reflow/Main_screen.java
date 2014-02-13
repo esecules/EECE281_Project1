@@ -321,9 +321,9 @@ public class Main_screen extends Activity {
 				try {
 					// since we know that our string value is an int number we
 					// can parse it to an integer
-					String[] states = {"Preheat","Soak","Reflow","Cooldown", "Safe"};
-					ReflowOven.setStateStr(states[(Integer.parseInt(data)) & 0xF000]);
-					ReflowOven.setTempa((Integer.parseInt(data)) & 0x0FFF);
+				//	String[] states = {"Preheat","Soak","Reflow","Cooldown", "Safe"};
+					// ReflowOven.setStateStr(states[(Integer.parseInt(data)) & 0xF000]);
+					ReflowOven.setTempa(Integer.parseInt(data));
 				} catch (NumberFormatException e) { /*
 													 * oh data was not an
 													 * integer

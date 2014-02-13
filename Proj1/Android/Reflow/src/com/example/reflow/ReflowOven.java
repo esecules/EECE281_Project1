@@ -45,7 +45,7 @@ public class ReflowOven {
 		return tempa;
 	}
 
-	public static void setTempa(double d) {
+	public static void setTempa(int d) {
 		ReflowOven.tempa = d;
 	}
 
