@@ -6,7 +6,7 @@
 #include <MeetAndroid.h>
 
 MeetAndroid meetAndroid;
-int sensor = 5;
+int sensor = A5;
 int sensorValue = 0;
 int outputValue = 0;
 void setup()  
@@ -25,7 +25,7 @@ void loop()
   
   // read input pin and send result to Android
   sensorValue = analogRead(sensor);
-  outputValue = map(sensorValue, 0, 1023, 0, 300); 
+  outputValue = map(sensorValue, 0, 1023, 0, 255); 
   meetAndroid.send(outputValue);
   
   // add a little delay otherwise the phone is pretty busy
