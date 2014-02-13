@@ -3,8 +3,8 @@ $NOLIST
 ISR_timer0:
 	clr TF0
 	cpl BEEP
-    mov TH0, #high(note+1)
-    mov TL0, #low(note+0)
+    mov TH0, note+1
+    mov TL0, note+0
 	reti
 	
 initTimer0:
