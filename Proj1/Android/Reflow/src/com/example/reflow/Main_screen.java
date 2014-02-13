@@ -8,6 +8,7 @@
 
 package com.example.reflow;
 
+import java.sql.Ref;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,9 +37,10 @@ import at.abraxas.amarino.AmarinoIntent;
 
 public class Main_screen extends Activity {
 	// Declare class variables
-	EditText txtsoakTemp, txtsoakTime, txtmaxTemp, txtreflowTime, txtreflowTemp;
+	EditText txtsoakTemp, txtsoakTime, txtmaxTemp, txtreflowTime,
+			txtreflowTemp;
 	TextView currentState;
-	Integer soakTemp, soakTime, maxTemp,reflowTemp, reflowTime;
+	Integer soakTemp, soakTime, maxTemp, reflowTemp, reflowTime;
 	ToggleButton toggle;
 	Button toGraph;
 	public ProgressBar mProgress;
@@ -114,8 +116,10 @@ public class Main_screen extends Activity {
 								.toString());
 						maxTemp = Integer.valueOf(txtmaxTemp.getText()
 								.toString());
-						reflowTime = Integer.valueOf(txtreflowTime.getText().toString());
-						reflowTemp = Integer.valueOf(txtreflowTemp.getText().toString());
+						reflowTime = Integer.valueOf(txtreflowTime.getText()
+								.toString());
+						reflowTemp = Integer.valueOf(txtreflowTemp.getText()
+								.toString());
 					} catch (NumberFormatException e) {
 						caughtFormatException = true;
 						toggle.setChecked(false);
@@ -126,11 +130,13 @@ public class Main_screen extends Activity {
 						if (validateInput()) {
 							// Were good to start!
 							Log.d(TAG, "Starting");
+							ReflowOven.setStateStr("Started");
 							ReflowOven.setRunning(true);
 							Bluetooth startBT = new Bluetooth();
 							startBT.execute(true);
 							DataSender sendStart = new DataSender();
-							sendStart.execute(soakTemp, soakTime,reflowTemp,reflowTemp, maxTemp,Constants.START_TAG);
+							sendStart.execute(soakTemp, soakTime, reflowTemp,
+									reflowTemp, maxTemp, Constants.START_TAG);
 
 							Intent getDataIntent = new Intent(
 									Constants.GET_DATA);
@@ -140,7 +146,7 @@ public class Main_screen extends Activity {
 									handler));
 							Log.d(TAG, "Starting " + getDataIntent.getAction());
 							startService(getDataIntent);
-							
+
 						} else
 							toggle.setChecked(false);
 					} else
@@ -148,10 +154,8 @@ public class Main_screen extends Activity {
 				} else if (ReflowOven.isRunning()) {
 					// Stop Button Pressed
 					Log.d(TAG, "Trying to stop service");
-
 					DataSender sendStop = new DataSender();
 					sendStop.execute(Constants.STOP_TAG);
-
 					ReflowOvenService.stopMe();
 					currentState.setText("Stopped");
 					mProgress.setProgress(0);
@@ -191,7 +195,7 @@ public class Main_screen extends Activity {
 			wasError = true;
 		} else
 			eSoakTime = "";
-		
+
 		if (reflowTemp > 225) {
 			eReflowTemp = "-Reflow temp too high (>225)\n";
 			wasError = true;
@@ -200,7 +204,7 @@ public class Main_screen extends Activity {
 			wasError = true;
 		} else
 			eReflowTemp = "";
-		
+
 		if (reflowTime > 90) {
 			eReflowTime = "-Reflow time too high (>90)\n";
 			wasError = true;
@@ -218,10 +222,10 @@ public class Main_screen extends Activity {
 			wasError = true;
 		} else
 			eMaxTemp = "";
-		
 
 		if (wasError) {
-			errors = eSoakTemp + eSoakTime + eReflowTemp+ eReflowTime + eMaxTemp;
+			errors = eSoakTemp + eSoakTime + eReflowTemp + eReflowTime
+					+ eMaxTemp;
 			new AlertDialog.Builder(this).setTitle("Invalid Input")
 					.setMessage(errors).setNeutralButton("Close", null).show();
 			return false;
@@ -279,17 +283,18 @@ public class Main_screen extends Activity {
 		@Override
 		protected String doInBackground(Integer... params) {
 			if (params.length == Constants.SEND_PARAMS) {
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'a', params[0]); //soak temp
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'b', params[1]); //soak time
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'c', params[2]); //reflow temp
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'd', params[3]); //reflow time
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'e', params[4]); //max temp
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'f', params[5]); //start
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'a', params[0]); // soak temp
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'b', params[1]); // soak time
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'c', params[2]); // reflow temp
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'd', params[3]); // reflow time
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'e', params[4]); // max temp
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'f', params[5]); // start
 			}
 			if (params.length == Constants.STOP_PARAMS) {
 				Log.d(TAG, "stop code " + params[0].toString());
 				// TODO Put BT sending code here
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'z', params[0]); //stop
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS,
+						'z', params[0]); // stop
 			}
 			return null;
 		}
@@ -316,7 +321,9 @@ public class Main_screen extends Activity {
 				try {
 					// since we know that our string value is an int number we
 					// can parse it to an integer
-					datax = Integer.parseInt(data);
+					String[] states = {"Preheat","Soak","Reflow","Cooldown", "Safe"};
+					ReflowOven.setStateStr(states[(Integer.parseInt(data)) & 0xF000]);
+					ReflowOven.setTempa((Integer.parseInt(data)) & 0x0FFF);
 				} catch (NumberFormatException e) { /*
 													 * oh data was not an
 													 * integer

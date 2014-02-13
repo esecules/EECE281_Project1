@@ -56,23 +56,16 @@ public class ReflowOven {
 	public static void setTime(double d) {
 		ReflowOven.time = d;
 	}
-	
 
 	public static void getBTData() {
-		String currentState = "Started";
-		int currentTime;
-		
-		// TODO get BT data read the x, y, and state data
 		synchronized (btGraphData) {
-			setStateStr(currentState);
-			setTime(getTime() + 1);
-			//Log.d(TAG, "Appending data");
-			GraphViewData data = new GraphViewData(ReflowOven.getTime(),
-					Main_screen.datax);
+			time += 1;
+			// Log.d(TAG, "Appending data");
+			GraphViewData data = new GraphViewData(time, tempa);
 			btGraphData.add(data);
 			// Log.d(TAG, "returning from BT Data");
 		}
-		
+
 	}
 
 	public static ArrayList<GraphViewData> getbtGraphData() {
@@ -80,8 +73,8 @@ public class ReflowOven {
 			return btGraphData;
 		}
 	}
-	
-	public static void reset(){
+
+	public static void reset() {
 		time = 0;
 		tempa = 0;
 		tempi = 0;
@@ -90,7 +83,5 @@ public class ReflowOven {
 		stateWasSet = false;
 		running = false;
 	}
-	
-	
 
 }
