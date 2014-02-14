@@ -52,17 +52,14 @@ MyProgram:
 	clr run
 	mov config_state, #0
 	mov heating_state, INITIAL
-	mov soak_temp, #50
-	mov soak_time, #30
-	mov reflow_temp, #120
-	mov reflow_time, #30
-	mov max_temp, #150  
 	lcall FlashRestoreAll
 
 Setup:
-	
 	lcall CommsCmd
+	mov a, SWC
+	jnb acc.1, ManualConfig
 	lcall ConfigPreset
+ManualConfig:	
 	lcall Config
 	sjmp Setup
 

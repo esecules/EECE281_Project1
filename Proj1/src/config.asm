@@ -217,7 +217,7 @@ ConfigPreset1:
 	mov soak_temp, #PRESET1SOAKTEMP
 	mov reflow_time, #PRESET1REFLOWTIME
 	mov reflow_temp, #PRESET1REFLOWTEMP
-	mov max_temp, #PRESET1REFLOWTEMP
+	mov max_temp, #PRESET1MAXTEMP
 	mov a, #0x80
 	lcall LCD_command
 	mov dptr, #LCDPreset1
@@ -244,7 +244,7 @@ ConfigPreset2:
 	mov soak_temp, #PRESET2SOAKTEMP
 	mov reflow_time, #PRESET2REFLOWTIME
 	mov reflow_temp, #PRESET2REFLOWTEMP
-	mov max_temp, #PRESET2REFLOWTEMP
+	mov max_temp, #PRESET2MAXTEMP
 	mov a, #0x80
 	lcall LCD_command
 	mov dptr, #LCDPreset2
@@ -257,6 +257,7 @@ ConfigPreset2:
 	sjmp ConfigPreset2
 
 PresetDone:
+	lcall LCD_Clear
 	ret	
 	
 ConfigPreset3:
@@ -285,6 +286,7 @@ ConfigPresetint2jmp:
 	
 	
 PresetExit:
+	Lcall LCD_Clear
 	mov a, #0x80
 	lcall LCD_command
 	mov dptr, #LCDpreSoakTemp
@@ -350,7 +352,10 @@ PresetExit:
 	lcall LCD_BCD3
 	
 	lcall waithalfsec
-	
+	lcall FlashEraseSector
+	lcall FlashSaveAll
+	lcall LCD_Clear
+	lcall LCD_main
 	setb TR2
 	pop acc
 	pop acc
