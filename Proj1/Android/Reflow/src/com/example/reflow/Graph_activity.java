@@ -24,7 +24,7 @@ import com.example.reflow.graphview.LineGraphView;
 
 public class Graph_activity extends Activity {
 	private final String TAG = this.getClass().getSimpleName();
-	static final int WINDOW_SIZE = 30;
+	static final int WINDOW_SIZE = 800;
 	private GraphViewData[] data;
 	private GraphViewSeries graphSeries;
 	private LinearLayout layout;
@@ -57,11 +57,11 @@ public class Graph_activity extends Activity {
 		GraphViewStyle style = new GraphViewStyle();
 		data = new GraphViewData[] { new GraphViewData(0, 0) };
 		graphSeries = new GraphViewSeries(data);
-		style.setTextSize(10);
-		style.setNumHorizontalLabels(3);
+		style.setTextSize(20);
+		style.setNumHorizontalLabels(5);
 		graphView.setViewPort(0, WINDOW_SIZE);
-		graphView.setScrollable(true);
-		graphView.setClickable(true);
+		graphView.setManualYAxisBounds(255,0);
+		graphView.setScrollable(false);
 		graphView.setGraphViewStyle(style);
 		graphView.setBackgroundColor(Color.rgb(80, 30, 30));
 		layout.addView(graphView);
@@ -108,7 +108,7 @@ public class Graph_activity extends Activity {
 				Log.d(TAG, "Reading from: " + i);
 				data = ReflowOven.getbtGraphData().get(i);
 				Log.d(TAG, "Appending Data (" + data.valueX + "," + data.valueY + ")");
-				graphSeries.appendData(data, (data.valueX >= WINDOW_SIZE), 150);
+				graphSeries.appendData(data, false, WINDOW_SIZE);
 			}
 			lastRead = i;
 			Log.d(TAG, "Next index is " + lastRead);

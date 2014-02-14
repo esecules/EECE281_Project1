@@ -14,6 +14,8 @@ public class ReflowOven {
 	private static boolean running;
 	private static int tempi = 0;
 	static double tempa = 0;
+	private static long tempaSum;
+	private static int avgCount=0;
 	static double time = 0;
 	private static String stateStr = "Stopped";
 	public static boolean stateWasSet = false;
@@ -47,7 +49,13 @@ public class ReflowOven {
 	}
 
 	public static void setTempa(int d) {
-		ReflowOven.tempa = d;
+		tempaSum+=d;
+		avgCount++;
+		if(avgCount > 15){
+			ReflowOven.tempa = tempaSum/avgCount;
+			avgCount = 0;
+			tempaSum = 0;
+		}
 	}
 
 	public static double getTime() {

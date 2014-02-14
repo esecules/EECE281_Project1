@@ -323,9 +323,10 @@ public class Main_screen extends Activity {
 					// can parse it to an integer
 				//	String[] states = {"Preheat","Soak","Reflow","Cooldown", "Safe"};
 					// ReflowOven.setStateStr(states[(Integer.parseInt(data)) & 0xF000]);
-					int index = Integer.parseInt(data);
-					ReflowOven.setTempa(index);
-					//ReflowOven.setTempa((int)((index*(0.0049))/(.0164)));
+					Integer index = Integer.parseInt(data);
+					Log.d("INDEX",index.toString());
+					//ReflowOven.setTempa(index);
+					ReflowOven.setTempa((int)((index*(0.0049))/(.0164))+24);
 				} catch (NumberFormatException e) { /*
 													 * oh data was not an
 													 * integer

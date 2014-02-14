@@ -43,7 +43,7 @@ public class ReflowOvenService extends IntentService {
 			        Message msg = Message.obtain();
 			        Bundle data = new Bundle();
 					data.putString("state", ReflowOven.getStateStr());
-					data.putDouble("progress", ReflowOven.getTime());
+					data.putDouble("progress", ReflowOven.getTime()/6);
 					msg.setData(data); //put the data here
 			        try {
 			            messenger.send(msg);
