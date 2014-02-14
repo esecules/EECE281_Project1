@@ -53,8 +53,8 @@ public class Graph_activity extends Activity {
 				if ((Boolean) reply.get("Append")) {
 					Log.d(TAG, "Calling append");
 					appendGraphSeries(ReflowOven.getbtGraphData());
-					tempaTXT.setText("Actual:"+ReflowOven.getTempa()+" C");
-					tempiTXT.setText("Target"+ReflowOven.getTempi()+" C");
+					tempaTXT.setText("Actual: "+ReflowOven.getTempa()+" C");
+					tempiTXT.setText("Target: "+ReflowOven.getTempi()+" C");
 				}
 			}
 		};
@@ -66,7 +66,7 @@ public class Graph_activity extends Activity {
 		layout = (LinearLayout) findViewById(R.id.graph1);
 		GraphViewStyle style = new GraphViewStyle();
 		data = new GraphViewData[] { new GraphViewData(0, 0) };
-		graphSeries = new GraphViewSeries("Actual", new GraphViewSeriesStyle(Color.rgb(200, 50, 00), 5), data);
+		graphSeries = new GraphViewSeries("Actual", new GraphViewSeriesStyle(Color.rgb(0, 277, 252), 5), data);
 		tempiSeries = new GraphViewSeries("Target", new GraphViewSeriesStyle(Color.rgb(90, 250, 00), 5), data);
 		style.setTextSize(20);
 		style.setNumHorizontalLabels(5);
@@ -133,8 +133,9 @@ public class Graph_activity extends Activity {
 			Log.d(TAG, "Next index is " + lastRead);
 
 			this.graphView.removeAllSeries();
-			this.graphView.addSeries(graphSeries);
 			this.graphView.addSeries(tempiSeries);
+			this.graphView.addSeries(graphSeries);
+			
 			this.layout.refreshDrawableState();
 		} else
 			Log.d(TAG, "No new data yet");
