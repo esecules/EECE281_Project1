@@ -29,6 +29,11 @@ soak_time:		ds 1
 reflow_temp:	ds 1
 reflow_time:	ds 1
 max_temp:		ds 1
+saved_soak_temp: ds 1
+saved_soak_time: ds 1
+saved_reflow_temp: ds 1
+saved_reflow_time: ds 1
+saved_max_temp: ds 1
 dutycycle:		ds 1
 RotLastTime: ds 1
 ;comms private
@@ -82,19 +87,23 @@ FLASH_SOAK_TIME	EQU 0x0002
 FLASH_REFL_TEMP	EQU 0x0003
 FLASH_REFL_TIME	EQU 0x0004
 FLASH_MAXX_TEMP	EQU 0x0005
-
+FLASH_SOAK_TEMPS EQU 0x0006
+FLASH_SOAK_TIMES EQU 0x0007
+FLASH_REFL_TEMPS EQU 0x0008
+FLASH_REFL_TIMES EQU 0x0009
+FLASH_MAXX_TEMPS EQU 0x000A
 ;Preset Constants
-PRESET1SOAKTIME EQU 30
+PRESET1SOAKTIME EQU 110
 PRESET1SOAKTEMP EQU 150
-PRESET1REFLOWTIME EQU 30
-PRESET1REFLOWTEMP EQU 215
-PRESET1MAXTEMP EQU 240
+PRESET1REFLOWTIME EQU 40
+PRESET1REFLOWTEMP EQU 217
+PRESET1MAXTEMP EQU 250
 
-PRESET2SOAKTIME EQU 30
-PRESET2SOAKTEMP EQU 150
+PRESET2SOAKTIME EQU 100
+PRESET2SOAKTEMP EQU 140
 PRESET2REFLOWTIME EQU 30
-PRESET2REFLOWTEMP EQU 215
-PRESET2MAXTEMP EQU 240
+PRESET2REFLOWTEMP EQU 183
+PRESET2MAXTEMP EQU 220
 
 PRESET3SOAKTIME EQU 30
 PRESET3SOAKTEMP EQU 150
@@ -135,8 +144,11 @@ LCDcfgReflowTemp:	db 'Set Reflow Temp:',0
 LCDcfgReflowTime:	db 'Set Reflow Time:',0
 LCDcfgMaxTemp:		db 'Set Max Temp:   ',0
 LCDPreset1:			db 'Preset Profile 1',0
+LCDLeadFree:		db 'Lead Free       ',0
 LCDPreset2:			db 'Preset Profile 2',0
+LCDLead:			db 'Lead Tin        ',0
 LCDPreset3: 		db 'Preset Profile 3',0
+LCDselfset:			db 'Self Set        ',0
 LCDpreSoakTemp: 	db 'Soak Time:      ',0
 LCDpreSoakTime: 	db 'Soak Temp:      ',0
 LCDpreReflowTemp: 	db 'Reflow Temp:    ',0

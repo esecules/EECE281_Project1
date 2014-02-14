@@ -109,8 +109,19 @@ ConfigDone:
 	pop acc
 	pop acc
 	ljmp Forever ;jump directly to Forever
+
+custompresetsave:
+	jnb KEY.1, $
+	mov saved_soak_time, soak_time
+	mov saved_soak_temp, soak_temp
+	mov saved_reflow_time, reflow_time
+	mov saved_reflow_temp, reflow_temp
+	mov saved_max_temp, max_temp
+	sjmp ConfigInputs
+	
 	
 ConfigInputs: ;back
+	jnb KEY.1, custompresetsave
 	jb KEY.3, ConfigInputs1 
 	jnb KEY.3, $
 	mov a, config_state
@@ -213,7 +224,7 @@ ConfigPreset1:
 	lcall LCD_string
 	mov a, #0xc0
 	lcall LCD_command
-	mov dptr, #LCDspc
+	mov dptr, #LCDLeadFree
 	lcall LCD_string
 	jnb key.1, PresetExit
 	sjmp ConfigPreset1
@@ -240,7 +251,7 @@ ConfigPreset2:
 	lcall LCD_string
 	mov a, #0xc0
 	lcall LCD_command
-	mov dptr, #LCDspc
+	mov dptr, #LCDLead
 	lcall LCD_string
 	jnb key.1, PresetExit
 	sjmp ConfigPreset2
@@ -253,18 +264,18 @@ ConfigPreset3:
 	jnb acc.1, PresetDone
 	jnb key.2, ConfigPresetint1
 	jnb key.3, ConfigPresetint2jmp
-	mov soak_time, #PRESET3SOAKTIME
-	mov soak_temp, #PRESET3SOAKTEMP
-	mov reflow_time, #PRESET3REFLOWTIME
-	mov reflow_temp, #PRESET3REFLOWTEMP
-	mov max_temp, #PRESET3REFLOWTEMP
+	mov soak_time, saved_soak_time
+	mov soak_temp, saved_soak_temp
+	mov reflow_time, saved_reflow_time
+	mov reflow_temp, saved_reflow_temp
+	mov max_temp, saved_max_temp
 	mov a, #0x80
 	lcall LCD_command
 	mov dptr, #LCDPreset3
 	lcall LCD_string
 	mov a, #0xc0
 	lcall LCD_command
-	mov dptr, #LCDspc
+	mov dptr, #LCDselfset
 	lcall LCD_string
 	jnb key.1, PresetExit
 	sjmp ConfigPreset3	

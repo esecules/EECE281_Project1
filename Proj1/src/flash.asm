@@ -92,6 +92,21 @@ FlashSaveAll:
 	mov dptr, #FLASH_MAXX_TEMP
 	mov a, max_temp
 	lcall FlashByte
+	mov dptr, #FLASH_SOAK_TEMPS
+	mov a, saved_soak_temp
+	lcall FlashByte
+	mov dptr, #FLASH_SOAK_TIMES
+	mov a, saved_soak_time
+	lcall FlashByte
+	mov dptr, #FLASH_REFL_TEMPS
+	mov a, saved_reflow_temp
+	lcall FlashByte
+	mov dptr, #FLASH_REFL_TIMES
+	mov a, saved_reflow_time
+	lcall FlashByte
+	mov dptr, #FLASH_MAXX_TEMPS
+	mov a, saved_max_temp
+	lcall FlashByte
 	ret
 
 FlashRestoreAll:
@@ -110,5 +125,20 @@ FlashRestoreAll:
 	mov dptr, #FLASH_MAXX_TEMP
 	lcall flashR
 	mov max_temp, a
+	mov dptr, #FLASH_SOAK_TEMPS
+	lcall flashR
+	mov saved_soak_temp, a
+	mov dptr, #FLASH_SOAK_TIMES
+	lcall flashR
+	mov saved_soak_time, a
+	mov dptr, #FLASH_REFL_TEMPS
+	lcall flashR
+	mov saved_reflow_temp, a
+	mov dptr, #FLASH_REFL_TIMES
+	lcall flashR
+	mov saved_reflow_time, a
+	mov dptr, #FLASH_MAXX_TEMPS
+	lcall flashR
+	mov saved_max_temp, a
 	ret
 $LIST
