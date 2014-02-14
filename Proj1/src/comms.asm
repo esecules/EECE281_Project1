@@ -64,8 +64,7 @@ CommsCmd:
 	
 	anl A, #0xF8
 	cjne A, #0x08, CommsCmdAppend
-	lcall CommsProcCmd
-	ret
+	ljmp CommsProcCmd
 CommsCmdAppend:
 	mov A, B
 	clr C
@@ -126,8 +125,59 @@ CommsProcCmdL:
 	lcall mul32
 	lcall xchg_xy
 	djnz SERCmdI, CommsProcCmdL
+CommsProcCmdA:
+	mov R0, #SERCmd
+	mov A, @R0
+	cjne A, #'A', CommsProcCmdB
+	mov soak_temp, z+0
+	ret
+CommsProcCmdB:
+	mov R0, #SERCmd
+	mov A, @R0
+	cjne A, #'B', CommsProcCmdC
+	mov soak_time, z+0
+	ret
+CommsProcCmdC:
+	mov R0, #SERCmd
+	mov A, @R0
+	cjne A, #'C', CommsProcCmdD
+	mov reflow_temp, z+0
+	ret
+CommsProcCmdD:
+	mov R0, #SERCmd
+	mov A, @R0
+	cjne A, #'D', CommsProcCmdE
+	mov reflow_time, z+0
+	ret
+CommsProcCmdE:
+	mov R0, #SERCmd
+	mov A, @R0
+	cjne A, #'E', CommsProcCmdF
+	mov max_temp, z+0
+	ret
+CommsProcCmdF:
+	mov R0, #SERCmd
+	mov A, @R0
+	cjne A, #'F', CommsProcCmdZ
+	setb run
+	setb TR2
+	lcall LCD_clear
+	lcall LCD_main
+	lcall FlashEraseSector
+	lcall FlashSaveAll
+	pop acc
+	pop acc
+	ljmp Forever ;jump directly to Forever
+CommsProcCmdZ:
+	mov R0, #SERCmd
+	mov A, @R0
+	cjne A, #'Z', CommsProcCmdInvalid
+	pop acc
+	pop acc
+	ljmp ClearAll ;jump directly to ClearAll
 	;testing, returns number directly
 	;replace with proper value-putters once the protocol is decided
+CommsProcCmdInvalid:
 	mov x+0, z+0
 	mov x+1, z+1
 	mov x+2, z+2
