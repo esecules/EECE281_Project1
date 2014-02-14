@@ -8,7 +8,11 @@
 
 package com.example.reflow;
 
+import static org.junit.Assert.fail;
+
 import java.sql.Ref;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -283,12 +287,18 @@ public class Main_screen extends Activity {
 		@Override
 		protected String doInBackground(Integer... params) {
 			if (params.length == Constants.SEND_PARAMS) {
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'a', params[0]); // soak temp
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'b', params[1]); // soak time
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'c', params[2]); // reflow temp
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'd', params[3]); // reflow time
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'e', params[4]); // max temp
-				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS, 'f', params[5]); // start
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS,
+						'a', params[0]); // soak temp
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS,
+						'b', params[1]); // soak time
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS,
+						'c', params[2]); // reflow temp
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS,
+						'd', params[3]); // reflow time
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS,
+						'e', params[4]); // max temp
+				Amarino.sendDataToArduino(getBaseContext(), DEVICE_ADDRESS,
+						'f', params[5]); // start
 			}
 			if (params.length == Constants.STOP_PARAMS) {
 				Log.d(TAG, "stop code " + params[0].toString());
@@ -317,22 +327,31 @@ public class Main_screen extends Activity {
 			// Arduino.
 			if (dataType == AmarinoIntent.STRING_EXTRA) {
 				data = intent.getStringExtra(AmarinoIntent.EXTRA_DATA);
+				Pattern dataPattern = Pattern
+						.compile("Target: (\\d\\d\\d)°C , Actual: (\\d\\d\\d.\\d\\d\\d\\d)°C , Room: (\\d\\d\\d.\\d\\d\\d\\d)°C");
+				Matcher dataMatch = dataPattern.matcher(data);
+				if (dataMatch.find()) {
+					try {
+						Integer target = Integer.parseInt(dataMatch.group(1));
+						ReflowOven.setTempi(target);
+						Double index = Double.parseDouble(dataMatch.group(2));
+						ReflowOven.setTempa(((index * (0.0049)) / (.0164)) + 24);
+					} catch (NumberFormatException e) {
 
-				try {
-					// since we know that our string value is an int number we
-					// can parse it to an integer
-				//	String[] states = {"Preheat","Soak","Reflow","Cooldown", "Safe"};
-					// ReflowOven.setStateStr(states[(Integer.parseInt(data)) & 0xF000]);
-					Integer index = Integer.parseInt(data);
-					Log.d("INDEX",index.toString());
-					//ReflowOven.setTempa(index);
-					ReflowOven.setTempa((int)((index*(0.0049))/(.0164))+24);
-				} catch (NumberFormatException e) { /*
-													 * oh data was not an
-													 * integer
-													 */
+					}
 				}
+
 			}
+			/*
+			 * try { // since we know that our string value is an int number we
+			 * // can parse it to an integer // String[] states =
+			 * {"Preheat","Soak","Reflow","Cooldown", "Safe"}; //
+			 * ReflowOven.setStateStr(states[(Integer.parseInt(data)) &
+			 * 0xF000]); Integer index = Integer.parseInt(data);
+			 * Log.d("INDEX",index.toString()); //ReflowOven.setTempa(index);
+			 * ReflowOven.setTempa((int)((index*(0.0049))/(.0164))+24); } catch
+			 * (NumberFormatException e) { /* oh data was not an integer {
+			 */
 		}
 	}
 }

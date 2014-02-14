@@ -32,9 +32,9 @@ public class Graph_activity extends Activity {
 	private LinearLayout layout;
 	private GraphView graphView;
 	private int lastRead;
-	
 	TextView tempaTXT;
-	
+	TextView tempiTXT;
+	private GraphViewSeries tempiSeries;
 
 
 	// private int x = 0, y = 0;
@@ -51,12 +51,15 @@ public class Graph_activity extends Activity {
 				if ((Boolean) reply.get("Append")) {
 					Log.d(TAG, "Calling append");
 					appendGraphSeries(ReflowOven.getbtGraphData());
-					tempaTXT.setText(ReflowOven.getTempa()+" degrees C");
+					tempaTXT.setText("Actual:"+ReflowOven.getTempa()+" C");
+					tempiTXT.setText("Target"+ReflowOven.getTempi()+" C");
 				}
 			}
 		};
 		tempaTXT = (TextView) findViewById(R.id.tempa);
 		tempaTXT.setText("Current Temperature");
+		tempiTXT = (TextView) findViewById(R.id.tempi);
+		tempiTXT.setText("Target Temperature");
 		graphView = new LineGraphView(this, "Temperature Chart");
 		layout = (LinearLayout) findViewById(R.id.graph1);
 		GraphViewStyle style = new GraphViewStyle();
@@ -115,11 +118,18 @@ public class Graph_activity extends Activity {
 				Log.d(TAG, "Appending Data (" + data.valueX + "," + data.valueY + ")");
 				graphSeries.appendData(data, false, WINDOW_SIZE);
 			}
+			for (i = lastRead; i < ReflowOven.getTempiGraphData().size(); i++) {
+				Log.d(TAG, "Reading from: " + i);
+				data = ReflowOven.getTempiGraphData().get(i);
+				Log.d(TAG, "Appending Data (" + data.valueX + "," + data.valueY + ")");
+				tempiSeries.appendData(data, false, WINDOW_SIZE);
+			}
 			lastRead = i;
 			Log.d(TAG, "Next index is " + lastRead);
 
 			this.graphView.removeAllSeries();
 			this.graphView.addSeries(graphSeries);
+			this.graphView.addSeries(tempiSeries);
 			this.layout.refreshDrawableState();
 		} else
 			Log.d(TAG, "No new data yet");

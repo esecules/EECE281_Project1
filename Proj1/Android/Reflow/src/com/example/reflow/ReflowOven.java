@@ -11,6 +11,7 @@ import com.example.reflow.graphview.GraphView.GraphViewData;
 public class ReflowOven {
 	private final String TAG = this.getClass().getSimpleName();
 	private static ArrayList<GraphViewData> btGraphData = new ArrayList<GraphViewData>();
+	private static ArrayList<GraphViewData> tempiGraphData = new ArrayList<GraphViewData>();
 	private static boolean running;
 	private static int tempi = 0;
 	static double tempa = 0;
@@ -48,7 +49,7 @@ public class ReflowOven {
 		return tempa;
 	}
 
-	public static void setTempa(int d) {
+	public static void setTempa(double d) {
 		tempaSum+=d;
 		avgCount++;
 		if(avgCount > 15){
@@ -67,11 +68,16 @@ public class ReflowOven {
 	}
 
 	public static void getBTData() {
+		time += 1;
 		synchronized (btGraphData) {
-			time += 1;
 			Log.d("GET DATA", "Appending data ("+time+","+tempa+")");
 			GraphViewData data = new GraphViewData(time, tempa);
 			btGraphData.add(data);
+			// Log.d(TAG, "returning from BT Data");
+		}
+		synchronized (tempiGraphData) {
+			GraphViewData data = new GraphViewData(time, tempi);
+			tempiGraphData.add(data);
 			// Log.d(TAG, "returning from BT Data");
 		}
 
@@ -82,12 +88,18 @@ public class ReflowOven {
 			return btGraphData;
 		}
 	}
+	public static ArrayList<GraphViewData> getTempiGraphData() {
+		synchronized (tempiGraphData) {
+			return tempiGraphData;
+		}
+	}
 
 	public static void reset() {
 		time = 0;
 		tempa = 0;
 		tempi = 0;
 		btGraphData.clear();
+		tempiGraphData.clear();
 		stateStr = "Stopped";
 		stateWasSet = false;
 		running = false;

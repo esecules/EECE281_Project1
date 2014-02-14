@@ -9,7 +9,7 @@
     <string name="Max_temp">Max Temp in Celsuis</string>
     <string name="toggle_on">Emergency Stop</string>
     <string name="toggle_off">Start Reflow Process</string>
-    <string name="viewGraph">View Graph</string>
+    <string name="viewGraph">View Data</string>
     <string name="currentState">Current State</string>
     <string name="refresh">Refresh</string>
     <string name="default_soak_temp">150</string>
