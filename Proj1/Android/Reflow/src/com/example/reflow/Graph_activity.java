@@ -20,7 +20,9 @@ import android.content.IntentFilter;
 import at.abraxas.amarino.Amarino;
 import com.example.reflow.graphview.GraphView;
 import com.example.reflow.graphview.GraphView.GraphViewData;
+import com.example.reflow.graphview.GraphView.LegendAlign;
 import com.example.reflow.graphview.GraphViewSeries;
+import com.example.reflow.graphview.GraphViewSeries.GraphViewSeriesStyle;
 import com.example.reflow.graphview.GraphViewStyle;
 import com.example.reflow.graphview.LineGraphView;
 
@@ -64,11 +66,12 @@ public class Graph_activity extends Activity {
 		layout = (LinearLayout) findViewById(R.id.graph1);
 		GraphViewStyle style = new GraphViewStyle();
 		data = new GraphViewData[] { new GraphViewData(0, 0) };
-		graphSeries = new GraphViewSeries(data);
-		tempiSeries = new GraphViewSeries(data);
-		tempiSeries.getStyle().color = 0x00FF09;
+		graphSeries = new GraphViewSeries("Actual", new GraphViewSeriesStyle(Color.rgb(200, 50, 00), 5), data);
+		tempiSeries = new GraphViewSeries("Target", new GraphViewSeriesStyle(Color.rgb(90, 250, 00), 5), data);
 		style.setTextSize(20);
 		style.setNumHorizontalLabels(5);
+		graphView.setShowLegend(true);
+		graphView.setLegendAlign(LegendAlign.BOTTOM);
 		graphView.setViewPort(0, WINDOW_SIZE);
 		graphView.setManualYAxisBounds(255,0);
 		graphView.setScrollable(false);
