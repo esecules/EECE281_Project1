@@ -316,7 +316,7 @@ public class Main_screen extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String data = null;
-
+			Log.d("AmarinoBluetoothEMS", "Received transmission");
 			// the type of data which is added to the intent
 			final int dataType = intent.getIntExtra(
 					AmarinoIntent.EXTRA_DATA_TYPE, -1);
@@ -327,6 +327,7 @@ public class Main_screen extends Activity {
 			// Arduino.
 			if (dataType == AmarinoIntent.STRING_EXTRA) {
 				data = intent.getStringExtra(AmarinoIntent.EXTRA_DATA);
+				Log.d("AmarinoBluetoothEMS", data);
 				Pattern dataPattern = Pattern
 						.compile("Target: (\\d\\d\\d)°C , Actual: (\\d\\d\\d.\\d\\d\\d\\d)°C , Room: (\\d\\d\\d.\\d\\d\\d\\d)°C");
 				Matcher dataMatch = dataPattern.matcher(data);
@@ -339,7 +340,8 @@ public class Main_screen extends Activity {
 					} catch (NumberFormatException e) {
 
 					}
-				}
+				}else
+					Log.d("DATA", "nomacthfound");
 
 			}
 			/*
