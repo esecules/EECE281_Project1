@@ -121,7 +121,7 @@
         android:text="@string/default_soak_temp" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tempa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/editSTemp"
@@ -134,8 +134,8 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView1"
-        android:layout_alignLeft="@+id/textView1"
+        android:layout_above="@+id/tempa"
+        android:layout_alignLeft="@+id/tempa"
         android:layout_alignRight="@+id/refresh" />
 
     <TextView

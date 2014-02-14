@@ -13,10 +13,19 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/tempa"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal" >
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tempa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

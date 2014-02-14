@@ -12,7 +12,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
+import android.webkit.WebView.FindListener;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import at.abraxas.amarino.AmarinoIntent;
 import android.content.IntentFilter;
 import at.abraxas.amarino.Amarino;
@@ -31,7 +33,7 @@ public class Graph_activity extends Activity {
 	private GraphView graphView;
 	private int lastRead;
 	
-
+	TextView tempaTXT;
 	
 
 
@@ -49,9 +51,12 @@ public class Graph_activity extends Activity {
 				if ((Boolean) reply.get("Append")) {
 					Log.d(TAG, "Calling append");
 					appendGraphSeries(ReflowOven.getbtGraphData());
+					tempaTXT.setText(ReflowOven.getTempa()+" degrees C");
 				}
 			}
 		};
+		tempaTXT = (TextView) findViewById(R.id.tempa);
+		tempaTXT.setText("Current Temperature");
 		graphView = new LineGraphView(this, "Temperature Chart");
 		layout = (LinearLayout) findViewById(R.id.graph1);
 		GraphViewStyle style = new GraphViewStyle();
