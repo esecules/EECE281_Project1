@@ -65,6 +65,8 @@ public class Graph_activity extends Activity {
 		GraphViewStyle style = new GraphViewStyle();
 		data = new GraphViewData[] { new GraphViewData(0, 0) };
 		graphSeries = new GraphViewSeries(data);
+		tempiSeries = new GraphViewSeries(data);
+		tempiSeries.getStyle().color = 0x00FF09;
 		style.setTextSize(20);
 		style.setNumHorizontalLabels(5);
 		graphView.setViewPort(0, WINDOW_SIZE);
