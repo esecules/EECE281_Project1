@@ -63,7 +63,42 @@ ManualConfig:
 	lcall Config
 	sjmp Setup
 
+AndroidConnection:
+	jb P3.7, runon
+	runoff:
+	mov a, heating_state
+	cjne a, INITIAL, androidcontinue
+	clr run
+	sjmp keep_going
+	runon:
+	clr c
+	mov a, heating_state
+	subb a, INITIAL
+	jz androidcontinue3
+	clr c
+	mov a, heating_state
+	subb a, COOLDOWN
+	jz androidcontinue2
+	clr c
+	mov a, heating_state
+	subb a, SAFE
+	jz androidcontinue2
+	setb run
+	ljmp keep_going
+androidcontinue:
+	clr run
+	ljmp clearAll
+androidcontinue2:
+	clr run
+	ljmp keep_going
+androidcontinue3:
+	setb run
+	ljmp start
+	
+
 Forever:
+	mov a, swa
+	jb acc.1, Androidconnection
 	jb key.1, keep_going
 	jnb key.1, $
 	mov a, heating_state
