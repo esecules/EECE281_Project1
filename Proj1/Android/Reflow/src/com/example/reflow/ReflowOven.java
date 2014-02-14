@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import at.abraxas.amarino.AmarinoIntent;
 import com.example.reflow.graphview.GraphView.GraphViewData;
 
@@ -60,7 +61,7 @@ public class ReflowOven {
 	public static void getBTData() {
 		synchronized (btGraphData) {
 			time += 1;
-			// Log.d(TAG, "Appending data");
+			Log.d("GET DATA", "Appending data ("+time+","+tempa+")");
 			GraphViewData data = new GraphViewData(time, tempa);
 			btGraphData.add(data);
 			// Log.d(TAG, "returning from BT Data");
