@@ -49,6 +49,7 @@ MyProgram:
 	LCALL Init_SPI
 	LCALL InitSSR
 	LCALL LCD_Init
+	mov P3MOD, #0
 	clr run
 	mov config_state, #0
 	mov heating_state, INITIAL
@@ -97,8 +98,8 @@ androidcontinue3:
 	
 
 Forever:
-	mov a, swa
-	jb acc.1, Androidconnection
+	mov a, swc
+	jb acc.0, Androidconnection
 	jb key.1, keep_going
 	jnb key.1, $
 	mov a, heating_state
