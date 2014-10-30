@@ -36,10 +36,10 @@ EECE 281 GitHub Guidelines
 
 -----------------------------------------------------------------------------------------
 				   --Group Members--
-Name				email
+Name
 -----------------------------------------------------------------------------------------
-Eric Secules			esecules@gmail.com
-Erik Dandanell                  edandanell@gmail.com
-Adam Vastopa			adamvastopa@gmail.com
-Alex Berlingeri			alexberlingeri@yahoo.com
-Luke Sun			phuraxylox@gmail.com
+Eric Secules
+Erik Dandanell
+Adam Vastopa
+Alex Berlingeri
+Luke Sun
